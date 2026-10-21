@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-21T00:30:20.589329+00:00",
+  "bash_syntax": "passed",
+  "embedded_python_compile": "passed",
+  "stdlib_tests_passed": 17,
+  "actual_subprocess_tests": [
+    "dependency import failure",
+    "bounded timeout with child cleanup",
+    "SIGKILL distinguished from CUDA OOM"
+  ],
+  "gpu_execution_performed_here": false,
+  "torch_or_transformers_installed_here": false,
+  "real_memory_or_timing_results_provided": false,
+  "baseline_source": "Complete runner supplied by user; step6 already uses YaRN4 and context131072; only T1024 executed.",
+  "upstream_compatibility_review": "Transformers v4.57.1 modeling_qwen2.py, modeling_flash_attention_utils.py and integrations/flash_attention.py read at upstream tag; backend dispatch wrapper preserves original signatures.",
+  "files": {
+    "thesis/scripts/run_qwen_stress.sh": "c920583c689d3d573cdffd3a5df9c1da16f9583216941cc033686f87a26a9b7d",
+    "thesis/scripts/README_QWEN_STRESS.md": "32fb20b3a1932f651c3c25ee9a931ffc593b0cd63e31a887d8234b1c3dc274c5",
+    "thesis/tests/test_qwen_stress.py": "cbbf0d3fee7df4378466b47a6721709c4bdb3d537c15376d9e5e49f027c13cba"
+  }
+}
