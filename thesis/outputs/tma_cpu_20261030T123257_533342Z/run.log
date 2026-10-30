@@ -1,0 +1,16 @@
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_cpu_20261030T123257_533342Z
+Compiling: /local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/bin/nvcc -std=c++17 -O3 -lineinfo -arch=sm_90a /local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/tma_cpu.cu -ptx -o /local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/build/tma_cpu.ptx
+Compiling: /local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/bin/nvcc -std=c++17 -O3 -lineinfo -arch=sm_90a /local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/tma_cpu.cu -L/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/lib64/stubs -lcuda -o /local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/build/tma_cpu
+[1/6] hbm loads bytes=4096
+  -> correctness_pass
+[2/6] hbm tma bytes=4096
+  -> correctness_pass
+[3/6] pinned loads bytes=4096
+  -> correctness_pass
+[4/6] pinned tma bytes=4096
+  -> correctness_pass
+[5/6] registered loads bytes=4096
+  -> correctness_pass
+[6/6] registered tma bytes=4096
+  -> correctness_pass
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_cpu_20261030T123257_533342Z

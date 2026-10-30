@@ -1,0 +1,9 @@
+STAGE device_check
+CPU node=0 cpu=36
+STAGE allocation
+POINTER cuda_type=2 device=0
+STAGE ordinary_load_control
+STAGE correctness
+STAGE timing
+STAGE cleanup
+RESULT {"status":"correctness_pass","source":"hbm","method":"loads","bytes":4096,"repetitions":3,"median_kernel_ms":0.004992,"cpu_node":0,"mbind_success":false,"cpu_residency_verified_before_and_after":false}

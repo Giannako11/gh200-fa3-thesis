@@ -1,0 +1,7 @@
+source,method,bytes,repetitions,status,stage,exit_code,median_kernel_ms,cpu_node,mbind_success,cpu_residency_verified_before_and_after,effective_source_gb_s
+hbm,loads,4096,3,correctness_pass,cleanup,0,0.004992,0,False,False,0.8205128205128205
+hbm,tma,4096,3,correctness_pass,cleanup,0,0.004352,0,False,False,0.9411764705882353
+pinned,loads,4096,3,correctness_pass,cleanup,0,0.008096,0,False,True,0.5059288537549407
+pinned,tma,4096,3,correctness_pass,cleanup,0,0.004512,0,False,True,0.9078014184397163
+registered,loads,4096,3,correctness_pass,cleanup,0,0.009632,0,False,True,0.42524916943521596
+registered,tma,4096,3,correctness_pass,cleanup,0,0.004512,0,False,True,0.9078014184397163

@@ -1,0 +1,7 @@
+{
+  "verdict": "host_tma_correct_cpu_residency_observed_at_checkpoints",
+  "trials": 6,
+  "exit_code": 0,
+  "benchmark_requested": false,
+  "note": "Correct copy is distinct from CPU page residency. Checkpoint residency is not continuous traffic proof. Timing includes output stores, and repeated reads may hit GPU caches."
+}

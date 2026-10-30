@@ -1,0 +1,14 @@
+{
+  "source": "pinned",
+  "method": "loads",
+  "bytes": 4096,
+  "repetitions": 3,
+  "status": "correctness_pass",
+  "stage": "cleanup",
+  "exit_code": 0,
+  "median_kernel_ms": 0.008096,
+  "cpu_node": 0,
+  "mbind_success": false,
+  "cpu_residency_verified_before_and_after": true,
+  "effective_source_gb_s": 0.5059288537549407
+}

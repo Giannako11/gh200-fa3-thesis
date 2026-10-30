@@ -1,5 +1,13 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-10-15T11:51:50+00:00 — Qwen baseline
+- Run: `thesis/outputs/qwen_baseline_20261015_091635_497401787`
+- Exit code: 130 (0 = success).
+
+## 2026-10-20T23:58:36+00:00 — Qwen baseline
+- Run: `thesis/outputs/qwen_baseline_20261020_234840_957642857`
+- Exit code: 0 (0 = success).
+
 ## 2026-10-29 — TMA / CPU memory microbenchmark
 
 - Added standalone CUDA 12.8/Hopper TMA probes under `thesis/microbenchmarks/tma_cpu/`

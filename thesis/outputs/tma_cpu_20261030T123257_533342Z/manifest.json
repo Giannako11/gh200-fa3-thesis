@@ -1,0 +1,42 @@
+{
+  "toolkit": "/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1",
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Fri_Feb_21_20:26:18_PST_2025\nCuda compilation tools, release 12.8, V12.8.93\nBuild cuda_12.8.r12.8/compiler.35583870_0\n",
+  "commands": [
+    [
+      "/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/bin/nvcc",
+      "-std=c++17",
+      "-O3",
+      "-lineinfo",
+      "-arch=sm_90a",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/tma_cpu.cu",
+      "-ptx",
+      "-o",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/build/tma_cpu.ptx"
+    ],
+    [
+      "/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/bin/nvcc",
+      "-std=c++17",
+      "-O3",
+      "-lineinfo",
+      "-arch=sm_90a",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/tma_cpu.cu",
+      "-L/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1/lib64/stubs",
+      "-lcuda",
+      "-o",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/build/tma_cpu"
+    ]
+  ],
+  "source_sha256": {
+    "tma_cpu.cu": "03bd6ce01d8046f910b8272a1b06153b453dc2d283436a0f4d147943b9745efe",
+    "run.py": "f6c74ee9e15e8e7f4392e5e2f853056d156d57d0cd04392f6acb10cdf7b1835c",
+    "README.md": "cbdc4ed3652abc045a2349d87e2403c27a2bf0b286e2ca02ea8ebc54ae64add7"
+  },
+  "commit": "7a27765257fb039cff7e74b1855297cad7b8dda2",
+  "argv": [
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/tma_cpu/run.py",
+    "--toolkit",
+    "/local/ggiannak/miniconda3/envs/fa3/cuda-12.8.1"
+  ],
+  "cuda_visible_devices": null,
+  "note": "Fresh process per trial; no input staging in HBM for host sources. GPU exclusivity checked at start only."
+}
