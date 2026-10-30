@@ -1,5 +1,8 @@
 // TMA mechanism probe, following the CUDA 12.8 Programming Guide section 7.29.2.
-// This is an AI-assisted implementation for review; hardware validation is separate.
+// Χάρτης πειράματος: 1 = CPU allocation/γνωστές τιμές, 2 = κανονικά GPU loads,
+// 3 = TMA ανάγνωση, 4 = σύγκριση αποτελέσματος, 5 = CPU NUMA residency.
+// Τα στάδια 2-4 ελέγχονται επίσης με πηγή HBM ως δοκιμή αναφοράς.
+// Το στάδιο 5 γίνεται πριν και μετά τους kernels, όχι μόνο στο τέλος.
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cuda/barrier>
@@ -25,31 +28,43 @@ void check(cudaError_t e) {
     if (e != cudaSuccess) throw std::runtime_error(cudaGetErrorString(e));
 }
 void stage(const char* name) { std::cout << "STAGE " << name << std::endl; }
+// ΣΤΑΔΙΟ 1 — Γνωστή, επαναλήψιμη τιμή για κάθε θέση i της εισόδου.
+// Η ίδια συνάρτηση δίνει την αναμενόμενη τιμή στη σύγκριση του σταδίου 4.
 uint32_t value(size_t i) { return uint32_t(i * 1664525ULL + 1013904223ULL); }
 
+// ΣΤΑΔΙΟ 2 — Κανονικά GPU loads: διαβάζουμε την πηγή χωρίς TMA.
+// Τα threads μοιράζονται τα στοιχεία και τα γράφουν στο ξεχωριστό output.
 __global__ void load_copy(const uint32_t* src, uint32_t* out) {
     size_t base = size_t(blockIdx.x) * TILE;
     for (int i = threadIdx.x; i < TILE; i += blockDim.x) out[base+i] = src[base+i];
 }
 
+// ΣΤΑΔΙΟ 3 — Ο TMA kernel: πηγή του descriptor -> shared memory -> output HBM.
 __global__ void tma_copy(const __grid_constant__ CUtensorMap map, uint32_t* out) {
+    // Ένα tile 32x32 uint32_t = 4096 bytes, με alignment 128 bytes.
     __shared__ alignas(128) uint32_t tile[TILE];
     #pragma nv_diag_suppress static_var_with_dynamic_init
     __shared__ Barrier barrier;
     if (threadIdx.x == 0) {
+        // Αρχικοποίηση του barrier για όλα τα threads και δημοσίευση στο async proxy.
         init(&barrier, blockDim.x);
         cde::fence_proxy_async_shared_cta();
     }
     __syncthreads();
     Barrier::arrival_token token;
     if (threadIdx.x == 0) {
+        // ΣΤΑΔΙΟ 3Α — Ένα thread ζητά TMA μεταφορά του tile στη shared memory.
         cde::cp_async_bulk_tensor_2d_global_to_shared(tile, &map, 0, blockIdx.x * WIDTH, barrier);
+        // Δηλώνει μία άφιξη thread και τα 4096 bytes που πρέπει να ολοκληρωθούν.
         token = cuda::device::barrier_arrive_tx(barrier, 1, sizeof(tile));
     } else {
+        // Τα υπόλοιπα threads δηλώνουν τη δική τους άφιξη στο barrier.
         token = barrier.arrive();
     }
+    // ΣΤΑΔΙΟ 3Β — Περιμένουμε threads και μεταφορά πριν διαβάσουμε το tile.
     barrier.wait(std::move(token));
     size_t base = size_t(blockIdx.x) * TILE;
+    // ΣΤΑΔΙΟ 3Γ — Γράφουμε όσα έφερε το TMA σε output HBM για επαλήθευση.
     for (int i = threadIdx.x; i < TILE; i += blockDim.x) out[base+i] = tile[i];
     __syncthreads();
     if (threadIdx.x == 0) barrier.~Barrier();
@@ -61,7 +76,9 @@ struct Residency {
     bool verified() const { return pages > 0 && on_cpu_node == pages && unknown == 0; }
 };
 
-// Query every source page without requesting migration. EPERM/ENOSYS => unknown.
+// ΣΤΑΔΙΟ 5 — Ρωτάμε το Linux σε ποιον NUMA node βρίσκεται κάθε σελίδα πηγής.
+// Το move_pages με nodes=nullptr ζητά πληροφορία, όχι μετακίνηση σελίδων.
+// Αποτυχία query σημαίνει άγνωστη τοποθέτηση, όχι επιβεβαίωση CPU residency.
 Residency residency(void* ptr, size_t bytes, unsigned cpu_node) {
     Residency r;
     size_t page = size_t(sysconf(_SC_PAGESIZE));
@@ -87,6 +104,8 @@ void print_residency(const char* when, const Residency& r, unsigned node) {
               << " query_errno=" << r.query_errno << std::endl;
 }
 
+// ΣΤΑΔΙΟ 4 — Επιστρέφουμε το output στην CPU και ελέγχουμε κάθε στοιχείο.
+// Αυτή η αντιγραφή αφορά μόνο την επαλήθευση του output, όχι staging της εισόδου.
 void verify(uint32_t* out, size_t count) {
     std::vector<uint32_t> result(count);
     check(cudaMemcpy(result.data(), out, count*sizeof(uint32_t), cudaMemcpyDeviceToHost));
@@ -118,44 +137,58 @@ int main(int argc, char** argv) {
         bool bound = false;
         size_t count = bytes / sizeof(uint32_t);
         if (source == "hbm") {
+            // Δοκιμή αναφοράς: μόνο εδώ αντιγράφουμε την είσοδο σε GPU allocation.
             std::vector<uint32_t> initial(count);
             for (size_t i = 0; i < count; ++i) initial[i] = value(i);
             check(cudaMalloc(reinterpret_cast<void**>(&src), bytes));
             check(cudaMemcpy(src, initial.data(), bytes, cudaMemcpyHostToDevice));
         } else {
+            // ΣΤΑΔΙΟ 1Α — Δεσμεύουμε host μνήμη με έναν από τους δύο τρόπους.
             if (source == "pinned") {
+                // Host allocation από τη CUDA, mapped για πρόσβαση από GPU.
                 check(cudaHostAlloc(reinterpret_cast<void**>(&host), bytes, cudaHostAllocMapped));
             } else {
+                // Host allocation από το λειτουργικό, που θα καταχωριστεί στη CUDA.
                 host = static_cast<uint32_t*>(mmap(nullptr, bytes, PROT_READ|PROT_WRITE,
                                                  MAP_PRIVATE|MAP_ANONYMOUS, -1, 0));
                 if (host == MAP_FAILED) throw std::runtime_error("mmap failed");
-                // Apply policy BEFORE first touch; inability is recorded, never hidden.
+                // Ζητάμε τον CPU NUMA node πριν από το πρώτο γράψιμο (first touch).
+                // Καταγράφουμε αν το mbind πέτυχε· η πραγματική θέση ελέγχεται στο στάδιο 5.
                 std::vector<unsigned long> mask(node/(8*sizeof(unsigned long))+1, 0);
                 mask[node/(8*sizeof(unsigned long))] |= 1UL << (node%(8*sizeof(unsigned long)));
                 bound = syscall(SYS_mbind, host, bytes, MPOL_BIND, mask.data(),
                                 node+1UL, 0) == 0;
                 std::cout << "MBIND success=" << bound << " errno=" << (bound ? 0 : errno) << std::endl;
             }
+            // ΣΤΑΔΙΟ 1Β — Η CPU γεμίζει την πηγή με τις γνωστές τιμές value(i).
             for (size_t i = 0; i < count; ++i) host[i] = value(i);
+            // Καταχώριση της mmap allocation και ανάκτηση GPU-visible διεύθυνσης.
+            // Το src δείχνει στην ίδια host allocation· δεν αντιγράφουμε είσοδο σε HBM.
             if (source == "registered") check(cudaHostRegister(host, bytes, cudaHostRegisterMapped));
             check(cudaHostGetDevicePointer(reinterpret_cast<void**>(&src), host, 0));
         }
+        // Έλεγχος CUDA memory type, χωριστός από τον έλεγχο φυσικής NUMA θέσης.
         cudaPointerAttributes attributes{}; check(cudaPointerGetAttributes(&attributes, src));
         if ((host && attributes.type != cudaMemoryTypeHost) ||
             (!host && attributes.type != cudaMemoryTypeDevice))
             throw std::runtime_error("Unexpected source memory type");
         std::cout << "POINTER cuda_type=" << int(attributes.type) << " device=" << attributes.device << std::endl;
         Residency before, after;
+        // ΣΤΑΔΙΟ 5Α — Πρώτη μέτρηση της θέσης όλων των host σελίδων, πριν τους kernels.
         if (host) { before = residency(host, bytes, node); print_residency("before", before, node); }
+        // Ξεχωριστό output στην HBM. Η host είσοδος παραμένει η πηγή src.
         check(cudaMalloc(reinterpret_cast<void**>(&out), bytes));
         unsigned blocks = unsigned(count / TILE);
-        // First prove ordinary GPU loads can access this SAME allocation.
+        // ΣΤΑΔΙΟ 2 — Πρώτα ελέγχουμε την ΙΔΙΑ allocation με κανονικά GPU loads.
+        // Περιμένουμε την ολοκλήρωση και επαληθεύουμε το αποτέλεσμα πριν συνεχίσουμε.
         stage("ordinary_load_control");
         check(cudaMemset(out, 0, bytes));
         load_copy<<<blocks, THREADS>>>(src, out);
         check(cudaGetLastError()); check(cudaDeviceSynchronize()); verify(out, count);
         CUtensorMap map{};
         if (method == "tma") {
+            // ΣΤΑΔΙΟ 3 — Προετοιμασία: ο descriptor περιγράφει το ίδιο src και tile 32x32.
+            // Το encoding περιγράφει τη μεταφορά· η εκτέλεσή της γίνεται στην tma_copy().
             stage("tensor_map_encode");
             uint64_t dimensions[] = {WIDTH, count/WIDTH}, strides[] = {WIDTH*sizeof(uint32_t)};
             uint32_t box[] = {WIDTH, WIDTH}, element_strides[] = {1, 1};
@@ -169,12 +202,18 @@ int main(int argc, char** argv) {
             }
         }
         auto launch = [&]() {
+            // Επιλέγουμε TMA ή ordinary-load kernel για την τρέχουσα δοκιμή.
             if (method == "tma") tma_copy<<<blocks, THREADS>>>(map, out);
             else load_copy<<<blocks, THREADS>>>(src, out);
             check(cudaGetLastError());
         };
         stage("correctness");
+        // ΣΤΑΔΙΑ 3-4 — Σβήνουμε το παλιό output, εκτελούμε τον επιλεγμένο kernel,
+        // περιμένουμε και συγκρίνουμε όλα τα στοιχεία. Το προηγούμενο control
+        // δεν μπορεί έτσι να αφήσει σωστό output που θα κάλυπτε αποτυχία εγγραφής.
         check(cudaMemset(out, 0, bytes)); launch(); check(cudaDeviceSynchronize()); verify(out, count);
+        // Πρόσθετος χρονισμός του kernel: επαναχρησιμοποιεί την ίδια πηγή,
+        // άρα οι αναγνώσεις μπορεί να εξυπηρετούνται από GPU caches.
         stage("timing");
         cudaEvent_t begin, end; check(cudaEventCreate(&begin)); check(cudaEventCreate(&end));
         std::vector<float> samples;
@@ -183,7 +222,10 @@ int main(int argc, char** argv) {
             check(cudaEventSynchronize(end)); float ms = 0;
             check(cudaEventElapsedTime(&ms, begin, end)); samples.push_back(ms);
         }
+        // ΣΤΑΔΙΟ 4 — Επαναλαμβάνουμε τη σύγκριση και μετά τις timed επαναλήψεις.
         verify(out, count);
+        // ΣΤΑΔΙΟ 5Β — Δεύτερη μέτρηση σελίδων μετά τους kernels.
+        // Τα δύο checkpoints δεν αποτελούν συνεχή παρακολούθηση ή μέτρηση DRAM traffic.
         if (host) { after = residency(host, bytes, node); print_residency("after", after, node); }
         std::sort(samples.begin(), samples.end());
         float median = samples[samples.size()/2];
@@ -192,6 +234,8 @@ int main(int argc, char** argv) {
         if (source == "hbm") check(cudaFree(src));
         else if (source == "pinned") check(cudaFreeHost(host));
         else { check(cudaHostUnregister(host)); munmap(host, bytes); }
+        // Επιτυχία αντιγραφής μόνο αφού περάσουν οι συγκρίσεις και οι CUDA έλεγχοι.
+        // Το CPU residency αναφέρεται χωριστά και απαιτεί επιτυχία και στα δύο checkpoints.
         std::cout << "RESULT {\"status\":\"correctness_pass\",\"source\":\"" << source
             << "\",\"method\":\"" << method << "\",\"bytes\":" << bytes
             << ",\"repetitions\":" << repetitions << ",\"median_kernel_ms\":" << median
