@@ -23,7 +23,8 @@
   The generated PTX also contains the tensor TMA instruction.
 - The host pages were on CPU NUMA node 0 before and after the GPU kernels.
 - The `mbind` request failed with `errno=22`, but the page-location checks
-  and the data comparisons passed.
+  and the data comparisons passed. --> probably irrelevant for now FLAG this 
+  in case theres a problem (could be a bug with passing 0 max nodes)
 - Results: `thesis/outputs/tma_cpu_20261030T123257_533342Z/`.
 - Next: fix the `maxnode` argument and rerun. Then try larger inputs and
   control for cache hits before using the timings to compare bandwidth.
