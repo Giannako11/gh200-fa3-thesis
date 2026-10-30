@@ -1,4 +1,5 @@
-"""Compile and supervise isolated TMA probes using only the Python standard library."""
+"""Κάνει compilation, εκτελεί τις δοκιμές TMA και κρατά τα αποτελέσματα."""
+# Ο GPU kernel και η πηγή του παραδείγματος στο οποίο βασίζεται είναι στο tma_cpu.cu.
 import argparse
 import csv
 import hashlib
@@ -16,6 +17,7 @@ from datetime import datetime, timezone
 
 
 class Tee:
+    # Γράφουμε το ίδιο κείμενο στο τερματικό και στο αρχείο log.
     def __init__(self, terminal, log):
         self.terminal, self.log = terminal, log
 
@@ -33,9 +35,11 @@ def save(path, data):
 
 
 def parse_worker(text, returncode):
+    # Το CUDA πρόγραμμα τυπώνει STAGE για να ξέρουμε πού έφτασε αν σταματήσει.
     stages = [line[6:] for line in text.splitlines() if line.startswith('STAGE ')]
     row = {'status': 'worker_error', 'stage': stages[-1] if stages else 'startup', 'exit_code': returncode}
     results = [line[7:] for line in text.splitlines() if line.startswith('RESULT ')]
+    # Δεχόμαστε αποτέλεσμα μόνο αν η διεργασία τερμάτισε χωρίς σφάλμα.
     if returncode == 0 and len(results) == 1:
         result = json.loads(results[0])
         if result.get('status') != 'correctness_pass':
@@ -45,12 +49,14 @@ def parse_worker(text, returncode):
 
 
 def verdict(rows):
+    # Πρώτα πρέπει να λειτουργεί ο έλεγχος με είσοδο στην HBM.
     controls = [r for r in rows if r['source'] == 'hbm']
     if not controls or any(r['status'] != 'correctness_pass' for r in controls):
         return 'hbm_control_failed_no_host_tma_conclusion'
     host_tma = [r for r in rows if r['source'] != 'hbm' and r['method'] == 'tma']
     if len(host_tma) != 2:
         return 'incomplete'
+    # Οι σωστές τιμές και η θέση των host σελίδων είναι δύο ξεχωριστοί έλεγχοι.
     if all(r['status'] == 'correctness_pass' and r.get('cpu_residency_verified_before_and_after') for r in host_tma):
         return 'host_tma_correct_cpu_residency_observed_at_checkpoints'
     if any(r['status'] == 'correctness_pass' for r in host_tma):
@@ -62,12 +68,13 @@ def supervise(binary, source, method, size, repetitions, folder, timeout):
     folder.mkdir()
     row = dict(source=source, method=method, bytes=size, repetitions=repetitions)
     with (folder / 'worker.log').open('w') as log:
+        # Κάθε δοκιμή ξεκινά νέα διεργασία με δικό της CUDA context.
         process = subprocess.Popen([str(binary), source, method, str(size), str(repetitions)],
                                    stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
         try:
             code = process.wait(timeout=timeout)
         except (subprocess.TimeoutExpired, KeyboardInterrupt) as exc:
-            # Only our child is terminated; never touch other users' GPU jobs.
+            # Αν αργήσει πολύ ή διακοπεί, τερματίζουμε μόνο τη διεργασία που ξεκινήσαμε.
             process.kill()
             try:
                 process.wait(timeout=5)
@@ -83,7 +90,8 @@ def supervise(binary, source, method, size, repetitions, folder, timeout):
     if row['status'] == 'correctness_pass':
         if (row['source'], row['method'], row['bytes'], row['repetitions']) != (source, method, size, repetitions):
             raise ValueError('Worker result does not match requested trial')
-        # Source bytes / kernel time; NOT measured DRAM traffic or a pure TMA bandwidth.
+        # Διαιρούμε το μέγεθος της εισόδου με τον χρόνο του GPU kernel.
+        # Δεν είναι καθαρό bandwidth DRAM: μετράμε και εγγραφές output, και μπορεί να διαβάζουμε cache.
         ms = row['median_kernel_ms']
         row['effective_source_gb_s'] = size / (ms * 1e6) if ms > 0 else None
     save(folder / 'result.json', row)
@@ -100,6 +108,7 @@ def main():
         parser.error('--timeout must be 1..600')
     here = Path(__file__).resolve().parent
     repo = here.parents[2]
+    # Κάθε εκτέλεση έχει δικό της φάκελο για να μη σβήνονται προηγούμενα αποτελέσματα.
     out = repo / 'thesis/outputs' / ('tma_cpu_' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ'))
     out.mkdir(parents=True)
     log = (out / 'run.log').open('w', buffering=1)
@@ -107,15 +116,17 @@ def main():
     print('Outputs:', out, flush=True)
     status = 2
     try:
-        # Repository-wide TMA lock is held for compile and all worker lifetimes.
+        # Δεν αφήνουμε δεύτερο ίδιο script να τρέξει ταυτόχρονα από αυτό το repo.
         import fcntl
         with (repo / 'thesis/outputs/.tma-cpu.lock').open('w') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            # Ο έλεγχος για άλλες GPU διεργασίες γίνεται τώρα. Δεν κρατά θέση στην GPU.
             apps = subprocess.check_output(['nvidia-smi', '--query-compute-apps=pid', '--format=csv,noheader,nounits'], text=True)
             if any(line.strip().isdigit() for line in apps.splitlines()):
                 raise RuntimeError('GPU compute process detected; no probes started')
             (out / 'gpu-before.txt').write_text(subprocess.check_output(['nvidia-smi'], text=True))
             (out / 'numa-topology.txt').write_text(subprocess.check_output(['lscpu'], text=True))
+            # Κρατάμε αντίγραφα του κώδικα και hashes, ώστε να ξέρουμε τι ακριβώς έτρεξε.
             sources = ['tma_cpu.cu', 'run.py', 'README.md']
             hashes = {}
             for name in sources:
@@ -130,6 +141,7 @@ def main():
             build = here / 'build'
             build.mkdir(exist_ok=True)
             binary, ptx = build / 'tma_cpu', build / 'tma_cpu.ptx'
+            # Φτιάχνουμε PTX και εκτελέσιμο για Hopper με το CUDA Toolkit που επιλέχθηκε.
             flags = [str(nvcc), '-std=c++17', '-O3', '-lineinfo', '-arch=sm_90a', str(here / 'tma_cpu.cu')]
             commands = [flags + ['-ptx', '-o', str(ptx)], flags + ['-L'+str(args.toolkit/'lib64/stubs'), '-lcuda', '-o', str(binary)]]
             save(out / 'manifest.json', {'toolkit': str(args.toolkit), 'nvcc': info, 'commands': commands,
@@ -140,11 +152,15 @@ def main():
                 for command in commands:
                     print('Compiling:', ' '.join(command), flush=True)
                     subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, timeout=180)
+            # Ελέγχουμε ότι ο compiler έβγαλε εντολή tensor TMA στο PTX.
+            # Το αν αντιγράφει σωστά τα δεδομένα θα φανεί από τις δοκιμές που ακολουθούν.
             if not re.search(r'cp\.async\.bulk\.tensor\.2d', ptx.read_text()):
                 raise RuntimeError('TMA instruction absent in generated PTX')
             (out / 'tma-instruction.txt').write_text('\n'.join(line for line in ptx.read_text().splitlines() if 'cp.async.bulk.tensor' in line)+'\n')
             rows = []
+            # Πρώτα 4 KiB με 3 χρονισμένες επαναλήψεις. Με --bench προσθέτουμε δύο μεγαλύτερα μεγέθη.
             phases = [(4096, 3)] + ([(1024*1024, 20), (64*1024*1024, 20)] if args.bench else [])
+            # Τρεις πηγές εισόδου, καθεμία με κανονικά GPU loads και με TMA.
             cases = [('hbm', 'loads'), ('hbm', 'tma'), ('pinned', 'loads'), ('pinned', 'tma'), ('registered', 'loads'), ('registered', 'tma')]
             total = len(phases)*len(cases)
             stop = False
@@ -153,6 +169,7 @@ def main():
                     print(f'[{len(rows)+1}/{total}] {source} {method} bytes={size}', flush=True)
                     row = supervise(binary, source, method, size, reps, out/f'{size}_{source}_{method}', args.timeout)
                     rows.append(row)
+                    # Αποθηκεύουμε μετά από κάθε δοκιμή, ακόμη κι αν η επόμενη αποτύχει.
                     save(out / 'results.json', rows)
                     fields = list(dict.fromkeys(k for r in rows for k in r))
                     with (out / 'results.csv').open('w', newline='') as f:
@@ -161,11 +178,12 @@ def main():
                     print('  ->', row['status'], flush=True)
                     if row['status'] in ('timeout', 'interrupted', 'worker_unresponsive') or (isinstance(row.get('exit_code'), int) and row['exit_code'] < 0) or (source == 'hbm' and row['status'] != 'correctness_pass'):
                         stop = True; break
-                # Performance runs require every smoke correctness case to pass first.
+                # Συνεχίζουμε στα μεγαλύτερα μεγέθη μόνο αν πέρασαν οι προηγούμενες δοκιμές.
                 if stop or any(r['status'] != 'correctness_pass' for r in rows):
                     break
             smoke = [r for r in rows if r['bytes'] == 4096]
             status = 0 if len(smoke) == 6 and all(r['status'] == 'correctness_pass' for r in rows) and len(rows) == total else 2
+            # Το summary ξεχωρίζει τη σωστή αντιγραφή από τη θέση των host σελίδων.
             save(out / 'summary.json', {'verdict': verdict(smoke), 'trials': len(rows), 'exit_code': status,
                  'benchmark_requested': args.bench,
                  'note': 'Correct copy is distinct from CPU page residency. Checkpoint residency is not continuous traffic proof. Timing includes output stores, and repeated reads may hit GPU caches.'})

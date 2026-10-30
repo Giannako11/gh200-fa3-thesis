@@ -1,4 +1,4 @@
-"""CPU-only runner checks: these do not simulate CUDA correctness or performance."""
+"""Ελέγχει τον Python runner χωρίς GPU. Δεν ελέγχει τη λειτουργία του TMA."""
 import importlib.util
 import json
 from pathlib import Path
@@ -13,14 +13,17 @@ spec.loader.exec_module(runner)
 
 class RunnerTests(unittest.TestCase):
     def test_nonzero_cannot_claim_success(self):
+        # Ένα μήνυμα επιτυχίας στο log δεν αρκεί αν η διεργασία έβγαλε σφάλμα.
         row = runner.parse_worker('STAGE correctness\nRESULT {"status":"correctness_pass"}\n', 2)
         self.assertEqual(row['status'], 'worker_error')
         self.assertEqual(row['stage'], 'correctness')
 
     def test_missing_artifact_is_failure(self):
+        # Η διεργασία πρέπει να έχει γράψει και αποτέλεσμα, όχι μόνο να έχει τερματίσει.
         self.assertEqual(runner.parse_worker('STAGE allocation\n', 0)['status'], 'worker_error')
 
     def test_residency_and_control_required_for_verdict(self):
+        # Σωστή αντιγραφή και επιβεβαιωμένη θέση σελίδων πρέπει να αναφέρονται χωριστά.
         row = lambda source, method, resident: dict(source=source, method=method,
             status='correctness_pass', cpu_residency_verified_before_and_after=resident)
         rows = [row('hbm', 'tma', False), row('pinned', 'tma', False), row('registered', 'tma', True)]
@@ -31,6 +34,8 @@ class RunnerTests(unittest.TestCase):
         self.assertIn('no_host_tma_conclusion', runner.verdict(rows))
 
     def run_fixture(self, program, timeout=2):
+        # Χρησιμοποιούμε μικρό Python πρόγραμμα στη θέση του CUDA εκτελέσιμου.
+        # Έτσι ελέγχουμε πώς χειρίζεται ο runner τα σφάλματα, χωρίς να ανοίξουμε GPU context.
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
             binary = folder / 'fixture'
