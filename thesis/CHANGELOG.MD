@@ -27,3 +27,10 @@
   in case theres a problem (could be a bug with passing 0 max nodes)
 - Results: `thesis/outputs/tma_cpu_20261030T123257_533342Z/`.
 - Next: fix the `maxnode` argument and rerun as said before. 
+
+## 2026-11-02 — TMA benchmark template
+
+- Uploaded the CUDA benchmark, Bash runner and a short README for the full sweep.
+- Added a progress bar, CSV results and a run summary.
+- This is a general template for now. Waiting for GPU access to run smoke tests
+  and refine it before the final run.

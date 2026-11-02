@@ -4,7 +4,7 @@
 
 ## 01.11.26 — Next steps
 
-1. Benchmark regular GPU loads against TMA with increasing input sizes.
+1. Benchmark regular GPU loads against TMA with increasing input sizes. ----- in progress, waiting for gpu access
    Compare the times, find where each approach works better and profile the
    main differences. Keep total input size separate from tile size and check
    the effect of caches. Fix the `mbind` argument before the new runs.
