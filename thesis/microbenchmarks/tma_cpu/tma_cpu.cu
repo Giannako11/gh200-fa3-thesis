@@ -164,7 +164,7 @@ int main(int argc, char** argv) {
                 std::vector<unsigned long> mask(node/(8*sizeof(unsigned long))+1, 0);
                 mask[node/(8*sizeof(unsigned long))] |= 1UL << (node%(8*sizeof(unsigned long)));
                 bound = syscall(SYS_mbind, host, bytes, MPOL_BIND, mask.data(),
-                                node+1UL, 0) == 0;
+                                mask.size()*8*sizeof(unsigned long)+1UL, 0) == 0;
                 std::cout << "MBIND success=" << bound << " errno=" << (bound ? 0 : errno) << std::endl;
             }
             // Το CPU thread γράφει τις γνωστές τιμές στην είσοδο.
