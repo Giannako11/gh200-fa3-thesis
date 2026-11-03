@@ -34,3 +34,10 @@
 - Added a progress bar, CSV results and a run summary.
 - This is a general template for now. Waiting for GPU access to run smoke tests
   and refine it before the final run.
+
+## 2026-11-03 — Plain malloc case
+
+- Prepared the CUDA file with plain `malloc` input for manual upload.
+- Updated the runner and counts for four allocations: 580 groups, 1,740 measurements.
+- The new case uses the original host pointer without CUDA registration or `mbind`.
+- Waiting for GPU access to compile and run smoke tests.

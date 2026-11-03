@@ -2,7 +2,8 @@
 
 We compare three GPU copy kernels: regular loads directly to HBM output,
 regular loads through GPU shared memory, and TMA through GPU shared memory.
-The input is either HBM, mapped host memory, or registered host memory.
+The input is HBM, CUDA-allocated mapped host memory, registered host memory,
+or plain `malloc` memory.
 Each GPU block handles one contiguous tile. The TMA view has tile-width rows;
 this is a packed-tile copy test, not an attention or matrix multiplication test.
 
@@ -14,10 +15,19 @@ bash thesis/scripts/run_tma_sweep.sh
 ```
 
 Defaults: 23 input sizes from 4 KiB to 16 GiB, seven tiles, 128 GPU threads
-per GPU block. Sizes smaller than a tile are skipped: 435 allocation groups,
-1,305 kernel measurements. There is one timed launch per kernel, no warmup,
+per GPU block. Sizes smaller than a tile are skipped: 580 allocation groups,
+1,740 kernel measurements. There is one timed launch per kernel, no warmup,
 no cache flushing and no automatic repetitions. Kernel order rotates by group.
 Earlier copies and output checks can affect the cache state of later kernels.
+
+Sources: `hbm,pinned,registered,malloc`. The `malloc` case uses `std::malloc`
+and `std::free`, without registration, pinning calls, NUMA binding or input copies
+to HBM. It requires GPU system-memory access with ATS, prints the device attributes
+and passes the original host pointer to the GPU kernels. CPU writes initialize
+the input; page queries check its location before and after each timed kernel.
+This does not impose a placement policy or prove that pages never moved during
+the kernel. The output is always HBM. If TMA descriptor encoding fails, its row
+records an error while the ordinary-load kernels are still tested.
 
 Parameters are at the top of the Bash file and can also be passed as environment
 variables. For a pilot with every tile that fits:

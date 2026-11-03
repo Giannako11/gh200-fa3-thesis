@@ -7,7 +7,7 @@ src="$repo/thesis/microbenchmarks/tma_sweep/tma_sweep.cu"
 readme="$repo/thesis/microbenchmarks/tma_sweep/README.md"
 SIZES="${SIZES:-4KiB,8KiB,16KiB,32KiB,64KiB,128KiB,256KiB,512KiB,1MiB,2MiB,4MiB,8MiB,16MiB,32MiB,64MiB,128MiB,256MiB,512MiB,1GiB,2GiB,4GiB,8GiB,16GiB}"
 TILES="${TILES:-32x32,32x128,64x64,128x32,64x128,128x64,128x128}"
-SOURCES="${SOURCES:-hbm,pinned,registered}"
+SOURCES="${SOURCES:-hbm,pinned,registered,malloc}"
 GPU_THREADS="${GPU_THREADS:-128}"
 TIMEOUT_S="${TIMEOUT_S:-900}"
 mode="${1:-run}"
@@ -42,7 +42,7 @@ for tile in "${tiles[@]}"; do
     seen["tile:$tile"]=1
 done
 for source in "${sources[@]}"; do
-    [[ "$source" =~ ^(hbm|pinned|registered)$ && ! -v "seen[source:$source]" ]] || exit 2
+    [[ "$source" =~ ^(hbm|pinned|registered|malloc)$ && ! -v "seen[source:$source]" ]] || exit 2
     seen["source:$source"]=1
 done
 
