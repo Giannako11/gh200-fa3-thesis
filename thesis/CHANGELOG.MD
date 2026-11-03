@@ -54,3 +54,9 @@
 - Added five input-rate figures in GB/s, bringing the total to 39.
 - Uses input bytes divided by the full kernel time, including HBM output stores.
 - Kept the placement markers and gaps for failed or missing measurements.
+
+## 2026-11-03 — Plot output folders
+
+- Switched the plotting script to PNG only.
+- Saves the 39 PNGs in `thesis/outputs/plots/tma_plots_first_plots_DD_MM_YY/`.
+- Repeated runs get a numbered suffix. Internal notes and checks stay in `_checks/`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make the first 39 TMA figures from one sweep's results.csv.
+"""Make the first 39 TMA figures as PNG files from one sweep's results.csv.
 
 Usage: python thesis/scripts/plots/tma_plots_first.py PATH/TO/results.csv
 Dependencies: matplotlib, numpy. No CUDA or GPU is needed.
@@ -8,9 +8,11 @@ Dependencies: matplotlib, numpy. No CUDA or GPU is needed.
 import argparse
 import csv
 from dataclasses import dataclass
+from datetime import datetime
 import hashlib
 import math
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import matplotlib
 
@@ -142,11 +144,11 @@ def ratio(data, n, tile, numerator_source, numerator_kernel, denominator_source,
 
 
 class Figures:
-    def __init__(self, output, formats, dpi, note):
-        self.output, self.formats, self.dpi, self.note = output, formats, dpi, note
+    def __init__(self, output, dpi, note):
+        self.output, self.dpi, self.note = output, dpi, note
         self.index = []
 
-    def save(self, fig, folder, name, title, handles, labels, footnote, heatmap=False):
+    def save(self, fig, group, name, title, handles, labels, footnote, heatmap=False):
         fig.suptitle(title, fontsize=15, fontweight="bold", y=0.98)
         if handles:
             fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.935),
@@ -157,12 +159,9 @@ class Figures:
                                 wspace=0.22, hspace=0.55)
         else:
             fig.tight_layout(rect=(0, 0.10, 1, 0.87))
-        destination = self.output / folder
-        destination.mkdir(parents=True, exist_ok=True)
-        for extension in self.formats:
-            fig.savefig(destination / f"{name}.{extension}", dpi=self.dpi, facecolor="white")
+        fig.savefig(self.output / f"{name}.png", dpi=self.dpi, facecolor="white", format="png")
         plt.close(fig)
-        self.index.append((folder, name, title))
+        self.index.append((group, f"{name}.png", title))
         done = len(self.index)
         bar = "#" * (done * 24 // FIGURE_COUNT)
         print(f"[{bar:<24}] {done:2d}/{FIGURE_COUNT} {name}", flush=True)
@@ -382,13 +381,34 @@ def write_checks(data, output):
                                  expected-len(rows), verified, unverified])
 
 
+# Νέος φάκελος για κάθε εκτέλεση, ώστε να μη σβήνονται παλιότερα plots.
+def create_output(output_dir=None):
+    if output_dir is None:
+        try:
+            date = datetime.now(ZoneInfo("Europe/Athens")).strftime("%d_%m_%y")
+        except ZoneInfoNotFoundError as error:
+            raise ValueError("Athens timezone data is missing; install tzdata or use --output-dir") from error
+        thesis = Path(__file__).resolve().parents[2]
+        output_dir = thesis / "outputs" / "plots" / f"{Path(__file__).stem}_plots_{date}"
+    base = output_dir.resolve()
+    base.parent.mkdir(parents=True, exist_ok=True)
+    output, attempt = base, 1
+    while True:
+        try:
+            output.mkdir()
+            return output
+        except FileExistsError:
+            attempt += 1
+            output = base.with_name(f"{base.name}_{attempt:02d}")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("csv", type=Path, help="One sweep's results.csv")
-    parser.add_argument("--output-dir", type=Path, help="Default: tma_plots_first beside the input CSV")
+    parser.add_argument("--output-dir", type=Path,
+                        help="Override thesis/outputs/plots/tma_plots_first_plots_DD_MM_YY")
     parser.add_argument("--tile", type=parse_tile, default=(32, 32), help="Fixed tile for size plots (default: 32x32)")
     parser.add_argument("--fixed-size", type=parse_size, default=2**20, help="Input for tile bars (default: 1MiB)")
-    parser.add_argument("--formats", nargs="+", choices=["png", "pdf"], default=["png", "pdf"])
     parser.add_argument("--dpi", type=int, default=200)
     args = parser.parse_args()
     if args.fixed_size not in SIZES or not all(valid_pair(args.fixed_size, t) for t in TILES):
@@ -397,30 +417,34 @@ def main():
         parser.error("--dpi must be positive")
     try:
         data, threads = read_results(args.csv)
-        output = args.output_dir or args.csv.resolve().parent / "tma_plots_first"
-        output.mkdir(parents=True, exist_ok=True)
         expected = sum(valid_pair(n, t) for n in SIZES for t in TILES) * len(SOURCES) * len(KERNELS)
         passed = sum(row.status == "ok" for row in data.values())
         if not passed:
             raise ValueError("CSV has no successful timings to plot")
+        output = create_output(args.output_dir)
+        checks = output / "_checks"
+        checks.mkdir()
+        print(f"Outputs: {output}", flush=True)
         note = (f"One timed launch per case; {threads} GPU threads/block; no error bars. "
                 f"Recorded {len(data)}/{expected}; successful {passed}.")
         plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10,
-                             "axes.titlesize": 11, "axes.labelsize": 10, "pdf.fonttype": 42})
-        writer = Figures(output, list(dict.fromkeys(args.formats)), args.dpi, note)
-        write_checks(data, output)
+                             "axes.titlesize": 11, "axes.labelsize": 10})
+        writer = Figures(output, args.dpi, note)
+        write_checks(data, checks)
         bar_figures(data, writer, args.tile, args.fixed_size)
         speedup_figures(data, writer, args.tile)
         heatmap_figures(data, writer)
         host_hbm_figures(data, writer, args.tile)
         input_rate_figures(data, writer, args.tile)
-        with (output / "plots_index.csv").open("w", newline="", encoding="utf-8") as handle:
+        with (checks / "plots_index.csv").open("w", newline="", encoding="utf-8") as handle:
             index = csv.writer(handle)
-            index.writerow(["folder", "figure", "title"])
+            index.writerow(["group", "filename", "title"])
             index.writerows(writer.index)
         notes = [f"Input: {args.csv.resolve()}", f"SHA256: {hashlib.sha256(args.csv.read_bytes()).hexdigest()}",
+                 f"Benchmark run folder: {args.csv.resolve().parent.name}",
+                 f"Plot output: {output}",
                  note, f"Fixed tile: {args.tile[0]}x{args.tile[1]}", f"Tile-comparison input: {size_label(args.fixed_size)}",
-                 f"Figures: {len(writer.index)}; formats: {', '.join(writer.formats)}",
+                 f"Figures: {len(writer.index)}; format: PNG",
                  "Missing and failed rows are never replaced by zero or interpolated.",
                  "Host placement is only queried before and after each kernel, not continuously.",
                  "Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.",
@@ -428,7 +452,7 @@ def main():
                  "Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.",
                  "No automatic crossover estimate, error bars or averaging from this single-launch sweep.",
                  "checks.csv is an internal check, not a publication figure."]
-        (output / "plot_notes.txt").write_text("\n".join(notes) + "\n", encoding="utf-8")
+        (checks / "plot_notes.txt").write_text("\n".join(notes) + "\n", encoding="utf-8")
         print(f"Saved {len(writer.index)} figures to {output.resolve()}")
     except (ValueError, OSError) as error:
         parser.exit(2, f"Error: {error}\n")
