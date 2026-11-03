@@ -48,3 +48,9 @@
 - Saves separate and combined plots in PNG/PDF, plus an internal checks CSV.
 - Checked the plots with synthetic data, including missing and failed cases.
 - Ready to use with the full sweep CSV when GPU measurements are available.
+
+## 2026-11-03 — Effective input rate plots
+
+- Added five input-rate figures in GB/s, bringing the total to 39.
+- Uses input bytes divided by the full kernel time, including HBM output stores.
+- Kept the placement markers and gaps for failed or missing measurements.

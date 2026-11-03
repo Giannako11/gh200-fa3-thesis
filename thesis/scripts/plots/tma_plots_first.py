@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make the first 34 TMA figures from one sweep's results.csv.
+"""Make the first 39 TMA figures from one sweep's results.csv.
 
 Usage: python thesis/scripts/plots/tma_plots_first.py PATH/TO/results.csv
 Dependencies: matplotlib, numpy. No CUDA or GPU is needed.
@@ -32,6 +32,7 @@ LABELS = ["Regular loads: direct", "Regular loads: shared", "TMA: shared"]
 SOURCE_LABELS = {"hbm": "HBM input", "pinned": "CUDA mapped host input",
                  "registered": "Registered host input", "malloc": "Plain malloc input"}
 STATUSES = {"ok", "error", "not_run", "device_fault", "worker_error"}
+FIGURE_COUNT = 39
 
 
 @dataclass
@@ -117,6 +118,17 @@ def timing(data, n, tile, source, kernel):
     return row.ms, source != "hbm" and row.resident != 1
 
 
+# Υπολογίζουμε GB/s από τα bytes εισόδου και τον συνολικό χρόνο του kernel.
+def input_rate(data, n, tile, source, kernel):
+    ms, unverified = timing(data, n, tile, source, kernel)
+    if not math.isfinite(ms):
+        return math.nan, False
+    rate = n / (ms * 1e6)
+    if not math.isfinite(rate) or rate <= 0:
+        raise ValueError("Non-finite or non-positive effective input rate")
+    return rate, unverified
+
+
 # Ο λόγος υπάρχει μόνο όταν και οι δύο μετρήσεις έχουν πετύχει.
 def ratio(data, n, tile, numerator_source, numerator_kernel, denominator_source, denominator_kernel):
     a, unverified_a = timing(data, n, tile, numerator_source, numerator_kernel)
@@ -152,8 +164,8 @@ class Figures:
         plt.close(fig)
         self.index.append((folder, name, title))
         done = len(self.index)
-        bar = "#" * (done * 24 // 34)
-        print(f"[{bar:<24}] {done:2d}/34 {name}", flush=True)
+        bar = "#" * (done * 24 // FIGURE_COUNT)
+        print(f"[{bar:<24}] {done:2d}/{FIGURE_COUNT} {name}", flush=True)
 
 
 def axes_for(count, heatmap=False):
@@ -227,7 +239,7 @@ def bar_figures(data, writer, tile, fixed_size):
                         "× = failed/missing or tile does not fit; hatching = host placement unverified. Same y-scale across allocations.")
 
 
-def draw_ratios(ax, series, labels, colors, ylabel, limits):
+def draw_curves(ax, series, labels, colors, ylabel, limits, ratio_axis=True):
     for points, label, color in zip(series, labels, colors):
         values = np.array([value for value, _ in points])
         unverified = np.array([flag for _, flag in points])
@@ -236,15 +248,16 @@ def draw_ratios(ax, series, labels, colors, ylabel, limits):
         for subset, face in [(good & ~unverified, color), (good & unverified, "white")]:
             ax.scatter(np.array(SIZES)[subset], values[subset], facecolors=face,
                        edgecolors=color, s=26, zorder=3)
-    ax.axhline(1, color="#555555", linestyle="--", linewidth=1)
     ax.set_xscale("log", base=2)
-    ax.set_yscale("log", base=2)
     ax.set_ylim(*limits)
-    lo, hi = np.log2(limits)
-    step = 0.25 if hi-lo <= 2 else (0.5 if hi-lo <= 4 else math.ceil((hi-lo)/6))
-    ax.set_yticks(2.0 ** np.arange(math.ceil(lo/step)*step, hi + 1e-9, step))
+    if ratio_axis:
+        ax.axhline(1, color="#555555", linestyle="--", linewidth=1)
+        ax.set_yscale("log", base=2)
+        lo, hi = np.log2(limits)
+        step = 0.25 if hi-lo <= 2 else (0.5 if hi-lo <= 4 else math.ceil((hi-lo)/6))
+        ax.set_yticks(2.0 ** np.arange(math.ceil(lo/step)*step, hi + 1e-9, step))
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:.3g}×"))
     ax.set_xticks(SIZES, [size_label(n, short=True) for n in SIZES], rotation=60, ha="right", fontsize=8)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:.3g}×"))
     ax.set_xlabel("Input size (K = KiB, M = MiB, G = GiB)")
     ax.set_ylabel(ylabel)
     style_axis(ax)
@@ -263,7 +276,7 @@ def speedup_figures(data, writer, tile):
     for selected in [[s] for s in SOURCES] + [SOURCES]:
         fig, axes = axes_for(len(selected))
         for ax, source in zip(axes, selected):
-            draw_ratios(ax, points[source], labels, COLORS[:2], "TMA speedup (higher is faster)", limits)
+            draw_curves(ax, points[source], labels, COLORS[:2], "TMA speedup (higher is faster)", limits)
             ax.set_title(SOURCE_LABELS[source])
         suffix = selected[0] if len(selected) == 1 else "all_sources"
         writer.save(fig, "speedup", f"speedup_{suffix}", f"TMA speedup | tile {tile[0]}×{tile[1]}",
@@ -325,12 +338,31 @@ def host_hbm_figures(data, writer, tile):
     for selected in [[k] for k in KERNELS] + [KERNELS]:
         fig, axes = axes_for(len(selected))
         for ax, kernel in zip(axes, selected):
-            draw_ratios(ax, points[kernel], labels, COLORS, "Host / HBM kernel time", limits)
+            draw_curves(ax, points[kernel], labels, COLORS, "Host / HBM kernel time", limits)
             ax.set_title(LABELS[KERNELS.index(kernel)])
         suffix = selected[0] if len(selected) == 1 else "all_kernels"
         writer.save(fig, "host_vs_hbm", f"host_vs_hbm_{suffix}", f"Host input relative to HBM | tile {tile[0]}×{tile[1]}",
                     legend_lines(labels, COLORS), labels,
                     "Above 1×: host input is slower. Open markers: host placement unverified. Gaps: failed/missing timings.")
+
+
+def input_rate_figures(data, writer, tile):
+    points = {s: [[input_rate(data, n, tile, s, k) for n in SIZES]
+                  for k in KERNELS] for s in SOURCES}
+    finite = [v for source in SOURCES for series in points[source]
+              for v, _ in series if math.isfinite(v)]
+    limits = 0, max(finite, default=1) * 1.15
+    for selected in [[s] for s in SOURCES] + [SOURCES]:
+        fig, axes = axes_for(len(selected))
+        for ax, source in zip(axes, selected):
+            draw_curves(ax, points[source], LABELS, COLORS, "Effective input rate (GB/s)",
+                        limits, ratio_axis=False)
+            ax.set_title(SOURCE_LABELS[source])
+        suffix = selected[0] if len(selected) == 1 else "all_sources"
+        writer.save(fig, "input_rate", f"input_rate_{suffix}",
+                    f"Effective input processing rate | tile {tile[0]}×{tile[1]}",
+                    legend_lines(LABELS, COLORS), LABELS,
+                    "Input bytes / complete kernel time, including HBM output stores. Open markers: placement unverified. Gaps: failed/missing.")
 
 
 # Βοηθητικό αρχείο για εμάς. Δεν δημιουργούμε figure ορθότητας.
@@ -381,6 +413,7 @@ def main():
         speedup_figures(data, writer, args.tile)
         heatmap_figures(data, writer)
         host_hbm_figures(data, writer, args.tile)
+        input_rate_figures(data, writer, args.tile)
         with (output / "plots_index.csv").open("w", newline="", encoding="utf-8") as handle:
             index = csv.writer(handle)
             index.writerow(["folder", "figure", "title"])
@@ -391,6 +424,8 @@ def main():
                  "Missing and failed rows are never replaced by zero or interpolated.",
                  "Host placement is only queried before and after each kernel, not continuously.",
                  "Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.",
+                 "Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.",
+                 "Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.",
                  "No automatic crossover estimate, error bars or averaging from this single-launch sweep.",
                  "checks.csv is an internal check, not a publication figure."]
         (output / "plot_notes.txt").write_text("\n".join(notes) + "\n", encoding="utf-8")

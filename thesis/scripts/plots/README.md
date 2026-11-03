@@ -6,7 +6,7 @@ Run on a CPU with Python 3.10+, Matplotlib and NumPy:
 python thesis/scripts/plots/tma_plots_first.py thesis/outputs/RUN_FOLDER/results.csv
 ```
 
-This creates `tma_plots_first/` beside the CSV, with 34 figures in PNG and PDF:
+This creates `tma_plots_first/` beside the CSV, with 39 figures in PNG and PDF:
 
 - `barplots/`: 20 figures. KiB, MiB and GiB input sizes with a fixed 32x32 tile,
   plus all seven tiles with a fixed 1 MiB input. Each comparison has four separate
@@ -15,6 +15,13 @@ This creates `tma_plots_first/` beside the CSV, with 34 figures in PNG and PDF:
 - `heatmaps/`: 5 figures showing regular shared/TMA across all input sizes and tiles.
 - `host_vs_hbm/`: 4 figures showing host/HBM time ratios, separately by kernel and
   together in a three-panel figure.
+- `input_rate/`: 5 figures showing effective input GB/s versus input size, using
+  the fixed tile. Four separate allocation figures and one four-panel figure.
+
+Effective input GB/s is recomputed as `input_bytes / (kernel_ms * 1e6)`.
+The time includes output stores to HBM; this is not physical DRAM or NVLink
+bandwidth. The input-rate plots use a logarithmic input-size axis and a linear
+GB/s axis starting at zero, with the same GPU kernel colors as the barplots.
 
 The figures use English labels. GPU kernel colors are consistent in the barplots.
 Ratios use a logarithmic scale with a reference at 1x. Separate and combined
