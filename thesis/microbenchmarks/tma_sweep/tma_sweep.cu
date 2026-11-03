@@ -45,7 +45,7 @@ void check(cudaError_t e) {
 void stage(const char* s) { std::cout << "STAGE " << s << std::endl; }
 uint32_t value(size_t i) { return uint32_t(i * 1664525ULL + 1013904223ULL); }
 
-// Κάθε GPU block χειρίζεται ένα συνεχόμενο tile.
+// Κάθε GPU block χειρίζεται ένα συνεχόμενο tile. Η εκτελεση γινεται απο GPU thread και η εκκίνηση παει απο CPU
 template<int E>
 __global__ void loads_direct(const uint32_t* src, uint32_t* out) {
     size_t base = size_t(blockIdx.x) * E;
@@ -53,13 +53,15 @@ __global__ void loads_direct(const uint32_t* src, uint32_t* out) {
 }
 
 // Άλλο GPU warp γράφει και άλλο διαβάζει κάθε τμήμα του tile.
-// Έτσι χρειάζεται πραγματικά η shared memory και ο συγχρονισμός.
+// Έτσι χρειάζεται πραγματικά η shared memory και ο συγχρονισμός. Αλλιως μπορεί να ειχα δεδομενα να μενουν στους ρετζιστερς
 template<int E>
 __device__ void store_tile(const uint32_t* tile, uint32_t* out, size_t base) {
     int first = (threadIdx.x + 32) % blockDim.x;
     for (int i = first; i < E; i += blockDim.x) out[base+i] = tile[i];
 }
 
+// Εδω προσθετω ενδιάμεσο buffer για να τα στειλω στην shared mem
+// και αντιστοιχα τα σωστα syncs
 template<int E>
 __global__ void loads_shared(const uint32_t* src, uint32_t* out) {
     extern __shared__ __align__(128) uint32_t tile[];
@@ -68,13 +70,13 @@ __global__ void loads_shared(const uint32_t* src, uint32_t* out) {
     __syncthreads();
     store_tile<E>(tile, out, base);
 }
-
-template<int H, int W>
-__global__ void tma_shared(const __grid_constant__ CUtensorMap map, uint32_t* out) {
-    extern __shared__ __align__(128) uint32_t tile[];
+// TMA Implementation
+template<int H, int W> // tile size
+__global__ void tma_shared(const __grid_constant__ CUtensorMap map, uint32_t* out) { //readonly __grid constant
+    extern __shared__ __align__(128) uint32_t tile[]; //
     #pragma nv_diag_suppress static_var_with_dynamic_init
     __shared__ Barrier bar;
-    if (threadIdx.x == 0) {
+    if (threadIdx.x == 0) {  // edw ειναι η αρχικοποιηση, γινεται απο ενα thread μονο διοτι το bar απο πανω ειναι shared
         init(&bar, blockDim.x);
         cde::fence_proxy_async_shared_cta();
     }
@@ -100,6 +102,7 @@ struct Location {
 };
 
 // Ρωτάμε το Linux για όλες τις σελίδες, σε μικρές ομάδες. Δεν ζητάμε μετακίνηση.
+// βλεπω δηλαδή απο που προέρχεται-υπαρχει η σελίδα
 Location locate(void* ptr, size_t bytes, unsigned node) {
     Location r;
     size_t page = size_t(sysconf(_SC_PAGESIZE));
