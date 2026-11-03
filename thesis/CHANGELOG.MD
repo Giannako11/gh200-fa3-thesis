@@ -41,3 +41,10 @@
 - Updated the runner and counts for four allocations: 580 groups, 1,740 measurements.
 - The new case uses the original host pointer without CUDA registration or `mbind`.
 - Waiting for GPU access to compile and run smoke tests.
+
+## 2026-11-03 — First TMA plots
+
+- Added `thesis/scripts/plots/tma_plots_first.py` for the 34 agreed figures.
+- Saves separate and combined plots in PNG/PDF, plus an internal checks CSV.
+- Checked the plots with synthetic data, including missing and failed cases.
+- Ready to use with the full sweep CSV when GPU measurements are available.
