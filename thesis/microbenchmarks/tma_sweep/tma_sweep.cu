@@ -1,8 +1,9 @@
-// Συγκρίνουμε τρεις τρόπους ανάγνωσης της ίδιας εισόδου από την GPU.
-// Το TMA και το barrier βασίζονται στο παράδειγμα CUDA 12.8.1, ενότητα 7.29.2:
+// Το TMA και το barrier βασίζονται στο  CUDA 12.8.1, ενότητα 7.29.2:
 // https://docs.nvidia.com/cuda/archive/12.8.1/cuda-c-programming-guide/index.html#using-tma-to-transfer-multi-dimensional-arrays
 // Host allocations:
 // https://docs.nvidia.com/cuda/archive/12.8.1/cuda-c-programming-guide/index.html#mapped-memory
+// Απλό malloc σε συστήματα με ATS:
+// https://docs.nvidia.com/cuda/archive/12.8.1/cuda-c-programming-guide/index.html#unified-memory-programming
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cuda/barrier>
@@ -12,6 +13,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <iomanip>
@@ -139,6 +141,7 @@ struct Memory {
         if (out) cudaFree(out);
         if (source == "hbm" && src) cudaFree(src);
         if (source == "pinned" && host) cudaFreeHost(host);
+        if (source == "malloc" && host) std::free(host);
         if (source == "registered" && host) {
             if (registered) cudaHostUnregister(host);
             munmap(host, bytes);
@@ -174,6 +177,17 @@ struct Memory {
         } else {
             if (source == "pinned") {
                 check(cudaHostAlloc(reinterpret_cast<void**>(&host), bytes, cudaHostAllocMapped));
+            } else if (source == "malloc") {
+                int pageable = 0, host_tables = 0;
+                check(cudaDeviceGetAttribute(&pageable, cudaDevAttrPageableMemoryAccess, 0));
+                check(cudaDeviceGetAttribute(&host_tables, cudaDevAttrPageableMemoryAccessUsesHostPageTables, 0));
+                std::cout << "pageableMemoryAccess=" << pageable
+                          << " pageableMemoryAccessUsesHostPageTables=" << host_tables << std::endl;
+                if (!pageable || !host_tables)
+                    throw std::runtime_error("malloc case requires GPU access to system memory with ATS");
+                // Απλό malloc: δεν κάνουμε mbind, register ή αντιγραφή της εισόδου στην HBM.
+                host = static_cast<uint32_t*>(std::malloc(bytes));
+                if (!host) throw std::runtime_error("malloc failed");
             } else {
                 void* p = mmap(nullptr, bytes, PROT_READ|PROT_WRITE,
                                MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
@@ -191,11 +205,14 @@ struct Memory {
                 check(cudaHostRegister(host, bytes, cudaHostRegisterMapped));
                 registered = true;
             }
-            check(cudaHostGetDevicePointer(reinterpret_cast<void**>(&src), host, 0));
+            if (source == "malloc") src = host;
+            else check(cudaHostGetDevicePointer(reinterpret_cast<void**>(&src), host, 0));
         }
         cudaPointerAttributes a{};
         check(cudaPointerGetAttributes(&a, src));
-        if (a.type != (host ? cudaMemoryTypeHost : cudaMemoryTypeDevice))
+        cudaMemoryType expected_type = source == "malloc" ? cudaMemoryTypeUnregistered :
+                                       (host ? cudaMemoryTypeHost : cudaMemoryTypeDevice);
+        if (a.type != expected_type)
             throw std::runtime_error("Unexpected CUDA memory type");
         check(cudaMalloc(reinterpret_cast<void**>(&out), bytes));
     }
@@ -236,10 +253,11 @@ void measure(Memory& m, int threads, int rotation, unsigned node, std::array<Row
     CUtensorMap map{};
     uint64_t dims[] = {W, m.bytes/(4*W)}, strides[] = {W*4};
     uint32_t box[] = {W, H}, steps[] = {1, 1};
-    CUresult encoded = cuTensorMapEncodeTiled(&map, CU_TENSOR_MAP_DATA_TYPE_UINT32, 2,
+    bool aligned = reinterpret_cast<uintptr_t>(m.src) % 16 == 0;
+    CUresult encoded = CUDA_ERROR_INVALID_VALUE;
+    if (aligned) encoded = cuTensorMapEncodeTiled(&map, CU_TENSOR_MAP_DATA_TYPE_UINT32, 2,
         m.src, dims, strides, box, steps, CU_TENSOR_MAP_INTERLEAVE_NONE,
         CU_TENSOR_MAP_SWIZZLE_NONE, CU_TENSOR_MAP_L2_PROMOTION_NONE, CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE);
-    if (encoded != CUDA_SUCCESS) throw std::runtime_error("Tensor map encoding failed: "+std::to_string(encoded));
     Events e;
     check(cudaEventCreate(&e.begin));
     check(cudaEventCreate(&e.end));
@@ -249,6 +267,13 @@ void measure(Memory& m, int threads, int rotation, unsigned node, std::array<Row
         row.order = position;
         row.status = "running";
         stage(names[method]);
+        // Αν απορριφθεί το tensor map, ελέγχουμε κανονικά τους δύο kernels με GPU loads.
+        if (method == 2 && encoded != CUDA_SUCCESS) {
+            row.status = "error";
+            row.message = aligned ? "Tensor map encoding failed: "+std::to_string(encoded) :
+                                    "TMA input address is not 16-byte aligned";
+            continue;
+        }
         if (m.host) row.before = locate(m.host, m.bytes, node);
         check(cudaMemset(m.out, 0, m.bytes));
         check(cudaDeviceSynchronize());
@@ -312,7 +337,7 @@ int main(int argc, char** argv) {
         const std::vector<std::pair<int,int>> tiles = {{32,32},{32,128},{64,64},{128,32},{64,128},{128,64},{128,128}};
         if (std::find(tiles.begin(), tiles.end(), std::make_pair(h,w)) == tiles.end() ||
             bytes < size_t(h*w*4) || bytes > (16ULL << 30) || bytes % (h*w*4) ||
-            (source != "hbm" && source != "pinned" && source != "registered") ||
+            (source != "hbm" && source != "pinned" && source != "registered" && source != "malloc") ||
             (threads != 64 && threads != 128 && threads != 256) || rotation < 0 || rotation > 2)
             throw std::runtime_error("Invalid case parameters");
         Memory m(source, bytes);
@@ -353,6 +378,7 @@ int main(int argc, char** argv) {
                 r.status = r.status == "running" ? "error" : "not_run";
             }
         }
+        for (const auto& r : rows) if (r.status != "ok" && code == 0) code = 2;
         save(path, m, h, w, threads, node, rows);
         stage("finished");
         return code;
