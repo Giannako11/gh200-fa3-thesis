@@ -1,0 +1,32 @@
+STAGE device_check
+GPU=NVIDIA GH200 480GB CPU=36 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+pageableMemoryAccess=1 pageableMemoryAccessUsesHostPageTables=1
+DIAG_POLICY scope=address rc=0 errno=0 mode=0 nodes=
+STAGE measure
+STAGE loads_shared
+STAGE before_gpu
+DIAG_POLICY scope=address rc=0 errno=0 mode=0 nodes=
+DIAG_LOCATION pages=262145 nodes=0:262145; negative_status= query_errno=0
+STAGE after_gpu_before_verification
+DIAG_LOCATION pages=262145 nodes=0:258899;1:3212; negative_status=-2:34; query_errno=0
+STAGE after_verification
+DIAG_LOCATION pages=262145 nodes=0:255983;1:6162; negative_status= query_errno=0
+STAGE tma_shared
+STAGE before_gpu
+DIAG_POLICY scope=address rc=0 errno=0 mode=0 nodes=
+DIAG_LOCATION pages=262145 nodes=0:255983;1:6162; negative_status= query_errno=0
+STAGE after_gpu_before_verification
+DIAG_LOCATION pages=262145 nodes=0:254720;1:7393; negative_status=-2:32; query_errno=0
+STAGE after_verification
+DIAG_LOCATION pages=262145 nodes=0:251015;1:11130; negative_status= query_errno=0
+STAGE loads_direct
+STAGE before_gpu
+DIAG_POLICY scope=address rc=0 errno=0 mode=0 nodes=
+DIAG_LOCATION pages=262145 nodes=0:251015;1:11130; negative_status= query_errno=0
+STAGE after_gpu_before_verification
+DIAG_LOCATION pages=262145 nodes=0:248918;1:13195; negative_status=-2:32; query_errno=0
+STAGE after_verification
+DIAG_LOCATION pages=262145 nodes=0:245067;1:17078; negative_status= query_errno=0
+STAGE finished
