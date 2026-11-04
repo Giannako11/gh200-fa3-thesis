@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make the first 39 TMA figures as PNG files from one sweep's results.csv.
+"""Make 39 original TMA PNGs, or seven PNGs with --malloc-bound-only.
 
 Usage: python thesis/scripts/plots/tma_plots_first.py PATH/TO/results.csv
 Dependencies: matplotlib, numpy. No CUDA or GPU is needed.
@@ -32,7 +32,8 @@ KERNELS = ["loads_direct", "loads_shared", "tma_shared"]
 COLORS = ["#0072B2", "#E69F00", "#009E73"]
 LABELS = ["Regular loads: direct", "Regular loads: shared", "TMA: shared"]
 SOURCE_LABELS = {"hbm": "HBM input", "pinned": "CUDA mapped host input",
-                 "registered": "Registered host input", "malloc": "Plain malloc input"}
+                 "registered": "Registered host input", "malloc": "Plain malloc input",
+                 "malloc_bound": "CPU-bound system input (posix_memalign + mbind)"}
 STATUSES = {"ok", "error", "not_run", "device_fault", "worker_error"}
 FIGURE_COUNT = 39
 
@@ -73,6 +74,11 @@ def parse_tile(text):
 def valid_pair(n, tile):
     tile_bytes = tile[0] * tile[1] * 4
     return n >= tile_bytes and n % tile_bytes == 0
+
+
+def source_selections():
+    singles = [[source] for source in SOURCES]
+    return singles + ([SOURCES] if len(SOURCES) > 1 else [])
 
 
 # Κρατάμε κάθε μέτρηση χωριστά. Δεν βγάζουμε μέσο όρο από διαφορετικά runs.
@@ -227,7 +233,7 @@ def bar_figures(data, writer, tile, fixed_size):
         finite = [v for v in values if math.isfinite(v)]
         scale, unit = (1, "ms") if finite and max(finite) >= 1 else (1000, "µs")
         upper = max(finite) * scale * 1.18 if finite else 1
-        for selected in [[source] for source in SOURCES] + [SOURCES]:
+        for selected in source_selections():
             fig, axes = axes_for(len(selected))
             for ax, source in zip(axes, selected):
                 draw_bars(ax, data, cases, source, labels, scale, unit, upper)
@@ -272,7 +278,7 @@ def speedup_figures(data, writer, tile):
     points = {s: [[ratio(data, n, tile, s, k, s, "tma_shared") for n in SIZES]
                   for k in ["loads_shared", "loads_direct"]] for s in SOURCES}
     limits = ratio_limits([series for source in SOURCES for series in points[source]])
-    for selected in [[s] for s in SOURCES] + [SOURCES]:
+    for selected in source_selections():
         fig, axes = axes_for(len(selected))
         for ax, source in zip(axes, selected):
             draw_curves(ax, points[source], labels, COLORS[:2], "TMA speedup (higher is faster)", limits)
@@ -300,7 +306,7 @@ def heatmap_figures(data, writer):
     norm = Normalize(-limit, limit)
     cmap = plt.get_cmap("RdYlGn").copy()
     cmap.set_bad("#eeeeee")
-    for selected in [[s] for s in SOURCES] + [SOURCES]:
+    for selected in source_selections():
         fig, axes = axes_for(len(selected), heatmap=True)
         for ax, source in zip(axes, selected):
             image = ax.imshow(np.ma.masked_invalid(values[source]), cmap=cmap, norm=norm, aspect="auto")
@@ -351,7 +357,7 @@ def input_rate_figures(data, writer, tile):
     finite = [v for source in SOURCES for series in points[source]
               for v, _ in series if math.isfinite(v)]
     limits = 0, max(finite, default=1) * 1.15
-    for selected in [[s] for s in SOURCES] + [SOURCES]:
+    for selected in source_selections():
         fig, axes = axes_for(len(selected))
         for ax, source in zip(axes, selected):
             draw_curves(ax, points[source], LABELS, COLORS, "Effective input rate (GB/s)",
@@ -403,6 +409,7 @@ def create_output(output_dir=None):
 
 
 def main():
+    global SOURCES, FIGURE_COUNT
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("csv", type=Path, help="One sweep's results.csv")
     parser.add_argument("--output-dir", type=Path,
@@ -410,7 +417,14 @@ def main():
     parser.add_argument("--tile", type=parse_tile, default=(32, 32), help="Fixed tile for size plots (default: 32x32)")
     parser.add_argument("--fixed-size", type=parse_size, default=2**20, help="Input for tile bars (default: 1MiB)")
     parser.add_argument("--dpi", type=int, default=200)
+    parser.add_argument("--malloc-bound-only", action="store_true",
+                        help="Plot one malloc_bound sweep as seven PNGs; preserve its distinct allocation label")
     args = parser.parse_args()
+    SOURCES = ["hbm", "pinned", "registered", "malloc"]
+    FIGURE_COUNT = 39
+    if args.malloc_bound_only:
+        SOURCES = ["malloc_bound"]
+        FIGURE_COUNT = 7
     if args.fixed_size not in SIZES or not all(valid_pair(args.fixed_size, t) for t in TILES):
         parser.error("--fixed-size must be a sweep size from 64KiB to 16GiB so all tiles fit")
     if args.dpi <= 0:
@@ -434,7 +448,8 @@ def main():
         bar_figures(data, writer, args.tile, args.fixed_size)
         speedup_figures(data, writer, args.tile)
         heatmap_figures(data, writer)
-        host_hbm_figures(data, writer, args.tile)
+        if not args.malloc_bound_only:
+            host_hbm_figures(data, writer, args.tile)
         input_rate_figures(data, writer, args.tile)
         with (checks / "plots_index.csv").open("w", newline="", encoding="utf-8") as handle:
             index = csv.writer(handle)
@@ -446,7 +461,8 @@ def main():
                  note, f"Fixed tile: {args.tile[0]}x{args.tile[1]}", f"Tile-comparison input: {size_label(args.fixed_size)}",
                  f"Figures: {len(writer.index)}; format: PNG",
                  "Missing and failed rows are never replaced by zero or interpolated.",
-                 "Host placement is only queried before and after each kernel, not continuously.",
+                 ("Bound placement flag covers before GPU, after GPU before CPU verification, and after verification; checks are snapshots."
+                  if args.malloc_bound_only else "Host placement is only queried before and after each kernel, not continuously."),
                  "Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.",
                  "Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.",
                  "Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.",
