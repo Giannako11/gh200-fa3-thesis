@@ -1,0 +1,8 @@
+group,filename,title
+barplots,time_KiB_malloc_bound.png,Input sizes in KiB | tile 32×32
+barplots,time_MiB_malloc_bound.png,Input sizes in MiB | tile 32×32
+barplots,time_GiB_malloc_bound.png,Input sizes in GiB | tile 32×32
+barplots,time_tiles_1MiB_malloc_bound.png,Tile comparison | input 1 MiB
+speedup,speedup_malloc_bound.png,TMA speedup | tile 32×32
+heatmaps,tiles_speedup_malloc_bound.png,TMA speedup across input sizes and tiles
+input_rate,input_rate_malloc_bound.png,Effective input processing rate | tile 32×32

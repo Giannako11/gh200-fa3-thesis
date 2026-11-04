@@ -1,0 +1,9 @@
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/plots/malloc_bound_sweep_plots_04_11_26
+[###                     ]  1/7 time_KiB_malloc_bound
+[######                  ]  2/7 time_MiB_malloc_bound
+[##########              ]  3/7 time_GiB_malloc_bound
+[#############           ]  4/7 time_tiles_1MiB_malloc_bound
+[#################       ]  5/7 speedup_malloc_bound
+[####################    ]  6/7 tiles_speedup_malloc_bound
+[########################]  7/7 input_rate_malloc_bound
+Saved 7 figures to /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/plots/malloc_bound_sweep_plots_04_11_26

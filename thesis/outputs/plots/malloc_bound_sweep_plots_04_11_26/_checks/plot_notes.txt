@@ -1,0 +1,15 @@
+Input: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/malloc_bound_sweep_20261104T075813Z_v50sc9kq/results.csv
+SHA256: 0b5f439456f7f5aa4861ce1d4580be2d6c80c1572915f6ae3aa5cc7295aff06a
+Benchmark run folder: malloc_bound_sweep_20261104T075813Z_v50sc9kq
+Plot output: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/plots/malloc_bound_sweep_plots_04_11_26
+One timed launch per case; 128 GPU threads/block; no error bars. Recorded 435/435; successful 435.
+Fixed tile: 32x32
+Tile-comparison input: 1 MiB
+Figures: 7; format: PNG
+Missing and failed rows are never replaced by zero or interpolated.
+Bound placement flag covers before GPU, after GPU before CPU verification, and after verification; checks are snapshots.
+Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.
+Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.
+Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.
+No automatic crossover estimate, error bars or averaging from this single-launch sweep.
+checks.csv is an internal check, not a publication figure.
