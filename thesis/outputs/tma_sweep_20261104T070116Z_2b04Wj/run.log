@@ -1,0 +1,1164 @@
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sweep_20261104T070116Z_2b04Wj
+Compiling CUDA benchmark...
+Progress: [------------------------------]   0% (0/580 groups) elapsed=0s
+[1/580] 4KiB tile=32x32 source=hbm elapsed=0s
+Progress: [------------------------------]   0% (1/580 groups) elapsed=0s
+[2/580] 4KiB tile=32x32 source=pinned elapsed=0s
+Progress: [------------------------------]   0% (2/580 groups) elapsed=0s
+[3/580] 4KiB tile=32x32 source=registered elapsed=0s
+Progress: [------------------------------]   0% (3/580 groups) elapsed=0s
+[4/580] 4KiB tile=32x32 source=malloc elapsed=0s
+Progress: [------------------------------]   0% (4/580 groups) elapsed=0s
+[5/580] 8KiB tile=32x32 source=hbm elapsed=0s
+Progress: [------------------------------]   0% (5/580 groups) elapsed=1s
+[6/580] 8KiB tile=32x32 source=pinned elapsed=1s
+Progress: [------------------------------]   1% (6/580 groups) elapsed=1s
+[7/580] 8KiB tile=32x32 source=registered elapsed=1s
+Progress: [------------------------------]   1% (7/580 groups) elapsed=1s
+[8/580] 8KiB tile=32x32 source=malloc elapsed=1s
+Progress: [------------------------------]   1% (8/580 groups) elapsed=1s
+[9/580] 16KiB tile=32x32 source=hbm elapsed=1s
+Progress: [------------------------------]   1% (9/580 groups) elapsed=2s
+[10/580] 16KiB tile=32x32 source=pinned elapsed=2s
+Progress: [------------------------------]   1% (10/580 groups) elapsed=2s
+[11/580] 16KiB tile=32x32 source=registered elapsed=2s
+Progress: [------------------------------]   1% (11/580 groups) elapsed=2s
+[12/580] 16KiB tile=32x32 source=malloc elapsed=2s
+Progress: [------------------------------]   2% (12/580 groups) elapsed=2s
+[13/580] 16KiB tile=32x128 source=hbm elapsed=2s
+Progress: [------------------------------]   2% (13/580 groups) elapsed=3s
+[14/580] 16KiB tile=32x128 source=pinned elapsed=3s
+Progress: [------------------------------]   2% (14/580 groups) elapsed=3s
+[15/580] 16KiB tile=32x128 source=registered elapsed=3s
+Progress: [------------------------------]   2% (15/580 groups) elapsed=3s
+[16/580] 16KiB tile=32x128 source=malloc elapsed=3s
+Progress: [------------------------------]   2% (16/580 groups) elapsed=3s
+[17/580] 16KiB tile=64x64 source=hbm elapsed=3s
+Progress: [------------------------------]   2% (17/580 groups) elapsed=3s
+[18/580] 16KiB tile=64x64 source=pinned elapsed=3s
+Progress: [------------------------------]   3% (18/580 groups) elapsed=4s
+[19/580] 16KiB tile=64x64 source=registered elapsed=4s
+Progress: [------------------------------]   3% (19/580 groups) elapsed=4s
+[20/580] 16KiB tile=64x64 source=malloc elapsed=4s
+Progress: [#-----------------------------]   3% (20/580 groups) elapsed=4s
+[21/580] 16KiB tile=128x32 source=hbm elapsed=4s
+Progress: [#-----------------------------]   3% (21/580 groups) elapsed=4s
+[22/580] 16KiB tile=128x32 source=pinned elapsed=4s
+Progress: [#-----------------------------]   3% (22/580 groups) elapsed=5s
+[23/580] 16KiB tile=128x32 source=registered elapsed=5s
+Progress: [#-----------------------------]   3% (23/580 groups) elapsed=5s
+[24/580] 16KiB tile=128x32 source=malloc elapsed=5s
+Progress: [#-----------------------------]   4% (24/580 groups) elapsed=5s
+[25/580] 32KiB tile=32x32 source=hbm elapsed=5s
+Progress: [#-----------------------------]   4% (25/580 groups) elapsed=5s
+[26/580] 32KiB tile=32x32 source=pinned elapsed=5s
+Progress: [#-----------------------------]   4% (26/580 groups) elapsed=6s
+[27/580] 32KiB tile=32x32 source=registered elapsed=6s
+Progress: [#-----------------------------]   4% (27/580 groups) elapsed=6s
+[28/580] 32KiB tile=32x32 source=malloc elapsed=6s
+Progress: [#-----------------------------]   4% (28/580 groups) elapsed=6s
+[29/580] 32KiB tile=32x128 source=hbm elapsed=6s
+Progress: [#-----------------------------]   5% (29/580 groups) elapsed=6s
+[30/580] 32KiB tile=32x128 source=pinned elapsed=6s
+Progress: [#-----------------------------]   5% (30/580 groups) elapsed=7s
+[31/580] 32KiB tile=32x128 source=registered elapsed=7s
+Progress: [#-----------------------------]   5% (31/580 groups) elapsed=7s
+[32/580] 32KiB tile=32x128 source=malloc elapsed=7s
+Progress: [#-----------------------------]   5% (32/580 groups) elapsed=7s
+[33/580] 32KiB tile=64x64 source=hbm elapsed=7s
+Progress: [#-----------------------------]   5% (33/580 groups) elapsed=7s
+[34/580] 32KiB tile=64x64 source=pinned elapsed=7s
+Progress: [#-----------------------------]   5% (34/580 groups) elapsed=7s
+[35/580] 32KiB tile=64x64 source=registered elapsed=7s
+Progress: [#-----------------------------]   6% (35/580 groups) elapsed=8s
+[36/580] 32KiB tile=64x64 source=malloc elapsed=8s
+Progress: [#-----------------------------]   6% (36/580 groups) elapsed=8s
+[37/580] 32KiB tile=128x32 source=hbm elapsed=8s
+Progress: [#-----------------------------]   6% (37/580 groups) elapsed=8s
+[38/580] 32KiB tile=128x32 source=pinned elapsed=8s
+Progress: [#-----------------------------]   6% (38/580 groups) elapsed=8s
+[39/580] 32KiB tile=128x32 source=registered elapsed=8s
+Progress: [##----------------------------]   6% (39/580 groups) elapsed=9s
+[40/580] 32KiB tile=128x32 source=malloc elapsed=9s
+Progress: [##----------------------------]   6% (40/580 groups) elapsed=9s
+[41/580] 32KiB tile=64x128 source=hbm elapsed=9s
+Progress: [##----------------------------]   7% (41/580 groups) elapsed=9s
+[42/580] 32KiB tile=64x128 source=pinned elapsed=9s
+Progress: [##----------------------------]   7% (42/580 groups) elapsed=9s
+[43/580] 32KiB tile=64x128 source=registered elapsed=9s
+Progress: [##----------------------------]   7% (43/580 groups) elapsed=10s
+[44/580] 32KiB tile=64x128 source=malloc elapsed=10s
+Progress: [##----------------------------]   7% (44/580 groups) elapsed=10s
+[45/580] 32KiB tile=128x64 source=hbm elapsed=10s
+Progress: [##----------------------------]   7% (45/580 groups) elapsed=10s
+[46/580] 32KiB tile=128x64 source=pinned elapsed=10s
+Progress: [##----------------------------]   7% (46/580 groups) elapsed=10s
+[47/580] 32KiB tile=128x64 source=registered elapsed=10s
+Progress: [##----------------------------]   8% (47/580 groups) elapsed=11s
+[48/580] 32KiB tile=128x64 source=malloc elapsed=11s
+Progress: [##----------------------------]   8% (48/580 groups) elapsed=11s
+[49/580] 64KiB tile=32x32 source=hbm elapsed=11s
+Progress: [##----------------------------]   8% (49/580 groups) elapsed=11s
+[50/580] 64KiB tile=32x32 source=pinned elapsed=11s
+Progress: [##----------------------------]   8% (50/580 groups) elapsed=11s
+[51/580] 64KiB tile=32x32 source=registered elapsed=11s
+Progress: [##----------------------------]   8% (51/580 groups) elapsed=12s
+[52/580] 64KiB tile=32x32 source=malloc elapsed=12s
+Progress: [##----------------------------]   8% (52/580 groups) elapsed=12s
+[53/580] 64KiB tile=32x128 source=hbm elapsed=12s
+Progress: [##----------------------------]   9% (53/580 groups) elapsed=12s
+[54/580] 64KiB tile=32x128 source=pinned elapsed=12s
+Progress: [##----------------------------]   9% (54/580 groups) elapsed=12s
+[55/580] 64KiB tile=32x128 source=registered elapsed=12s
+Progress: [##----------------------------]   9% (55/580 groups) elapsed=13s
+[56/580] 64KiB tile=32x128 source=malloc elapsed=13s
+Progress: [##----------------------------]   9% (56/580 groups) elapsed=13s
+[57/580] 64KiB tile=64x64 source=hbm elapsed=13s
+Progress: [##----------------------------]   9% (57/580 groups) elapsed=13s
+[58/580] 64KiB tile=64x64 source=pinned elapsed=13s
+Progress: [###---------------------------]  10% (58/580 groups) elapsed=13s
+[59/580] 64KiB tile=64x64 source=registered elapsed=13s
+Progress: [###---------------------------]  10% (59/580 groups) elapsed=14s
+[60/580] 64KiB tile=64x64 source=malloc elapsed=14s
+Progress: [###---------------------------]  10% (60/580 groups) elapsed=14s
+[61/580] 64KiB tile=128x32 source=hbm elapsed=14s
+Progress: [###---------------------------]  10% (61/580 groups) elapsed=14s
+[62/580] 64KiB tile=128x32 source=pinned elapsed=14s
+Progress: [###---------------------------]  10% (62/580 groups) elapsed=14s
+[63/580] 64KiB tile=128x32 source=registered elapsed=14s
+Progress: [###---------------------------]  10% (63/580 groups) elapsed=15s
+[64/580] 64KiB tile=128x32 source=malloc elapsed=15s
+Progress: [###---------------------------]  11% (64/580 groups) elapsed=15s
+[65/580] 64KiB tile=64x128 source=hbm elapsed=15s
+Progress: [###---------------------------]  11% (65/580 groups) elapsed=15s
+[66/580] 64KiB tile=64x128 source=pinned elapsed=15s
+Progress: [###---------------------------]  11% (66/580 groups) elapsed=15s
+[67/580] 64KiB tile=64x128 source=registered elapsed=15s
+Progress: [###---------------------------]  11% (67/580 groups) elapsed=16s
+[68/580] 64KiB tile=64x128 source=malloc elapsed=16s
+Progress: [###---------------------------]  11% (68/580 groups) elapsed=16s
+[69/580] 64KiB tile=128x64 source=hbm elapsed=16s
+Progress: [###---------------------------]  11% (69/580 groups) elapsed=16s
+[70/580] 64KiB tile=128x64 source=pinned elapsed=16s
+Progress: [###---------------------------]  12% (70/580 groups) elapsed=17s
+[71/580] 64KiB tile=128x64 source=registered elapsed=17s
+Progress: [###---------------------------]  12% (71/580 groups) elapsed=17s
+[72/580] 64KiB tile=128x64 source=malloc elapsed=17s
+Progress: [###---------------------------]  12% (72/580 groups) elapsed=17s
+[73/580] 64KiB tile=128x128 source=hbm elapsed=17s
+Progress: [###---------------------------]  12% (73/580 groups) elapsed=17s
+[74/580] 64KiB tile=128x128 source=pinned elapsed=17s
+Progress: [###---------------------------]  12% (74/580 groups) elapsed=18s
+[75/580] 64KiB tile=128x128 source=registered elapsed=18s
+Progress: [###---------------------------]  12% (75/580 groups) elapsed=18s
+[76/580] 64KiB tile=128x128 source=malloc elapsed=18s
+Progress: [###---------------------------]  13% (76/580 groups) elapsed=18s
+[77/580] 128KiB tile=32x32 source=hbm elapsed=18s
+Progress: [###---------------------------]  13% (77/580 groups) elapsed=18s
+[78/580] 128KiB tile=32x32 source=pinned elapsed=18s
+Progress: [####--------------------------]  13% (78/580 groups) elapsed=19s
+[79/580] 128KiB tile=32x32 source=registered elapsed=19s
+Progress: [####--------------------------]  13% (79/580 groups) elapsed=19s
+[80/580] 128KiB tile=32x32 source=malloc elapsed=19s
+Progress: [####--------------------------]  13% (80/580 groups) elapsed=19s
+[81/580] 128KiB tile=32x128 source=hbm elapsed=19s
+Progress: [####--------------------------]  13% (81/580 groups) elapsed=19s
+[82/580] 128KiB tile=32x128 source=pinned elapsed=19s
+Progress: [####--------------------------]  14% (82/580 groups) elapsed=20s
+[83/580] 128KiB tile=32x128 source=registered elapsed=20s
+Progress: [####--------------------------]  14% (83/580 groups) elapsed=20s
+[84/580] 128KiB tile=32x128 source=malloc elapsed=20s
+Progress: [####--------------------------]  14% (84/580 groups) elapsed=20s
+[85/580] 128KiB tile=64x64 source=hbm elapsed=20s
+Progress: [####--------------------------]  14% (85/580 groups) elapsed=20s
+[86/580] 128KiB tile=64x64 source=pinned elapsed=20s
+Progress: [####--------------------------]  14% (86/580 groups) elapsed=21s
+[87/580] 128KiB tile=64x64 source=registered elapsed=21s
+Progress: [####--------------------------]  15% (87/580 groups) elapsed=21s
+[88/580] 128KiB tile=64x64 source=malloc elapsed=21s
+Progress: [####--------------------------]  15% (88/580 groups) elapsed=21s
+[89/580] 128KiB tile=128x32 source=hbm elapsed=21s
+Progress: [####--------------------------]  15% (89/580 groups) elapsed=22s
+[90/580] 128KiB tile=128x32 source=pinned elapsed=22s
+Progress: [####--------------------------]  15% (90/580 groups) elapsed=22s
+[91/580] 128KiB tile=128x32 source=registered elapsed=22s
+Progress: [####--------------------------]  15% (91/580 groups) elapsed=22s
+[92/580] 128KiB tile=128x32 source=malloc elapsed=22s
+Progress: [####--------------------------]  15% (92/580 groups) elapsed=22s
+[93/580] 128KiB tile=64x128 source=hbm elapsed=22s
+Progress: [####--------------------------]  16% (93/580 groups) elapsed=23s
+[94/580] 128KiB tile=64x128 source=pinned elapsed=23s
+Progress: [####--------------------------]  16% (94/580 groups) elapsed=23s
+[95/580] 128KiB tile=64x128 source=registered elapsed=23s
+Progress: [####--------------------------]  16% (95/580 groups) elapsed=23s
+[96/580] 128KiB tile=64x128 source=malloc elapsed=23s
+Progress: [####--------------------------]  16% (96/580 groups) elapsed=23s
+[97/580] 128KiB tile=128x64 source=hbm elapsed=23s
+Progress: [#####-------------------------]  16% (97/580 groups) elapsed=24s
+[98/580] 128KiB tile=128x64 source=pinned elapsed=24s
+Progress: [#####-------------------------]  16% (98/580 groups) elapsed=24s
+[99/580] 128KiB tile=128x64 source=registered elapsed=24s
+Progress: [#####-------------------------]  17% (99/580 groups) elapsed=24s
+[100/580] 128KiB tile=128x64 source=malloc elapsed=24s
+Progress: [#####-------------------------]  17% (100/580 groups) elapsed=25s
+[101/580] 128KiB tile=128x128 source=hbm elapsed=25s
+Progress: [#####-------------------------]  17% (101/580 groups) elapsed=25s
+[102/580] 128KiB tile=128x128 source=pinned elapsed=25s
+Progress: [#####-------------------------]  17% (102/580 groups) elapsed=25s
+[103/580] 128KiB tile=128x128 source=registered elapsed=25s
+Progress: [#####-------------------------]  17% (103/580 groups) elapsed=25s
+[104/580] 128KiB tile=128x128 source=malloc elapsed=25s
+Progress: [#####-------------------------]  17% (104/580 groups) elapsed=26s
+[105/580] 256KiB tile=32x32 source=hbm elapsed=26s
+Progress: [#####-------------------------]  18% (105/580 groups) elapsed=26s
+[106/580] 256KiB tile=32x32 source=pinned elapsed=26s
+Progress: [#####-------------------------]  18% (106/580 groups) elapsed=26s
+[107/580] 256KiB tile=32x32 source=registered elapsed=26s
+Progress: [#####-------------------------]  18% (107/580 groups) elapsed=27s
+[108/580] 256KiB tile=32x32 source=malloc elapsed=27s
+Progress: [#####-------------------------]  18% (108/580 groups) elapsed=27s
+[109/580] 256KiB tile=32x128 source=hbm elapsed=27s
+Progress: [#####-------------------------]  18% (109/580 groups) elapsed=27s
+[110/580] 256KiB tile=32x128 source=pinned elapsed=27s
+Progress: [#####-------------------------]  18% (110/580 groups) elapsed=27s
+[111/580] 256KiB tile=32x128 source=registered elapsed=27s
+Progress: [#####-------------------------]  19% (111/580 groups) elapsed=28s
+[112/580] 256KiB tile=32x128 source=malloc elapsed=28s
+Progress: [#####-------------------------]  19% (112/580 groups) elapsed=28s
+[113/580] 256KiB tile=64x64 source=hbm elapsed=28s
+Progress: [#####-------------------------]  19% (113/580 groups) elapsed=28s
+[114/580] 256KiB tile=64x64 source=pinned elapsed=28s
+Progress: [#####-------------------------]  19% (114/580 groups) elapsed=28s
+[115/580] 256KiB tile=64x64 source=registered elapsed=28s
+Progress: [#####-------------------------]  19% (115/580 groups) elapsed=29s
+[116/580] 256KiB tile=64x64 source=malloc elapsed=29s
+Progress: [######------------------------]  20% (116/580 groups) elapsed=29s
+[117/580] 256KiB tile=128x32 source=hbm elapsed=29s
+Progress: [######------------------------]  20% (117/580 groups) elapsed=29s
+[118/580] 256KiB tile=128x32 source=pinned elapsed=29s
+Progress: [######------------------------]  20% (118/580 groups) elapsed=30s
+[119/580] 256KiB tile=128x32 source=registered elapsed=30s
+Progress: [######------------------------]  20% (119/580 groups) elapsed=30s
+[120/580] 256KiB tile=128x32 source=malloc elapsed=30s
+Progress: [######------------------------]  20% (120/580 groups) elapsed=30s
+[121/580] 256KiB tile=64x128 source=hbm elapsed=30s
+Progress: [######------------------------]  20% (121/580 groups) elapsed=30s
+[122/580] 256KiB tile=64x128 source=pinned elapsed=30s
+Progress: [######------------------------]  21% (122/580 groups) elapsed=31s
+[123/580] 256KiB tile=64x128 source=registered elapsed=31s
+Progress: [######------------------------]  21% (123/580 groups) elapsed=31s
+[124/580] 256KiB tile=64x128 source=malloc elapsed=31s
+Progress: [######------------------------]  21% (124/580 groups) elapsed=31s
+[125/580] 256KiB tile=128x64 source=hbm elapsed=31s
+Progress: [######------------------------]  21% (125/580 groups) elapsed=32s
+[126/580] 256KiB tile=128x64 source=pinned elapsed=32s
+Progress: [######------------------------]  21% (126/580 groups) elapsed=32s
+[127/580] 256KiB tile=128x64 source=registered elapsed=32s
+Progress: [######------------------------]  21% (127/580 groups) elapsed=32s
+[128/580] 256KiB tile=128x64 source=malloc elapsed=32s
+Progress: [######------------------------]  22% (128/580 groups) elapsed=32s
+[129/580] 256KiB tile=128x128 source=hbm elapsed=32s
+Progress: [######------------------------]  22% (129/580 groups) elapsed=33s
+[130/580] 256KiB tile=128x128 source=pinned elapsed=33s
+Progress: [######------------------------]  22% (130/580 groups) elapsed=33s
+[131/580] 256KiB tile=128x128 source=registered elapsed=33s
+Progress: [######------------------------]  22% (131/580 groups) elapsed=33s
+[132/580] 256KiB tile=128x128 source=malloc elapsed=33s
+Progress: [######------------------------]  22% (132/580 groups) elapsed=34s
+[133/580] 512KiB tile=32x32 source=hbm elapsed=34s
+Progress: [######------------------------]  22% (133/580 groups) elapsed=34s
+[134/580] 512KiB tile=32x32 source=pinned elapsed=34s
+Progress: [######------------------------]  23% (134/580 groups) elapsed=34s
+[135/580] 512KiB tile=32x32 source=registered elapsed=34s
+Progress: [######------------------------]  23% (135/580 groups) elapsed=35s
+[136/580] 512KiB tile=32x32 source=malloc elapsed=35s
+Progress: [#######-----------------------]  23% (136/580 groups) elapsed=35s
+[137/580] 512KiB tile=32x128 source=hbm elapsed=35s
+Progress: [#######-----------------------]  23% (137/580 groups) elapsed=35s
+[138/580] 512KiB tile=32x128 source=pinned elapsed=35s
+Progress: [#######-----------------------]  23% (138/580 groups) elapsed=35s
+[139/580] 512KiB tile=32x128 source=registered elapsed=35s
+Progress: [#######-----------------------]  23% (139/580 groups) elapsed=36s
+[140/580] 512KiB tile=32x128 source=malloc elapsed=36s
+Progress: [#######-----------------------]  24% (140/580 groups) elapsed=36s
+[141/580] 512KiB tile=64x64 source=hbm elapsed=36s
+Progress: [#######-----------------------]  24% (141/580 groups) elapsed=36s
+[142/580] 512KiB tile=64x64 source=pinned elapsed=36s
+Progress: [#######-----------------------]  24% (142/580 groups) elapsed=37s
+[143/580] 512KiB tile=64x64 source=registered elapsed=37s
+Progress: [#######-----------------------]  24% (143/580 groups) elapsed=37s
+[144/580] 512KiB tile=64x64 source=malloc elapsed=37s
+Progress: [#######-----------------------]  24% (144/580 groups) elapsed=37s
+[145/580] 512KiB tile=128x32 source=hbm elapsed=37s
+Progress: [#######-----------------------]  25% (145/580 groups) elapsed=38s
+[146/580] 512KiB tile=128x32 source=pinned elapsed=38s
+Progress: [#######-----------------------]  25% (146/580 groups) elapsed=38s
+[147/580] 512KiB tile=128x32 source=registered elapsed=38s
+Progress: [#######-----------------------]  25% (147/580 groups) elapsed=38s
+[148/580] 512KiB tile=128x32 source=malloc elapsed=38s
+Progress: [#######-----------------------]  25% (148/580 groups) elapsed=38s
+[149/580] 512KiB tile=64x128 source=hbm elapsed=38s
+Progress: [#######-----------------------]  25% (149/580 groups) elapsed=39s
+[150/580] 512KiB tile=64x128 source=pinned elapsed=39s
+Progress: [#######-----------------------]  25% (150/580 groups) elapsed=39s
+[151/580] 512KiB tile=64x128 source=registered elapsed=39s
+Progress: [#######-----------------------]  26% (151/580 groups) elapsed=39s
+[152/580] 512KiB tile=64x128 source=malloc elapsed=39s
+Progress: [#######-----------------------]  26% (152/580 groups) elapsed=40s
+[153/580] 512KiB tile=128x64 source=hbm elapsed=40s
+Progress: [#######-----------------------]  26% (153/580 groups) elapsed=40s
+[154/580] 512KiB tile=128x64 source=pinned elapsed=40s
+Progress: [#######-----------------------]  26% (154/580 groups) elapsed=40s
+[155/580] 512KiB tile=128x64 source=registered elapsed=40s
+Progress: [########----------------------]  26% (155/580 groups) elapsed=41s
+[156/580] 512KiB tile=128x64 source=malloc elapsed=41s
+Progress: [########----------------------]  26% (156/580 groups) elapsed=41s
+[157/580] 512KiB tile=128x128 source=hbm elapsed=41s
+Progress: [########----------------------]  27% (157/580 groups) elapsed=41s
+[158/580] 512KiB tile=128x128 source=pinned elapsed=41s
+Progress: [########----------------------]  27% (158/580 groups) elapsed=41s
+[159/580] 512KiB tile=128x128 source=registered elapsed=41s
+Progress: [########----------------------]  27% (159/580 groups) elapsed=42s
+[160/580] 512KiB tile=128x128 source=malloc elapsed=42s
+Progress: [########----------------------]  27% (160/580 groups) elapsed=42s
+[161/580] 1MiB tile=32x32 source=hbm elapsed=42s
+Progress: [########----------------------]  27% (161/580 groups) elapsed=42s
+[162/580] 1MiB tile=32x32 source=pinned elapsed=42s
+Progress: [########----------------------]  27% (162/580 groups) elapsed=43s
+[163/580] 1MiB tile=32x32 source=registered elapsed=43s
+Progress: [########----------------------]  28% (163/580 groups) elapsed=43s
+[164/580] 1MiB tile=32x32 source=malloc elapsed=43s
+Progress: [########----------------------]  28% (164/580 groups) elapsed=43s
+[165/580] 1MiB tile=32x128 source=hbm elapsed=43s
+Progress: [########----------------------]  28% (165/580 groups) elapsed=44s
+[166/580] 1MiB tile=32x128 source=pinned elapsed=44s
+Progress: [########----------------------]  28% (166/580 groups) elapsed=44s
+[167/580] 1MiB tile=32x128 source=registered elapsed=44s
+Progress: [########----------------------]  28% (167/580 groups) elapsed=44s
+[168/580] 1MiB tile=32x128 source=malloc elapsed=44s
+Progress: [########----------------------]  28% (168/580 groups) elapsed=45s
+[169/580] 1MiB tile=64x64 source=hbm elapsed=45s
+Progress: [########----------------------]  29% (169/580 groups) elapsed=45s
+[170/580] 1MiB tile=64x64 source=pinned elapsed=45s
+Progress: [########----------------------]  29% (170/580 groups) elapsed=45s
+[171/580] 1MiB tile=64x64 source=registered elapsed=45s
+Progress: [########----------------------]  29% (171/580 groups) elapsed=45s
+[172/580] 1MiB tile=64x64 source=malloc elapsed=45s
+Progress: [########----------------------]  29% (172/580 groups) elapsed=46s
+[173/580] 1MiB tile=128x32 source=hbm elapsed=46s
+Progress: [########----------------------]  29% (173/580 groups) elapsed=46s
+[174/580] 1MiB tile=128x32 source=pinned elapsed=46s
+Progress: [#########---------------------]  30% (174/580 groups) elapsed=46s
+[175/580] 1MiB tile=128x32 source=registered elapsed=46s
+Progress: [#########---------------------]  30% (175/580 groups) elapsed=47s
+[176/580] 1MiB tile=128x32 source=malloc elapsed=47s
+Progress: [#########---------------------]  30% (176/580 groups) elapsed=47s
+[177/580] 1MiB tile=64x128 source=hbm elapsed=47s
+Progress: [#########---------------------]  30% (177/580 groups) elapsed=47s
+[178/580] 1MiB tile=64x128 source=pinned elapsed=47s
+Progress: [#########---------------------]  30% (178/580 groups) elapsed=48s
+[179/580] 1MiB tile=64x128 source=registered elapsed=48s
+Progress: [#########---------------------]  30% (179/580 groups) elapsed=48s
+[180/580] 1MiB tile=64x128 source=malloc elapsed=48s
+Progress: [#########---------------------]  31% (180/580 groups) elapsed=48s
+[181/580] 1MiB tile=128x64 source=hbm elapsed=48s
+Progress: [#########---------------------]  31% (181/580 groups) elapsed=49s
+[182/580] 1MiB tile=128x64 source=pinned elapsed=49s
+Progress: [#########---------------------]  31% (182/580 groups) elapsed=49s
+[183/580] 1MiB tile=128x64 source=registered elapsed=49s
+Progress: [#########---------------------]  31% (183/580 groups) elapsed=49s
+[184/580] 1MiB tile=128x64 source=malloc elapsed=49s
+Progress: [#########---------------------]  31% (184/580 groups) elapsed=50s
+[185/580] 1MiB tile=128x128 source=hbm elapsed=50s
+Progress: [#########---------------------]  31% (185/580 groups) elapsed=50s
+[186/580] 1MiB tile=128x128 source=pinned elapsed=50s
+Progress: [#########---------------------]  32% (186/580 groups) elapsed=50s
+[187/580] 1MiB tile=128x128 source=registered elapsed=50s
+Progress: [#########---------------------]  32% (187/580 groups) elapsed=51s
+[188/580] 1MiB tile=128x128 source=malloc elapsed=51s
+Progress: [#########---------------------]  32% (188/580 groups) elapsed=51s
+[189/580] 2MiB tile=32x32 source=hbm elapsed=51s
+Progress: [#########---------------------]  32% (189/580 groups) elapsed=51s
+[190/580] 2MiB tile=32x32 source=pinned elapsed=51s
+Progress: [#########---------------------]  32% (190/580 groups) elapsed=51s
+[191/580] 2MiB tile=32x32 source=registered elapsed=51s
+Progress: [#########---------------------]  32% (191/580 groups) elapsed=52s
+[192/580] 2MiB tile=32x32 source=malloc elapsed=52s
+Progress: [#########---------------------]  33% (192/580 groups) elapsed=52s
+[193/580] 2MiB tile=32x128 source=hbm elapsed=52s
+Progress: [#########---------------------]  33% (193/580 groups) elapsed=52s
+[194/580] 2MiB tile=32x128 source=pinned elapsed=52s
+Progress: [##########--------------------]  33% (194/580 groups) elapsed=53s
+[195/580] 2MiB tile=32x128 source=registered elapsed=53s
+Progress: [##########--------------------]  33% (195/580 groups) elapsed=53s
+[196/580] 2MiB tile=32x128 source=malloc elapsed=53s
+Progress: [##########--------------------]  33% (196/580 groups) elapsed=53s
+[197/580] 2MiB tile=64x64 source=hbm elapsed=53s
+Progress: [##########--------------------]  33% (197/580 groups) elapsed=54s
+[198/580] 2MiB tile=64x64 source=pinned elapsed=54s
+Progress: [##########--------------------]  34% (198/580 groups) elapsed=54s
+[199/580] 2MiB tile=64x64 source=registered elapsed=54s
+Progress: [##########--------------------]  34% (199/580 groups) elapsed=54s
+[200/580] 2MiB tile=64x64 source=malloc elapsed=54s
+Progress: [##########--------------------]  34% (200/580 groups) elapsed=55s
+[201/580] 2MiB tile=128x32 source=hbm elapsed=55s
+Progress: [##########--------------------]  34% (201/580 groups) elapsed=55s
+[202/580] 2MiB tile=128x32 source=pinned elapsed=55s
+Progress: [##########--------------------]  34% (202/580 groups) elapsed=55s
+[203/580] 2MiB tile=128x32 source=registered elapsed=55s
+Progress: [##########--------------------]  35% (203/580 groups) elapsed=56s
+[204/580] 2MiB tile=128x32 source=malloc elapsed=56s
+Progress: [##########--------------------]  35% (204/580 groups) elapsed=56s
+[205/580] 2MiB tile=64x128 source=hbm elapsed=56s
+Progress: [##########--------------------]  35% (205/580 groups) elapsed=56s
+[206/580] 2MiB tile=64x128 source=pinned elapsed=56s
+Progress: [##########--------------------]  35% (206/580 groups) elapsed=57s
+[207/580] 2MiB tile=64x128 source=registered elapsed=57s
+Progress: [##########--------------------]  35% (207/580 groups) elapsed=57s
+[208/580] 2MiB tile=64x128 source=malloc elapsed=57s
+Progress: [##########--------------------]  35% (208/580 groups) elapsed=57s
+[209/580] 2MiB tile=128x64 source=hbm elapsed=57s
+Progress: [##########--------------------]  36% (209/580 groups) elapsed=58s
+[210/580] 2MiB tile=128x64 source=pinned elapsed=58s
+Progress: [##########--------------------]  36% (210/580 groups) elapsed=58s
+[211/580] 2MiB tile=128x64 source=registered elapsed=58s
+Progress: [##########--------------------]  36% (211/580 groups) elapsed=58s
+[212/580] 2MiB tile=128x64 source=malloc elapsed=58s
+Progress: [##########--------------------]  36% (212/580 groups) elapsed=59s
+[213/580] 2MiB tile=128x128 source=hbm elapsed=59s
+Progress: [###########-------------------]  36% (213/580 groups) elapsed=59s
+[214/580] 2MiB tile=128x128 source=pinned elapsed=59s
+Progress: [###########-------------------]  36% (214/580 groups) elapsed=59s
+[215/580] 2MiB tile=128x128 source=registered elapsed=59s
+Progress: [###########-------------------]  37% (215/580 groups) elapsed=60s
+[216/580] 2MiB tile=128x128 source=malloc elapsed=60s
+Progress: [###########-------------------]  37% (216/580 groups) elapsed=60s
+[217/580] 4MiB tile=32x32 source=hbm elapsed=60s
+Progress: [###########-------------------]  37% (217/580 groups) elapsed=60s
+[218/580] 4MiB tile=32x32 source=pinned elapsed=60s
+Progress: [###########-------------------]  37% (218/580 groups) elapsed=61s
+[219/580] 4MiB tile=32x32 source=registered elapsed=61s
+Progress: [###########-------------------]  37% (219/580 groups) elapsed=61s
+[220/580] 4MiB tile=32x32 source=malloc elapsed=61s
+Progress: [###########-------------------]  37% (220/580 groups) elapsed=61s
+[221/580] 4MiB tile=32x128 source=hbm elapsed=61s
+Progress: [###########-------------------]  38% (221/580 groups) elapsed=62s
+[222/580] 4MiB tile=32x128 source=pinned elapsed=62s
+Progress: [###########-------------------]  38% (222/580 groups) elapsed=62s
+[223/580] 4MiB tile=32x128 source=registered elapsed=62s
+Progress: [###########-------------------]  38% (223/580 groups) elapsed=63s
+[224/580] 4MiB tile=32x128 source=malloc elapsed=63s
+Progress: [###########-------------------]  38% (224/580 groups) elapsed=63s
+[225/580] 4MiB tile=64x64 source=hbm elapsed=63s
+Progress: [###########-------------------]  38% (225/580 groups) elapsed=63s
+[226/580] 4MiB tile=64x64 source=pinned elapsed=63s
+Progress: [###########-------------------]  38% (226/580 groups) elapsed=64s
+[227/580] 4MiB tile=64x64 source=registered elapsed=64s
+Progress: [###########-------------------]  39% (227/580 groups) elapsed=64s
+[228/580] 4MiB tile=64x64 source=malloc elapsed=64s
+Progress: [###########-------------------]  39% (228/580 groups) elapsed=64s
+[229/580] 4MiB tile=128x32 source=hbm elapsed=64s
+Progress: [###########-------------------]  39% (229/580 groups) elapsed=65s
+[230/580] 4MiB tile=128x32 source=pinned elapsed=65s
+Progress: [###########-------------------]  39% (230/580 groups) elapsed=65s
+[231/580] 4MiB tile=128x32 source=registered elapsed=65s
+Progress: [###########-------------------]  39% (231/580 groups) elapsed=65s
+[232/580] 4MiB tile=128x32 source=malloc elapsed=65s
+Progress: [############------------------]  40% (232/580 groups) elapsed=66s
+[233/580] 4MiB tile=64x128 source=hbm elapsed=66s
+Progress: [############------------------]  40% (233/580 groups) elapsed=66s
+[234/580] 4MiB tile=64x128 source=pinned elapsed=66s
+Progress: [############------------------]  40% (234/580 groups) elapsed=66s
+[235/580] 4MiB tile=64x128 source=registered elapsed=66s
+Progress: [############------------------]  40% (235/580 groups) elapsed=67s
+[236/580] 4MiB tile=64x128 source=malloc elapsed=67s
+Progress: [############------------------]  40% (236/580 groups) elapsed=67s
+[237/580] 4MiB tile=128x64 source=hbm elapsed=67s
+Progress: [############------------------]  40% (237/580 groups) elapsed=67s
+[238/580] 4MiB tile=128x64 source=pinned elapsed=67s
+Progress: [############------------------]  41% (238/580 groups) elapsed=68s
+[239/580] 4MiB tile=128x64 source=registered elapsed=68s
+Progress: [############------------------]  41% (239/580 groups) elapsed=68s
+[240/580] 4MiB tile=128x64 source=malloc elapsed=68s
+Progress: [############------------------]  41% (240/580 groups) elapsed=68s
+[241/580] 4MiB tile=128x128 source=hbm elapsed=68s
+Progress: [############------------------]  41% (241/580 groups) elapsed=69s
+[242/580] 4MiB tile=128x128 source=pinned elapsed=69s
+Progress: [############------------------]  41% (242/580 groups) elapsed=69s
+[243/580] 4MiB tile=128x128 source=registered elapsed=69s
+Progress: [############------------------]  41% (243/580 groups) elapsed=69s
+[244/580] 4MiB tile=128x128 source=malloc elapsed=69s
+Progress: [############------------------]  42% (244/580 groups) elapsed=70s
+[245/580] 8MiB tile=32x32 source=hbm elapsed=70s
+Progress: [############------------------]  42% (245/580 groups) elapsed=70s
+[246/580] 8MiB tile=32x32 source=pinned elapsed=70s
+Progress: [############------------------]  42% (246/580 groups) elapsed=71s
+[247/580] 8MiB tile=32x32 source=registered elapsed=71s
+Progress: [############------------------]  42% (247/580 groups) elapsed=71s
+[248/580] 8MiB tile=32x32 source=malloc elapsed=71s
+Progress: [############------------------]  42% (248/580 groups) elapsed=71s
+[249/580] 8MiB tile=32x128 source=hbm elapsed=71s
+Progress: [############------------------]  42% (249/580 groups) elapsed=72s
+[250/580] 8MiB tile=32x128 source=pinned elapsed=72s
+Progress: [############------------------]  43% (250/580 groups) elapsed=72s
+[251/580] 8MiB tile=32x128 source=registered elapsed=72s
+Progress: [############------------------]  43% (251/580 groups) elapsed=72s
+[252/580] 8MiB tile=32x128 source=malloc elapsed=72s
+Progress: [#############-----------------]  43% (252/580 groups) elapsed=73s
+[253/580] 8MiB tile=64x64 source=hbm elapsed=73s
+Progress: [#############-----------------]  43% (253/580 groups) elapsed=73s
+[254/580] 8MiB tile=64x64 source=pinned elapsed=73s
+Progress: [#############-----------------]  43% (254/580 groups) elapsed=73s
+[255/580] 8MiB tile=64x64 source=registered elapsed=73s
+Progress: [#############-----------------]  43% (255/580 groups) elapsed=74s
+[256/580] 8MiB tile=64x64 source=malloc elapsed=74s
+Progress: [#############-----------------]  44% (256/580 groups) elapsed=74s
+[257/580] 8MiB tile=128x32 source=hbm elapsed=74s
+Progress: [#############-----------------]  44% (257/580 groups) elapsed=74s
+[258/580] 8MiB tile=128x32 source=pinned elapsed=74s
+Progress: [#############-----------------]  44% (258/580 groups) elapsed=75s
+[259/580] 8MiB tile=128x32 source=registered elapsed=75s
+Progress: [#############-----------------]  44% (259/580 groups) elapsed=75s
+[260/580] 8MiB tile=128x32 source=malloc elapsed=75s
+Progress: [#############-----------------]  44% (260/580 groups) elapsed=76s
+[261/580] 8MiB tile=64x128 source=hbm elapsed=76s
+Progress: [#############-----------------]  45% (261/580 groups) elapsed=76s
+[262/580] 8MiB tile=64x128 source=pinned elapsed=76s
+Progress: [#############-----------------]  45% (262/580 groups) elapsed=76s
+[263/580] 8MiB tile=64x128 source=registered elapsed=76s
+Progress: [#############-----------------]  45% (263/580 groups) elapsed=77s
+[264/580] 8MiB tile=64x128 source=malloc elapsed=77s
+Progress: [#############-----------------]  45% (264/580 groups) elapsed=77s
+[265/580] 8MiB tile=128x64 source=hbm elapsed=77s
+Progress: [#############-----------------]  45% (265/580 groups) elapsed=77s
+[266/580] 8MiB tile=128x64 source=pinned elapsed=77s
+Progress: [#############-----------------]  45% (266/580 groups) elapsed=78s
+[267/580] 8MiB tile=128x64 source=registered elapsed=78s
+Progress: [#############-----------------]  46% (267/580 groups) elapsed=78s
+[268/580] 8MiB tile=128x64 source=malloc elapsed=78s
+Progress: [#############-----------------]  46% (268/580 groups) elapsed=78s
+[269/580] 8MiB tile=128x128 source=hbm elapsed=78s
+Progress: [#############-----------------]  46% (269/580 groups) elapsed=79s
+[270/580] 8MiB tile=128x128 source=pinned elapsed=79s
+Progress: [#############-----------------]  46% (270/580 groups) elapsed=79s
+[271/580] 8MiB tile=128x128 source=registered elapsed=79s
+Progress: [##############----------------]  46% (271/580 groups) elapsed=80s
+[272/580] 8MiB tile=128x128 source=malloc elapsed=80s
+Progress: [##############----------------]  46% (272/580 groups) elapsed=80s
+[273/580] 16MiB tile=32x32 source=hbm elapsed=80s
+Progress: [##############----------------]  47% (273/580 groups) elapsed=80s
+[274/580] 16MiB tile=32x32 source=pinned elapsed=80s
+Progress: [##############----------------]  47% (274/580 groups) elapsed=81s
+[275/580] 16MiB tile=32x32 source=registered elapsed=81s
+Progress: [##############----------------]  47% (275/580 groups) elapsed=81s
+[276/580] 16MiB tile=32x32 source=malloc elapsed=81s
+Progress: [##############----------------]  47% (276/580 groups) elapsed=81s
+[277/580] 16MiB tile=32x128 source=hbm elapsed=81s
+Progress: [##############----------------]  47% (277/580 groups) elapsed=82s
+[278/580] 16MiB tile=32x128 source=pinned elapsed=82s
+Progress: [##############----------------]  47% (278/580 groups) elapsed=82s
+[279/580] 16MiB tile=32x128 source=registered elapsed=82s
+Progress: [##############----------------]  48% (279/580 groups) elapsed=83s
+[280/580] 16MiB tile=32x128 source=malloc elapsed=83s
+Progress: [##############----------------]  48% (280/580 groups) elapsed=83s
+[281/580] 16MiB tile=64x64 source=hbm elapsed=83s
+Progress: [##############----------------]  48% (281/580 groups) elapsed=83s
+[282/580] 16MiB tile=64x64 source=pinned elapsed=83s
+Progress: [##############----------------]  48% (282/580 groups) elapsed=84s
+[283/580] 16MiB tile=64x64 source=registered elapsed=84s
+Progress: [##############----------------]  48% (283/580 groups) elapsed=84s
+[284/580] 16MiB tile=64x64 source=malloc elapsed=84s
+Progress: [##############----------------]  48% (284/580 groups) elapsed=84s
+[285/580] 16MiB tile=128x32 source=hbm elapsed=84s
+Progress: [##############----------------]  49% (285/580 groups) elapsed=85s
+[286/580] 16MiB tile=128x32 source=pinned elapsed=85s
+Progress: [##############----------------]  49% (286/580 groups) elapsed=85s
+[287/580] 16MiB tile=128x32 source=registered elapsed=85s
+Progress: [##############----------------]  49% (287/580 groups) elapsed=86s
+[288/580] 16MiB tile=128x32 source=malloc elapsed=86s
+Progress: [##############----------------]  49% (288/580 groups) elapsed=86s
+[289/580] 16MiB tile=64x128 source=hbm elapsed=86s
+Progress: [##############----------------]  49% (289/580 groups) elapsed=86s
+[290/580] 16MiB tile=64x128 source=pinned elapsed=86s
+Progress: [###############---------------]  50% (290/580 groups) elapsed=87s
+[291/580] 16MiB tile=64x128 source=registered elapsed=87s
+Progress: [###############---------------]  50% (291/580 groups) elapsed=87s
+[292/580] 16MiB tile=64x128 source=malloc elapsed=87s
+Progress: [###############---------------]  50% (292/580 groups) elapsed=88s
+[293/580] 16MiB tile=128x64 source=hbm elapsed=88s
+Progress: [###############---------------]  50% (293/580 groups) elapsed=88s
+[294/580] 16MiB tile=128x64 source=pinned elapsed=88s
+Progress: [###############---------------]  50% (294/580 groups) elapsed=88s
+[295/580] 16MiB tile=128x64 source=registered elapsed=88s
+Progress: [###############---------------]  50% (295/580 groups) elapsed=89s
+[296/580] 16MiB tile=128x64 source=malloc elapsed=89s
+Progress: [###############---------------]  51% (296/580 groups) elapsed=89s
+[297/580] 16MiB tile=128x128 source=hbm elapsed=89s
+Progress: [###############---------------]  51% (297/580 groups) elapsed=89s
+[298/580] 16MiB tile=128x128 source=pinned elapsed=89s
+Progress: [###############---------------]  51% (298/580 groups) elapsed=90s
+[299/580] 16MiB tile=128x128 source=registered elapsed=90s
+Progress: [###############---------------]  51% (299/580 groups) elapsed=90s
+[300/580] 16MiB tile=128x128 source=malloc elapsed=90s
+Progress: [###############---------------]  51% (300/580 groups) elapsed=91s
+[301/580] 32MiB tile=32x32 source=hbm elapsed=91s
+Progress: [###############---------------]  51% (301/580 groups) elapsed=91s
+[302/580] 32MiB tile=32x32 source=pinned elapsed=91s
+Progress: [###############---------------]  52% (302/580 groups) elapsed=91s
+[303/580] 32MiB tile=32x32 source=registered elapsed=91s
+Progress: [###############---------------]  52% (303/580 groups) elapsed=92s
+[304/580] 32MiB tile=32x32 source=malloc elapsed=92s
+Progress: [###############---------------]  52% (304/580 groups) elapsed=92s
+[305/580] 32MiB tile=32x128 source=hbm elapsed=92s
+Progress: [###############---------------]  52% (305/580 groups) elapsed=93s
+[306/580] 32MiB tile=32x128 source=pinned elapsed=93s
+Progress: [###############---------------]  52% (306/580 groups) elapsed=93s
+[307/580] 32MiB tile=32x128 source=registered elapsed=93s
+Progress: [###############---------------]  52% (307/580 groups) elapsed=93s
+[308/580] 32MiB tile=32x128 source=malloc elapsed=93s
+Progress: [###############---------------]  53% (308/580 groups) elapsed=94s
+[309/580] 32MiB tile=64x64 source=hbm elapsed=94s
+Progress: [###############---------------]  53% (309/580 groups) elapsed=94s
+[310/580] 32MiB tile=64x64 source=pinned elapsed=94s
+Progress: [################--------------]  53% (310/580 groups) elapsed=95s
+[311/580] 32MiB tile=64x64 source=registered elapsed=95s
+Progress: [################--------------]  53% (311/580 groups) elapsed=95s
+[312/580] 32MiB tile=64x64 source=malloc elapsed=95s
+Progress: [################--------------]  53% (312/580 groups) elapsed=95s
+[313/580] 32MiB tile=128x32 source=hbm elapsed=95s
+Progress: [################--------------]  53% (313/580 groups) elapsed=96s
+[314/580] 32MiB tile=128x32 source=pinned elapsed=96s
+Progress: [################--------------]  54% (314/580 groups) elapsed=96s
+[315/580] 32MiB tile=128x32 source=registered elapsed=96s
+Progress: [################--------------]  54% (315/580 groups) elapsed=97s
+[316/580] 32MiB tile=128x32 source=malloc elapsed=97s
+Progress: [################--------------]  54% (316/580 groups) elapsed=97s
+[317/580] 32MiB tile=64x128 source=hbm elapsed=97s
+Progress: [################--------------]  54% (317/580 groups) elapsed=97s
+[318/580] 32MiB tile=64x128 source=pinned elapsed=97s
+Progress: [################--------------]  54% (318/580 groups) elapsed=98s
+[319/580] 32MiB tile=64x128 source=registered elapsed=98s
+Progress: [################--------------]  55% (319/580 groups) elapsed=98s
+[320/580] 32MiB tile=64x128 source=malloc elapsed=98s
+Progress: [################--------------]  55% (320/580 groups) elapsed=99s
+[321/580] 32MiB tile=128x64 source=hbm elapsed=99s
+Progress: [################--------------]  55% (321/580 groups) elapsed=99s
+[322/580] 32MiB tile=128x64 source=pinned elapsed=99s
+Progress: [################--------------]  55% (322/580 groups) elapsed=100s
+[323/580] 32MiB tile=128x64 source=registered elapsed=100s
+Progress: [################--------------]  55% (323/580 groups) elapsed=100s
+[324/580] 32MiB tile=128x64 source=malloc elapsed=100s
+Progress: [################--------------]  55% (324/580 groups) elapsed=100s
+[325/580] 32MiB tile=128x128 source=hbm elapsed=100s
+Progress: [################--------------]  56% (325/580 groups) elapsed=101s
+[326/580] 32MiB tile=128x128 source=pinned elapsed=101s
+Progress: [################--------------]  56% (326/580 groups) elapsed=101s
+[327/580] 32MiB tile=128x128 source=registered elapsed=101s
+Progress: [################--------------]  56% (327/580 groups) elapsed=102s
+[328/580] 32MiB tile=128x128 source=malloc elapsed=102s
+Progress: [################--------------]  56% (328/580 groups) elapsed=102s
+[329/580] 64MiB tile=32x32 source=hbm elapsed=102s
+Progress: [#################-------------]  56% (329/580 groups) elapsed=102s
+[330/580] 64MiB tile=32x32 source=pinned elapsed=102s
+Progress: [#################-------------]  56% (330/580 groups) elapsed=103s
+[331/580] 64MiB tile=32x32 source=registered elapsed=103s
+Progress: [#################-------------]  57% (331/580 groups) elapsed=103s
+[332/580] 64MiB tile=32x32 source=malloc elapsed=103s
+Progress: [#################-------------]  57% (332/580 groups) elapsed=104s
+[333/580] 64MiB tile=32x128 source=hbm elapsed=104s
+Progress: [#################-------------]  57% (333/580 groups) elapsed=104s
+[334/580] 64MiB tile=32x128 source=pinned elapsed=104s
+Progress: [#################-------------]  57% (334/580 groups) elapsed=105s
+[335/580] 64MiB tile=32x128 source=registered elapsed=105s
+Progress: [#################-------------]  57% (335/580 groups) elapsed=105s
+[336/580] 64MiB tile=32x128 source=malloc elapsed=105s
+Progress: [#################-------------]  57% (336/580 groups) elapsed=105s
+[337/580] 64MiB tile=64x64 source=hbm elapsed=105s
+Progress: [#################-------------]  58% (337/580 groups) elapsed=106s
+[338/580] 64MiB tile=64x64 source=pinned elapsed=106s
+Progress: [#################-------------]  58% (338/580 groups) elapsed=106s
+[339/580] 64MiB tile=64x64 source=registered elapsed=106s
+Progress: [#################-------------]  58% (339/580 groups) elapsed=107s
+[340/580] 64MiB tile=64x64 source=malloc elapsed=107s
+Progress: [#################-------------]  58% (340/580 groups) elapsed=107s
+[341/580] 64MiB tile=128x32 source=hbm elapsed=107s
+Progress: [#################-------------]  58% (341/580 groups) elapsed=108s
+[342/580] 64MiB tile=128x32 source=pinned elapsed=108s
+Progress: [#################-------------]  58% (342/580 groups) elapsed=108s
+[343/580] 64MiB tile=128x32 source=registered elapsed=108s
+Progress: [#################-------------]  59% (343/580 groups) elapsed=108s
+[344/580] 64MiB tile=128x32 source=malloc elapsed=108s
+Progress: [#################-------------]  59% (344/580 groups) elapsed=109s
+[345/580] 64MiB tile=64x128 source=hbm elapsed=109s
+Progress: [#################-------------]  59% (345/580 groups) elapsed=109s
+[346/580] 64MiB tile=64x128 source=pinned elapsed=109s
+Progress: [#################-------------]  59% (346/580 groups) elapsed=110s
+[347/580] 64MiB tile=64x128 source=registered elapsed=110s
+Progress: [#################-------------]  59% (347/580 groups) elapsed=110s
+[348/580] 64MiB tile=64x128 source=malloc elapsed=110s
+Progress: [##################------------]  60% (348/580 groups) elapsed=111s
+[349/580] 64MiB tile=128x64 source=hbm elapsed=111s
+Progress: [##################------------]  60% (349/580 groups) elapsed=111s
+[350/580] 64MiB tile=128x64 source=pinned elapsed=111s
+Progress: [##################------------]  60% (350/580 groups) elapsed=111s
+[351/580] 64MiB tile=128x64 source=registered elapsed=111s
+Progress: [##################------------]  60% (351/580 groups) elapsed=112s
+[352/580] 64MiB tile=128x64 source=malloc elapsed=112s
+Progress: [##################------------]  60% (352/580 groups) elapsed=112s
+[353/580] 64MiB tile=128x128 source=hbm elapsed=112s
+Progress: [##################------------]  60% (353/580 groups) elapsed=113s
+[354/580] 64MiB tile=128x128 source=pinned elapsed=113s
+Progress: [##################------------]  61% (354/580 groups) elapsed=113s
+[355/580] 64MiB tile=128x128 source=registered elapsed=113s
+Progress: [##################------------]  61% (355/580 groups) elapsed=114s
+[356/580] 64MiB tile=128x128 source=malloc elapsed=114s
+Progress: [##################------------]  61% (356/580 groups) elapsed=114s
+[357/580] 128MiB tile=32x32 source=hbm elapsed=114s
+Progress: [##################------------]  61% (357/580 groups) elapsed=115s
+[358/580] 128MiB tile=32x32 source=pinned elapsed=115s
+Progress: [##################------------]  61% (358/580 groups) elapsed=115s
+[359/580] 128MiB tile=32x32 source=registered elapsed=115s
+Progress: [##################------------]  61% (359/580 groups) elapsed=115s
+[360/580] 128MiB tile=32x32 source=malloc elapsed=115s
+Progress: [##################------------]  62% (360/580 groups) elapsed=116s
+[361/580] 128MiB tile=32x128 source=hbm elapsed=116s
+Progress: [##################------------]  62% (361/580 groups) elapsed=116s
+[362/580] 128MiB tile=32x128 source=pinned elapsed=116s
+Progress: [##################------------]  62% (362/580 groups) elapsed=117s
+[363/580] 128MiB tile=32x128 source=registered elapsed=117s
+Progress: [##################------------]  62% (363/580 groups) elapsed=117s
+[364/580] 128MiB tile=32x128 source=malloc elapsed=117s
+Progress: [##################------------]  62% (364/580 groups) elapsed=118s
+[365/580] 128MiB tile=64x64 source=hbm elapsed=118s
+Progress: [##################------------]  62% (365/580 groups) elapsed=118s
+[366/580] 128MiB tile=64x64 source=pinned elapsed=118s
+Progress: [##################------------]  63% (366/580 groups) elapsed=119s
+[367/580] 128MiB tile=64x64 source=registered elapsed=119s
+Progress: [##################------------]  63% (367/580 groups) elapsed=119s
+[368/580] 128MiB tile=64x64 source=malloc elapsed=119s
+Progress: [###################-----------]  63% (368/580 groups) elapsed=120s
+[369/580] 128MiB tile=128x32 source=hbm elapsed=120s
+Progress: [###################-----------]  63% (369/580 groups) elapsed=120s
+[370/580] 128MiB tile=128x32 source=pinned elapsed=120s
+Progress: [###################-----------]  63% (370/580 groups) elapsed=121s
+[371/580] 128MiB tile=128x32 source=registered elapsed=121s
+Progress: [###################-----------]  63% (371/580 groups) elapsed=121s
+[372/580] 128MiB tile=128x32 source=malloc elapsed=121s
+Progress: [###################-----------]  64% (372/580 groups) elapsed=122s
+[373/580] 128MiB tile=64x128 source=hbm elapsed=122s
+Progress: [###################-----------]  64% (373/580 groups) elapsed=122s
+[374/580] 128MiB tile=64x128 source=pinned elapsed=122s
+Progress: [###################-----------]  64% (374/580 groups) elapsed=123s
+[375/580] 128MiB tile=64x128 source=registered elapsed=123s
+Progress: [###################-----------]  64% (375/580 groups) elapsed=123s
+[376/580] 128MiB tile=64x128 source=malloc elapsed=123s
+Progress: [###################-----------]  64% (376/580 groups) elapsed=124s
+[377/580] 128MiB tile=128x64 source=hbm elapsed=124s
+Progress: [###################-----------]  65% (377/580 groups) elapsed=124s
+[378/580] 128MiB tile=128x64 source=pinned elapsed=124s
+Progress: [###################-----------]  65% (378/580 groups) elapsed=124s
+[379/580] 128MiB tile=128x64 source=registered elapsed=124s
+Progress: [###################-----------]  65% (379/580 groups) elapsed=125s
+[380/580] 128MiB tile=128x64 source=malloc elapsed=125s
+Progress: [###################-----------]  65% (380/580 groups) elapsed=125s
+[381/580] 128MiB tile=128x128 source=hbm elapsed=125s
+Progress: [###################-----------]  65% (381/580 groups) elapsed=126s
+[382/580] 128MiB tile=128x128 source=pinned elapsed=126s
+Progress: [###################-----------]  65% (382/580 groups) elapsed=126s
+[383/580] 128MiB tile=128x128 source=registered elapsed=126s
+Progress: [###################-----------]  66% (383/580 groups) elapsed=127s
+[384/580] 128MiB tile=128x128 source=malloc elapsed=127s
+Progress: [###################-----------]  66% (384/580 groups) elapsed=127s
+[385/580] 256MiB tile=32x32 source=hbm elapsed=127s
+Progress: [###################-----------]  66% (385/580 groups) elapsed=128s
+[386/580] 256MiB tile=32x32 source=pinned elapsed=128s
+Progress: [###################-----------]  66% (386/580 groups) elapsed=128s
+[387/580] 256MiB tile=32x32 source=registered elapsed=128s
+Progress: [####################----------]  66% (387/580 groups) elapsed=129s
+[388/580] 256MiB tile=32x32 source=malloc elapsed=129s
+Progress: [####################----------]  66% (388/580 groups) elapsed=129s
+[389/580] 256MiB tile=32x128 source=hbm elapsed=129s
+Progress: [####################----------]  67% (389/580 groups) elapsed=130s
+[390/580] 256MiB tile=32x128 source=pinned elapsed=130s
+Progress: [####################----------]  67% (390/580 groups) elapsed=131s
+[391/580] 256MiB tile=32x128 source=registered elapsed=131s
+Progress: [####################----------]  67% (391/580 groups) elapsed=131s
+[392/580] 256MiB tile=32x128 source=malloc elapsed=131s
+Progress: [####################----------]  67% (392/580 groups) elapsed=132s
+[393/580] 256MiB tile=64x64 source=hbm elapsed=132s
+Progress: [####################----------]  67% (393/580 groups) elapsed=132s
+[394/580] 256MiB tile=64x64 source=pinned elapsed=132s
+Progress: [####################----------]  67% (394/580 groups) elapsed=133s
+[395/580] 256MiB tile=64x64 source=registered elapsed=133s
+Progress: [####################----------]  68% (395/580 groups) elapsed=133s
+[396/580] 256MiB tile=64x64 source=malloc elapsed=133s
+Progress: [####################----------]  68% (396/580 groups) elapsed=134s
+[397/580] 256MiB tile=128x32 source=hbm elapsed=134s
+Progress: [####################----------]  68% (397/580 groups) elapsed=134s
+[398/580] 256MiB tile=128x32 source=pinned elapsed=134s
+Progress: [####################----------]  68% (398/580 groups) elapsed=135s
+[399/580] 256MiB tile=128x32 source=registered elapsed=135s
+Progress: [####################----------]  68% (399/580 groups) elapsed=135s
+[400/580] 256MiB tile=128x32 source=malloc elapsed=135s
+Progress: [####################----------]  68% (400/580 groups) elapsed=136s
+[401/580] 256MiB tile=64x128 source=hbm elapsed=136s
+Progress: [####################----------]  69% (401/580 groups) elapsed=137s
+[402/580] 256MiB tile=64x128 source=pinned elapsed=137s
+Progress: [####################----------]  69% (402/580 groups) elapsed=137s
+[403/580] 256MiB tile=64x128 source=registered elapsed=137s
+Progress: [####################----------]  69% (403/580 groups) elapsed=138s
+[404/580] 256MiB tile=64x128 source=malloc elapsed=138s
+Progress: [####################----------]  69% (404/580 groups) elapsed=138s
+[405/580] 256MiB tile=128x64 source=hbm elapsed=138s
+Progress: [####################----------]  69% (405/580 groups) elapsed=139s
+[406/580] 256MiB tile=128x64 source=pinned elapsed=139s
+Progress: [#####################---------]  70% (406/580 groups) elapsed=139s
+[407/580] 256MiB tile=128x64 source=registered elapsed=139s
+Progress: [#####################---------]  70% (407/580 groups) elapsed=140s
+[408/580] 256MiB tile=128x64 source=malloc elapsed=140s
+Progress: [#####################---------]  70% (408/580 groups) elapsed=140s
+[409/580] 256MiB tile=128x128 source=hbm elapsed=140s
+Progress: [#####################---------]  70% (409/580 groups) elapsed=141s
+[410/580] 256MiB tile=128x128 source=pinned elapsed=141s
+Progress: [#####################---------]  70% (410/580 groups) elapsed=141s
+[411/580] 256MiB tile=128x128 source=registered elapsed=141s
+Progress: [#####################---------]  70% (411/580 groups) elapsed=142s
+[412/580] 256MiB tile=128x128 source=malloc elapsed=142s
+Progress: [#####################---------]  71% (412/580 groups) elapsed=143s
+[413/580] 512MiB tile=32x32 source=hbm elapsed=143s
+Progress: [#####################---------]  71% (413/580 groups) elapsed=143s
+[414/580] 512MiB tile=32x32 source=pinned elapsed=143s
+Progress: [#####################---------]  71% (414/580 groups) elapsed=144s
+[415/580] 512MiB tile=32x32 source=registered elapsed=144s
+Progress: [#####################---------]  71% (415/580 groups) elapsed=145s
+[416/580] 512MiB tile=32x32 source=malloc elapsed=145s
+Progress: [#####################---------]  71% (416/580 groups) elapsed=145s
+[417/580] 512MiB tile=32x128 source=hbm elapsed=145s
+Progress: [#####################---------]  71% (417/580 groups) elapsed=146s
+[418/580] 512MiB tile=32x128 source=pinned elapsed=146s
+Progress: [#####################---------]  72% (418/580 groups) elapsed=147s
+[419/580] 512MiB tile=32x128 source=registered elapsed=147s
+Progress: [#####################---------]  72% (419/580 groups) elapsed=147s
+[420/580] 512MiB tile=32x128 source=malloc elapsed=147s
+Progress: [#####################---------]  72% (420/580 groups) elapsed=148s
+[421/580] 512MiB tile=64x64 source=hbm elapsed=148s
+Progress: [#####################---------]  72% (421/580 groups) elapsed=149s
+[422/580] 512MiB tile=64x64 source=pinned elapsed=149s
+Progress: [#####################---------]  72% (422/580 groups) elapsed=149s
+[423/580] 512MiB tile=64x64 source=registered elapsed=149s
+Progress: [#####################---------]  72% (423/580 groups) elapsed=150s
+[424/580] 512MiB tile=64x64 source=malloc elapsed=150s
+Progress: [#####################---------]  73% (424/580 groups) elapsed=150s
+[425/580] 512MiB tile=128x32 source=hbm elapsed=150s
+Progress: [#####################---------]  73% (425/580 groups) elapsed=151s
+[426/580] 512MiB tile=128x32 source=pinned elapsed=151s
+Progress: [######################--------]  73% (426/580 groups) elapsed=152s
+[427/580] 512MiB tile=128x32 source=registered elapsed=152s
+Progress: [######################--------]  73% (427/580 groups) elapsed=152s
+[428/580] 512MiB tile=128x32 source=malloc elapsed=152s
+Progress: [######################--------]  73% (428/580 groups) elapsed=153s
+[429/580] 512MiB tile=64x128 source=hbm elapsed=153s
+Progress: [######################--------]  73% (429/580 groups) elapsed=154s
+[430/580] 512MiB tile=64x128 source=pinned elapsed=154s
+Progress: [######################--------]  74% (430/580 groups) elapsed=154s
+[431/580] 512MiB tile=64x128 source=registered elapsed=154s
+Progress: [######################--------]  74% (431/580 groups) elapsed=155s
+[432/580] 512MiB tile=64x128 source=malloc elapsed=155s
+Progress: [######################--------]  74% (432/580 groups) elapsed=156s
+[433/580] 512MiB tile=128x64 source=hbm elapsed=156s
+Progress: [######################--------]  74% (433/580 groups) elapsed=156s
+[434/580] 512MiB tile=128x64 source=pinned elapsed=156s
+Progress: [######################--------]  74% (434/580 groups) elapsed=157s
+[435/580] 512MiB tile=128x64 source=registered elapsed=157s
+Progress: [######################--------]  75% (435/580 groups) elapsed=158s
+[436/580] 512MiB tile=128x64 source=malloc elapsed=158s
+Progress: [######################--------]  75% (436/580 groups) elapsed=159s
+[437/580] 512MiB tile=128x128 source=hbm elapsed=159s
+Progress: [######################--------]  75% (437/580 groups) elapsed=159s
+[438/580] 512MiB tile=128x128 source=pinned elapsed=159s
+Progress: [######################--------]  75% (438/580 groups) elapsed=160s
+[439/580] 512MiB tile=128x128 source=registered elapsed=160s
+Progress: [######################--------]  75% (439/580 groups) elapsed=160s
+[440/580] 512MiB tile=128x128 source=malloc elapsed=160s
+Progress: [######################--------]  75% (440/580 groups) elapsed=161s
+[441/580] 1GiB tile=32x32 source=hbm elapsed=161s
+Progress: [######################--------]  76% (441/580 groups) elapsed=162s
+[442/580] 1GiB tile=32x32 source=pinned elapsed=162s
+Progress: [######################--------]  76% (442/580 groups) elapsed=163s
+[443/580] 1GiB tile=32x32 source=registered elapsed=163s
+Progress: [######################--------]  76% (443/580 groups) elapsed=164s
+[444/580] 1GiB tile=32x32 source=malloc elapsed=164s
+Progress: [######################--------]  76% (444/580 groups) elapsed=165s
+[445/580] 1GiB tile=32x128 source=hbm elapsed=165s
+Progress: [#######################-------]  76% (445/580 groups) elapsed=166s
+[446/580] 1GiB tile=32x128 source=pinned elapsed=166s
+Progress: [#######################-------]  76% (446/580 groups) elapsed=166s
+[447/580] 1GiB tile=32x128 source=registered elapsed=166s
+Progress: [#######################-------]  77% (447/580 groups) elapsed=167s
+[448/580] 1GiB tile=32x128 source=malloc elapsed=167s
+Progress: [#######################-------]  77% (448/580 groups) elapsed=168s
+[449/580] 1GiB tile=64x64 source=hbm elapsed=168s
+Progress: [#######################-------]  77% (449/580 groups) elapsed=169s
+[450/580] 1GiB tile=64x64 source=pinned elapsed=169s
+Progress: [#######################-------]  77% (450/580 groups) elapsed=170s
+[451/580] 1GiB tile=64x64 source=registered elapsed=170s
+Progress: [#######################-------]  77% (451/580 groups) elapsed=171s
+[452/580] 1GiB tile=64x64 source=malloc elapsed=171s
+Progress: [#######################-------]  77% (452/580 groups) elapsed=172s
+[453/580] 1GiB tile=128x32 source=hbm elapsed=172s
+Progress: [#######################-------]  78% (453/580 groups) elapsed=173s
+[454/580] 1GiB tile=128x32 source=pinned elapsed=173s
+Progress: [#######################-------]  78% (454/580 groups) elapsed=174s
+[455/580] 1GiB tile=128x32 source=registered elapsed=174s
+Progress: [#######################-------]  78% (455/580 groups) elapsed=174s
+[456/580] 1GiB tile=128x32 source=malloc elapsed=174s
+Progress: [#######################-------]  78% (456/580 groups) elapsed=175s
+[457/580] 1GiB tile=64x128 source=hbm elapsed=175s
+Progress: [#######################-------]  78% (457/580 groups) elapsed=176s
+[458/580] 1GiB tile=64x128 source=pinned elapsed=176s
+Progress: [#######################-------]  78% (458/580 groups) elapsed=177s
+[459/580] 1GiB tile=64x128 source=registered elapsed=177s
+Progress: [#######################-------]  79% (459/580 groups) elapsed=178s
+[460/580] 1GiB tile=64x128 source=malloc elapsed=178s
+Progress: [#######################-------]  79% (460/580 groups) elapsed=179s
+[461/580] 1GiB tile=128x64 source=hbm elapsed=179s
+Progress: [#######################-------]  79% (461/580 groups) elapsed=180s
+[462/580] 1GiB tile=128x64 source=pinned elapsed=180s
+Progress: [#######################-------]  79% (462/580 groups) elapsed=181s
+[463/580] 1GiB tile=128x64 source=registered elapsed=181s
+Progress: [#######################-------]  79% (463/580 groups) elapsed=182s
+[464/580] 1GiB tile=128x64 source=malloc elapsed=182s
+Progress: [########################------]  80% (464/580 groups) elapsed=183s
+[465/580] 1GiB tile=128x128 source=hbm elapsed=183s
+Progress: [########################------]  80% (465/580 groups) elapsed=183s
+[466/580] 1GiB tile=128x128 source=pinned elapsed=183s
+Progress: [########################------]  80% (466/580 groups) elapsed=184s
+[467/580] 1GiB tile=128x128 source=registered elapsed=184s
+Progress: [########################------]  80% (467/580 groups) elapsed=185s
+[468/580] 1GiB tile=128x128 source=malloc elapsed=185s
+Progress: [########################------]  80% (468/580 groups) elapsed=186s
+[469/580] 2GiB tile=32x32 source=hbm elapsed=186s
+Progress: [########################------]  80% (469/580 groups) elapsed=187s
+[470/580] 2GiB tile=32x32 source=pinned elapsed=187s
+Progress: [########################------]  81% (470/580 groups) elapsed=189s
+[471/580] 2GiB tile=32x32 source=registered elapsed=189s
+Progress: [########################------]  81% (471/580 groups) elapsed=190s
+[472/580] 2GiB tile=32x32 source=malloc elapsed=190s
+Progress: [########################------]  81% (472/580 groups) elapsed=192s
+[473/580] 2GiB tile=32x128 source=hbm elapsed=192s
+Progress: [########################------]  81% (473/580 groups) elapsed=193s
+[474/580] 2GiB tile=32x128 source=pinned elapsed=193s
+Progress: [########################------]  81% (474/580 groups) elapsed=194s
+[475/580] 2GiB tile=32x128 source=registered elapsed=194s
+Progress: [########################------]  81% (475/580 groups) elapsed=195s
+[476/580] 2GiB tile=32x128 source=malloc elapsed=195s
+Progress: [########################------]  82% (476/580 groups) elapsed=197s
+[477/580] 2GiB tile=64x64 source=hbm elapsed=197s
+Progress: [########################------]  82% (477/580 groups) elapsed=198s
+[478/580] 2GiB tile=64x64 source=pinned elapsed=198s
+Progress: [########################------]  82% (478/580 groups) elapsed=199s
+[479/580] 2GiB tile=64x64 source=registered elapsed=199s
+Progress: [########################------]  82% (479/580 groups) elapsed=201s
+[480/580] 2GiB tile=64x64 source=malloc elapsed=201s
+Progress: [########################------]  82% (480/580 groups) elapsed=202s
+[481/580] 2GiB tile=128x32 source=hbm elapsed=202s
+Progress: [########################------]  82% (481/580 groups) elapsed=203s
+[482/580] 2GiB tile=128x32 source=pinned elapsed=203s
+Progress: [########################------]  83% (482/580 groups) elapsed=205s
+[483/580] 2GiB tile=128x32 source=registered elapsed=205s
+Progress: [########################------]  83% (483/580 groups) elapsed=206s
+[484/580] 2GiB tile=128x32 source=malloc elapsed=206s
+Progress: [#########################-----]  83% (484/580 groups) elapsed=207s
+[485/580] 2GiB tile=64x128 source=hbm elapsed=207s
+Progress: [#########################-----]  83% (485/580 groups) elapsed=209s
+[486/580] 2GiB tile=64x128 source=pinned elapsed=209s
+Progress: [#########################-----]  83% (486/580 groups) elapsed=210s
+[487/580] 2GiB tile=64x128 source=registered elapsed=210s
+Progress: [#########################-----]  83% (487/580 groups) elapsed=211s
+[488/580] 2GiB tile=64x128 source=malloc elapsed=211s
+Progress: [#########################-----]  84% (488/580 groups) elapsed=213s
+[489/580] 2GiB tile=128x64 source=hbm elapsed=213s
+Progress: [#########################-----]  84% (489/580 groups) elapsed=214s
+[490/580] 2GiB tile=128x64 source=pinned elapsed=214s
+Progress: [#########################-----]  84% (490/580 groups) elapsed=215s
+[491/580] 2GiB tile=128x64 source=registered elapsed=215s
+Progress: [#########################-----]  84% (491/580 groups) elapsed=217s
+[492/580] 2GiB tile=128x64 source=malloc elapsed=217s
+Progress: [#########################-----]  84% (492/580 groups) elapsed=218s
+[493/580] 2GiB tile=128x128 source=hbm elapsed=218s
+Progress: [#########################-----]  85% (493/580 groups) elapsed=219s
+[494/580] 2GiB tile=128x128 source=pinned elapsed=219s
+Progress: [#########################-----]  85% (494/580 groups) elapsed=221s
+[495/580] 2GiB tile=128x128 source=registered elapsed=221s
+Progress: [#########################-----]  85% (495/580 groups) elapsed=222s
+[496/580] 2GiB tile=128x128 source=malloc elapsed=222s
+Progress: [#########################-----]  85% (496/580 groups) elapsed=224s
+[497/580] 4GiB tile=32x32 source=hbm elapsed=224s
+Progress: [#########################-----]  85% (497/580 groups) elapsed=226s
+[498/580] 4GiB tile=32x32 source=pinned elapsed=226s
+Progress: [#########################-----]  85% (498/580 groups) elapsed=228s
+[499/580] 4GiB tile=32x32 source=registered elapsed=228s
+Progress: [#########################-----]  86% (499/580 groups) elapsed=230s
+[500/580] 4GiB tile=32x32 source=malloc elapsed=230s
+Progress: [#########################-----]  86% (500/580 groups) elapsed=232s
+[501/580] 4GiB tile=32x128 source=hbm elapsed=232s
+Progress: [#########################-----]  86% (501/580 groups) elapsed=234s
+[502/580] 4GiB tile=32x128 source=pinned elapsed=234s
+Progress: [#########################-----]  86% (502/580 groups) elapsed=237s
+[503/580] 4GiB tile=32x128 source=registered elapsed=237s
+Progress: [##########################----]  86% (503/580 groups) elapsed=239s
+[504/580] 4GiB tile=32x128 source=malloc elapsed=239s
+Progress: [##########################----]  86% (504/580 groups) elapsed=241s
+[505/580] 4GiB tile=64x64 source=hbm elapsed=241s
+Progress: [##########################----]  87% (505/580 groups) elapsed=243s
+[506/580] 4GiB tile=64x64 source=pinned elapsed=243s
+Progress: [##########################----]  87% (506/580 groups) elapsed=245s
+[507/580] 4GiB tile=64x64 source=registered elapsed=245s
+Progress: [##########################----]  87% (507/580 groups) elapsed=248s
+[508/580] 4GiB tile=64x64 source=malloc elapsed=248s
+Progress: [##########################----]  87% (508/580 groups) elapsed=250s
+[509/580] 4GiB tile=128x32 source=hbm elapsed=250s
+Progress: [##########################----]  87% (509/580 groups) elapsed=252s
+[510/580] 4GiB tile=128x32 source=pinned elapsed=252s
+Progress: [##########################----]  87% (510/580 groups) elapsed=254s
+[511/580] 4GiB tile=128x32 source=registered elapsed=254s
+Progress: [##########################----]  88% (511/580 groups) elapsed=256s
+[512/580] 4GiB tile=128x32 source=malloc elapsed=256s
+Progress: [##########################----]  88% (512/580 groups) elapsed=259s
+[513/580] 4GiB tile=64x128 source=hbm elapsed=259s
+Progress: [##########################----]  88% (513/580 groups) elapsed=261s
+[514/580] 4GiB tile=64x128 source=pinned elapsed=261s
+Progress: [##########################----]  88% (514/580 groups) elapsed=263s
+[515/580] 4GiB tile=64x128 source=registered elapsed=263s
+Progress: [##########################----]  88% (515/580 groups) elapsed=265s
+[516/580] 4GiB tile=64x128 source=malloc elapsed=265s
+Progress: [##########################----]  88% (516/580 groups) elapsed=268s
+[517/580] 4GiB tile=128x64 source=hbm elapsed=268s
+Progress: [##########################----]  89% (517/580 groups) elapsed=270s
+[518/580] 4GiB tile=128x64 source=pinned elapsed=270s
+Progress: [##########################----]  89% (518/580 groups) elapsed=272s
+[519/580] 4GiB tile=128x64 source=registered elapsed=272s
+Progress: [##########################----]  89% (519/580 groups) elapsed=274s
+[520/580] 4GiB tile=128x64 source=malloc elapsed=274s
+Progress: [##########################----]  89% (520/580 groups) elapsed=276s
+[521/580] 4GiB tile=128x128 source=hbm elapsed=276s
+Progress: [##########################----]  89% (521/580 groups) elapsed=279s
+[522/580] 4GiB tile=128x128 source=pinned elapsed=279s
+Progress: [###########################---]  90% (522/580 groups) elapsed=281s
+[523/580] 4GiB tile=128x128 source=registered elapsed=281s
+Progress: [###########################---]  90% (523/580 groups) elapsed=283s
+[524/580] 4GiB tile=128x128 source=malloc elapsed=283s
+Progress: [###########################---]  90% (524/580 groups) elapsed=285s
+[525/580] 8GiB tile=32x32 source=hbm elapsed=285s
+Progress: [###########################---]  90% (525/580 groups) elapsed=289s
+[526/580] 8GiB tile=32x32 source=pinned elapsed=289s
+Progress: [###########################---]  90% (526/580 groups) elapsed=293s
+[527/580] 8GiB tile=32x32 source=registered elapsed=293s
+Progress: [###########################---]  90% (527/580 groups) elapsed=297s
+[528/580] 8GiB tile=32x32 source=malloc elapsed=297s
+Progress: [###########################---]  91% (528/580 groups) elapsed=301s
+[529/580] 8GiB tile=32x128 source=hbm elapsed=301s
+Progress: [###########################---]  91% (529/580 groups) elapsed=304s
+[530/580] 8GiB tile=32x128 source=pinned elapsed=304s
+Progress: [###########################---]  91% (530/580 groups) elapsed=308s
+[531/580] 8GiB tile=32x128 source=registered elapsed=308s
+Progress: [###########################---]  91% (531/580 groups) elapsed=312s
+[532/580] 8GiB tile=32x128 source=malloc elapsed=312s
+Progress: [###########################---]  91% (532/580 groups) elapsed=316s
+[533/580] 8GiB tile=64x64 source=hbm elapsed=316s
+Progress: [###########################---]  91% (533/580 groups) elapsed=320s
+[534/580] 8GiB tile=64x64 source=pinned elapsed=320s
+Progress: [###########################---]  92% (534/580 groups) elapsed=324s
+[535/580] 8GiB tile=64x64 source=registered elapsed=324s
+Progress: [###########################---]  92% (535/580 groups) elapsed=328s
+[536/580] 8GiB tile=64x64 source=malloc elapsed=328s
+Progress: [###########################---]  92% (536/580 groups) elapsed=332s
+[537/580] 8GiB tile=128x32 source=hbm elapsed=332s
+Progress: [###########################---]  92% (537/580 groups) elapsed=335s
+[538/580] 8GiB tile=128x32 source=pinned elapsed=335s
+Progress: [###########################---]  92% (538/580 groups) elapsed=339s
+[539/580] 8GiB tile=128x32 source=registered elapsed=339s
+Progress: [###########################---]  92% (539/580 groups) elapsed=343s
+[540/580] 8GiB tile=128x32 source=malloc elapsed=343s
+Progress: [###########################---]  93% (540/580 groups) elapsed=347s
+[541/580] 8GiB tile=64x128 source=hbm elapsed=347s
+Progress: [###########################---]  93% (541/580 groups) elapsed=351s
+[542/580] 8GiB tile=64x128 source=pinned elapsed=351s
+Progress: [############################--]  93% (542/580 groups) elapsed=355s
+[543/580] 8GiB tile=64x128 source=registered elapsed=355s
+Progress: [############################--]  93% (543/580 groups) elapsed=359s
+[544/580] 8GiB tile=64x128 source=malloc elapsed=359s
+Progress: [############################--]  93% (544/580 groups) elapsed=363s
+[545/580] 8GiB tile=128x64 source=hbm elapsed=363s
+Progress: [############################--]  93% (545/580 groups) elapsed=366s
+[546/580] 8GiB tile=128x64 source=pinned elapsed=366s
+Progress: [############################--]  94% (546/580 groups) elapsed=370s
+[547/580] 8GiB tile=128x64 source=registered elapsed=370s
+Progress: [############################--]  94% (547/580 groups) elapsed=374s
+[548/580] 8GiB tile=128x64 source=malloc elapsed=374s
+Progress: [############################--]  94% (548/580 groups) elapsed=378s
+[549/580] 8GiB tile=128x128 source=hbm elapsed=378s
+Progress: [############################--]  94% (549/580 groups) elapsed=382s
+[550/580] 8GiB tile=128x128 source=pinned elapsed=382s
+Progress: [############################--]  94% (550/580 groups) elapsed=386s
+[551/580] 8GiB tile=128x128 source=registered elapsed=386s
+Progress: [############################--]  95% (551/580 groups) elapsed=390s
+[552/580] 8GiB tile=128x128 source=malloc elapsed=390s
+Progress: [############################--]  95% (552/580 groups) elapsed=394s
+[553/580] 16GiB tile=32x32 source=hbm elapsed=394s
+Progress: [############################--]  95% (553/580 groups) elapsed=400s
+[554/580] 16GiB tile=32x32 source=pinned elapsed=400s
+Progress: [############################--]  95% (554/580 groups) elapsed=407s
+[555/580] 16GiB tile=32x32 source=registered elapsed=407s
+Progress: [############################--]  95% (555/580 groups) elapsed=415s
+[556/580] 16GiB tile=32x32 source=malloc elapsed=415s
+Progress: [############################--]  95% (556/580 groups) elapsed=422s
+[557/580] 16GiB tile=32x128 source=hbm elapsed=422s
+Progress: [############################--]  96% (557/580 groups) elapsed=429s
+[558/580] 16GiB tile=32x128 source=pinned elapsed=429s
+Progress: [############################--]  96% (558/580 groups) elapsed=436s
+[559/580] 16GiB tile=32x128 source=registered elapsed=436s
+Progress: [############################--]  96% (559/580 groups) elapsed=443s
+[560/580] 16GiB tile=32x128 source=malloc elapsed=443s
+Progress: [############################--]  96% (560/580 groups) elapsed=451s
+[561/580] 16GiB tile=64x64 source=hbm elapsed=451s
+Progress: [#############################-]  96% (561/580 groups) elapsed=457s
+[562/580] 16GiB tile=64x64 source=pinned elapsed=457s
+Progress: [#############################-]  96% (562/580 groups) elapsed=464s
+[563/580] 16GiB tile=64x64 source=registered elapsed=464s
+Progress: [#############################-]  97% (563/580 groups) elapsed=472s
+[564/580] 16GiB tile=64x64 source=malloc elapsed=472s
+Progress: [#############################-]  97% (564/580 groups) elapsed=479s
+[565/580] 16GiB tile=128x32 source=hbm elapsed=479s
+Progress: [#############################-]  97% (565/580 groups) elapsed=485s
+[566/580] 16GiB tile=128x32 source=pinned elapsed=485s
+Progress: [#############################-]  97% (566/580 groups) elapsed=493s
+[567/580] 16GiB tile=128x32 source=registered elapsed=493s
+Progress: [#############################-]  97% (567/580 groups) elapsed=500s
+[568/580] 16GiB tile=128x32 source=malloc elapsed=500s
+Progress: [#############################-]  97% (568/580 groups) elapsed=507s
+[569/580] 16GiB tile=64x128 source=hbm elapsed=507s
+Progress: [#############################-]  98% (569/580 groups) elapsed=514s
+[570/580] 16GiB tile=64x128 source=pinned elapsed=514s
+Progress: [#############################-]  98% (570/580 groups) elapsed=521s
+[571/580] 16GiB tile=64x128 source=registered elapsed=521s
+Progress: [#############################-]  98% (571/580 groups) elapsed=528s
+[572/580] 16GiB tile=64x128 source=malloc elapsed=528s
+Progress: [#############################-]  98% (572/580 groups) elapsed=536s
+[573/580] 16GiB tile=128x64 source=hbm elapsed=536s
+Progress: [#############################-]  98% (573/580 groups) elapsed=542s
+[574/580] 16GiB tile=128x64 source=pinned elapsed=542s
+Progress: [#############################-]  98% (574/580 groups) elapsed=549s
+[575/580] 16GiB tile=128x64 source=registered elapsed=549s
+Progress: [#############################-]  99% (575/580 groups) elapsed=556s
+[576/580] 16GiB tile=128x64 source=malloc elapsed=556s
+Progress: [#############################-]  99% (576/580 groups) elapsed=564s
+[577/580] 16GiB tile=128x128 source=hbm elapsed=564s
+Progress: [#############################-]  99% (577/580 groups) elapsed=570s
+[578/580] 16GiB tile=128x128 source=pinned elapsed=570s
+Progress: [#############################-]  99% (578/580 groups) elapsed=578s
+[579/580] 16GiB tile=128x128 source=registered elapsed=578s
+Progress: [#############################-]  99% (579/580 groups) elapsed=585s
+[580/580] 16GiB tile=128x128 source=malloc elapsed=585s
+Progress: [##############################] 100% (580/580 groups) elapsed=593s
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sweep_20261104T070116Z_2b04Wj

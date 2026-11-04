@@ -1,0 +1,15 @@
+Input: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sweep_20261104T070116Z_2b04Wj/results.csv
+SHA256: 4b85d41804a837d5768f713abba60e34780181ab07850d9ecc249a6240ead4ed
+Benchmark run folder: tma_sweep_20261104T070116Z_2b04Wj
+Plot output: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/plots/tma_plots_first_plots_04_11_26
+One timed launch per case; 128 GPU threads/block; no error bars. Recorded 1740/1740; successful 1740.
+Fixed tile: 32x32
+Tile-comparison input: 1 MiB
+Figures: 39; format: PNG
+Missing and failed rows are never replaced by zero or interpolated.
+Host placement is only queried before and after each kernel, not continuously.
+Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.
+Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.
+Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.
+No automatic crossover estimate, error bars or averaging from this single-launch sweep.
+checks.csv is an internal check, not a publication figure.

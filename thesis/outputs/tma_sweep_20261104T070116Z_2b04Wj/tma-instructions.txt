@@ -1,0 +1,7 @@
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.
+	cp.async.bulk.tensor.2d.shared::cluster.global.tile.mbarrier::complete_tx::bytes [%r12], [%rd11, {%r13, %r14}], [%r15];// 1b.

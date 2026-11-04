@@ -1,0 +1,4 @@
+input_bytes,tile_rows,tile_cols,tile_bytes,source,kernel,gpu_threads,launch_order,kernel_ms,effective_input_gb_s,status,cpu_node,mbind_success,cpu_residency_verified,pages_before,on_cpu_before,unknown_before,query_errno_before,pages_after,on_cpu_after,unknown_after,query_errno_after,message
+536870912,32,32,4096,registered,loads_direct,128,2,1.46841598,365.612279,ok,0,1,1,8192,8192,0,0,8192,8192,0,0,""
+536870912,32,32,4096,registered,loads_shared,128,0,1.95955205,273.976347,ok,0,1,1,8192,8192,0,0,8192,8192,0,0,""
+536870912,32,32,4096,registered,tma_shared,128,1,1.42361605,377.117771,ok,0,1,1,8192,8192,0,0,8192,8192,0,0,""
