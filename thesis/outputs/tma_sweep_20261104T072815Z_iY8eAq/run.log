@@ -1,0 +1,10 @@
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sweep_20261104T072815Z_iY8eAq
+Compiling CUDA benchmark...
+Progress: [------------------------------]   0% (0/3 groups) elapsed=0s
+[1/3] 1MiB tile=32x32 source=malloc elapsed=0s
+Progress: [##########--------------------]  33% (1/3 groups) elapsed=0s
+[2/3] 64MiB tile=32x32 source=malloc elapsed=0s
+Progress: [####################----------]  66% (2/3 groups) elapsed=0s
+[3/3] 1GiB tile=32x32 source=malloc elapsed=0s
+Progress: [##############################] 100% (3/3 groups) elapsed=1s
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sweep_20261104T072815Z_iY8eAq

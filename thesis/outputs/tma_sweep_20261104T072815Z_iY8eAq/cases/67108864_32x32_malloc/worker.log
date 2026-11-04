@@ -1,0 +1,9 @@
+STAGE device_check
+GPU=NVIDIA GH200 480GB CPU=36 NUMA=0
+STAGE allocation
+pageableMemoryAccess=1 pageableMemoryAccessUsesHostPageTables=1
+STAGE measure
+STAGE loads_shared
+STAGE tma_shared
+STAGE loads_direct
+STAGE finished
