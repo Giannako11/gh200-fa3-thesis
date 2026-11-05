@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make 39 original TMA PNGs, or seven PNGs with --malloc-bound-only.
+"""Make 39 original/sampled TMA PNGs, or seven with --malloc-bound-only.
 
 Usage: python thesis/scripts/plots/tma_plots_first.py PATH/TO/results.csv
 Dependencies: matplotlib, numpy. No CUDA or GPU is needed.
@@ -43,6 +43,10 @@ class Row:
     status: str
     ms: float | None
     resident: int
+    p25: float | None = None
+    p75: float | None = None
+    samples: int = 1
+    warmup: int = 0
 
 
 def size_label(n, short=False):
@@ -105,10 +109,19 @@ def read_results(path):
                 ms = float(raw["kernel_ms"]) if status == "ok" else None
                 if ms is not None and (not math.isfinite(ms) or ms <= 0):
                     raise ValueError("successful timing must be finite and positive")
+                p25 = p75 = None
+                samples, warmup = 1, 0
+                if ms is not None and "timing_statistic" in raw:
+                    samples, warmup = int(raw["sample_count"]), int(raw["warmup_launches"])
+                    p25, p75 = float(raw["p25_ms"]), float(raw["p75_ms"])
+                    if (raw["timing_statistic"] != "median" or samples < 6 or warmup < 1
+                            or not all(math.isfinite(x) for x in (p25, p75))
+                            or not 0 < p25 <= ms <= p75):
+                        raise ValueError("invalid sampled median/IQR metadata")
                 key = n, tile, source, kernel
                 if key in data:
                     raise ValueError(f"duplicate measurement: {key}")
-                data[key] = Row(status, ms, resident)
+                data[key] = Row(status, ms, resident, p25, p75, samples, warmup)
                 thread_counts.add(threads)
             except (ValueError, TypeError) as error:
                 raise ValueError(f"CSV line {line}: {error}") from error
@@ -203,7 +216,13 @@ def draw_bars(ax, data, cases, source, category_labels, scale, unit, upper):
         points = [timing(data, n, tile, source, kernel) for n, tile in cases]
         values = [ms * scale for ms, _ in points]
         centers = x + (k - 1) * width
-        bars = ax.bar(centers, values, width, color=COLORS[k], label=LABELS[k])
+        bounds = [data.get((n, tile, source, kernel)) for n, tile in cases]
+        errors = [[(r.ms-r.p25)*scale if r and r.ms is not None and r.p25 is not None else 0 for r in bounds],
+                  [(r.p75-r.ms)*scale if r and r.ms is not None and r.p75 is not None else 0 for r in bounds]]
+        sampled = any(r and r.p25 is not None for r in bounds)
+        bars = ax.bar(centers, values, width, color=COLORS[k], label=LABELS[k],
+                      yerr=errors if sampled else None, capsize=2 if sampled else 0,
+                      error_kw={"elinewidth": 0.8})
         for position, patch, (ms, unverified) in zip(centers, bars, points):
             if not math.isfinite(ms):
                 ax.text(position, 0.025, "×", transform=ax.get_xaxis_transform(),
@@ -231,6 +250,8 @@ def bar_figures(data, writer, tile, fixed_size):
     for name, cases, labels, title in jobs:
         values = [timing(data, n, t, s, k)[0] for n, t in cases for s in SOURCES for k in KERNELS]
         finite = [v for v in values if math.isfinite(v)]
+        finite += [r.p75 for (n,t,s,k),r in data.items() if (n,t) in cases and s in SOURCES
+                   and r.status == "ok" and r.p75 is not None]
         scale, unit = (1, "ms") if finite and max(finite) >= 1 else (1000, "µs")
         upper = max(finite) * scale * 1.18 if finite else 1
         for selected in source_selections():
@@ -241,7 +262,7 @@ def bar_figures(data, writer, tile, fixed_size):
             suffix = selected[0] if len(selected) == 1 else "all_sources"
             handles = [Rectangle((0, 0), 1, 1, color=color) for color in COLORS]
             writer.save(fig, "barplots", f"time_{name}_{suffix}", title, handles, LABELS,
-                        "× = failed/missing or tile does not fit; hatching = host placement unverified. Same y-scale across allocations.")
+                        "× = failed/missing or tile does not fit; hatching = placement unverified. Whiskers, when present: sample IQR. Same y-scale across allocations.")
 
 
 def draw_curves(ax, series, labels, colors, ylabel, limits, ratio_axis=True):
@@ -336,7 +357,7 @@ def heatmap_figures(data, writer):
 
 
 def host_hbm_figures(data, writer, tile):
-    labels = ["Pinned / HBM", "Registered / HBM", "Malloc / HBM"]
+    labels = ["Pinned / HBM", "Registered / HBM", "Bound system / HBM" if "malloc_bound" in SOURCES else "Malloc / HBM"]
     points = {k: [[ratio(data, n, tile, s, k, "hbm", k) for n in SIZES]
                   for s in SOURCES[1:]] for k in KERNELS}
     limits = ratio_limits([series for kernel in KERNELS for series in points[kernel]])
@@ -417,14 +438,19 @@ def main():
     parser.add_argument("--tile", type=parse_tile, default=(32, 32), help="Fixed tile for size plots (default: 32x32)")
     parser.add_argument("--fixed-size", type=parse_size, default=2**20, help="Input for tile bars (default: 1MiB)")
     parser.add_argument("--dpi", type=int, default=200)
-    parser.add_argument("--malloc-bound-only", action="store_true",
-                        help="Plot one malloc_bound sweep as seven PNGs; preserve its distinct allocation label")
+    allocation_mode = parser.add_mutually_exclusive_group()
+    allocation_mode.add_argument("--malloc-bound-only", action="store_true",
+                                 help="Plot one malloc_bound sweep as seven PNGs")
+    allocation_mode.add_argument("--sampled", action="store_true",
+                                 help="Plot warmed samples for HBM/pinned/registered/malloc_bound as 39 PNGs")
     args = parser.parse_args()
     SOURCES = ["hbm", "pinned", "registered", "malloc"]
     FIGURE_COUNT = 39
     if args.malloc_bound_only:
         SOURCES = ["malloc_bound"]
         FIGURE_COUNT = 7
+    elif args.sampled:
+        SOURCES = ["hbm", "pinned", "registered", "malloc_bound"]
     if args.fixed_size not in SIZES or not all(valid_pair(args.fixed_size, t) for t in TILES):
         parser.error("--fixed-size must be a sweep size from 64KiB to 16GiB so all tiles fit")
     if args.dpi <= 0:
@@ -439,8 +465,15 @@ def main():
         checks = output / "_checks"
         checks.mkdir()
         print(f"Outputs: {output}", flush=True)
-        note = (f"One timed launch per case; {threads} GPU threads/block; no error bars. "
-                f"Recorded {len(data)}/{expected}; successful {passed}.")
+        protocols = {(row.samples,row.warmup) for row in data.values() if row.status == "ok"}
+        if len(protocols) != 1:
+            raise ValueError("Mixed sample/warmup protocols: use separate CSVs")
+        samples, warmup = protocols.pop()
+        if args.sampled and samples == 1:
+            raise ValueError("--sampled requires repeated-sample metadata")
+        protocol_note = (f"Median of {samples} samples/kernel; {warmup} warmup launches/kernel; bars show IQR. "
+                         if samples > 1 else "One timed launch per case; no error bars. ")
+        note = (protocol_note + f"{threads} GPU threads/block. Recorded {len(data)}/{expected}; successful {passed}.")
         plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10,
                              "axes.titlesize": 11, "axes.labelsize": 10})
         writer = Figures(output, args.dpi, note)
@@ -461,12 +494,14 @@ def main():
                  note, f"Fixed tile: {args.tile[0]}x{args.tile[1]}", f"Tile-comparison input: {size_label(args.fixed_size)}",
                  f"Figures: {len(writer.index)}; format: PNG",
                  "Missing and failed rows are never replaced by zero or interpolated.",
-                 ("Bound placement flag covers before GPU, after GPU before CPU verification, and after verification; checks are snapshots."
-                  if args.malloc_bound_only else "Host placement is only queried before and after each kernel, not continuously."),
+                 ("Sampled placement flag covers initial, after warmup, after timed samples, and after verification; checks are snapshots."
+                  if args.sampled else ("Bound placement flag covers before GPU, after GPU before CPU verification, and after verification; checks are snapshots."
+                  if args.malloc_bound_only else "Host placement is only queried before and after each kernel, not continuously.")),
                  "Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.",
                  "Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.",
                  "Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.",
-                 "No automatic crossover estimate, error bars or averaging from this single-launch sweep.",
+                 ("Warmed-buffer protocol; caches are not flushed. IQR is within-run dispersion, not a confidence interval."
+                  if samples > 1 else "No automatic crossover estimate, error bars or averaging from this single-launch sweep."),
                  "checks.csv is an internal check, not a publication figure."]
         (checks / "plot_notes.txt").write_text("\n".join(notes) + "\n", encoding="utf-8")
         print(f"Saved {len(writer.index)} figures to {output.resolve()}")
