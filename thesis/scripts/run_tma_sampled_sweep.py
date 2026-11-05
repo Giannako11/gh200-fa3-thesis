@@ -79,7 +79,7 @@ def load_csv(path, fields):
     return rows
 
 
-def read_case(folder, config, warmup, sample_count):
+def read_case(folder, config, warmup, sample_count, isolated=False):
     n,h,w,source = config
     rows = load_csv(folder/'rows.csv',FIELDS)
     raw = load_csv(folder/'samples.csv',RAW_FIELDS)
@@ -122,7 +122,9 @@ def read_case(folder, config, warmup, sample_count):
         if int(r['first_sample_position']) != int(samples[0]['position']):
             raise ValueError('First sample position mismatch')
         positions=[int(x['position']) for x in samples]
-        if any(positions.count(p)!=sample_count//3 for p in range(3)):
+        if isolated and len(set(positions))!=1:
+            raise ValueError('Isolated kernel samples have mixed block positions')
+        if not isolated and any(positions.count(p)!=sample_count//3 for p in range(3)):
             raise ValueError('Unbalanced kernel positions')
         if source=='hbm':
             if r['cpu_residency_verified']!='-1':raise ValueError('HBM residency marker mismatch')
@@ -137,6 +139,10 @@ def read_case(folder, config, warmup, sample_count):
         if source in ('registered','malloc_bound') and r['mbind_success']!='1':
             raise ValueError('Explicit range binding did not succeed')
     if all(r['status']=='ok' for r in rows):
+        if isolated:
+            if {int(r['first_sample_position']) for r in rows}!={0,1,2}:
+                raise ValueError('Invalid isolated block ordering')
+            return rows,raw
         for sample in range(1,sample_count+1):
             current=[r for r in raw if int(r['sample_index'])==sample]
             if len(current)!=3 or {int(r['position']) for r in current}!={0,1,2}:

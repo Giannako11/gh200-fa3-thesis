@@ -10,6 +10,7 @@ import csv
 from dataclasses import dataclass
 from datetime import datetime
 import hashlib
+import io
 import math
 from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -47,6 +48,8 @@ class Row:
     p75: float | None = None
     samples: int = 1
     warmup: int = 0
+    replicates: int = 1
+    cache_protocol: str = 'legacy'
 
 
 def size_label(n, short=False):
@@ -121,7 +124,11 @@ def read_results(path):
                 key = n, tile, source, kernel
                 if key in data:
                     raise ValueError(f"duplicate measurement: {key}")
-                data[key] = Row(status, ms, resident, p25, p75, samples, warmup)
+                replicates = int(raw.get('replicate_count', '1'))
+                cache_protocol = raw.get('cache_protocol', 'legacy')
+                if replicates < 1 or cache_protocol not in {'legacy', 'gpu_evicted', 'self_primed'}:
+                    raise ValueError('invalid replication/cache protocol')
+                data[key] = Row(status, ms, resident, p25, p75, samples, warmup, replicates, cache_protocol)
                 thread_counts.add(threads)
             except (ValueError, TypeError) as error:
                 raise ValueError(f"CSV line {line}: {error}") from error
@@ -178,7 +185,17 @@ class Figures:
                                 wspace=0.22, hspace=0.55)
         else:
             fig.tight_layout(rect=(0, 0.10, 1, 0.87))
-        fig.savefig(self.output / f"{name}.png", dpi=self.dpi, facecolor="white", format="png")
+        # Finish encoding before publishing a plot; interrupted writes must not
+        # leave a partly encoded PNG recorded as a successful figure.
+        encoded = io.BytesIO()
+        fig.savefig(encoded, dpi=self.dpi, facecolor="white", format="png")
+        png = encoded.getvalue()
+        if not png.endswith(b'\x00\x00\x00\x00IEND\xaeB`\x82'):
+            raise ValueError('Incomplete PNG encoding: '+name)
+        target = self.output / f"{name}.png"
+        temporary = target.with_suffix('.png.tmp')
+        temporary.write_bytes(png)
+        temporary.replace(target)
         plt.close(fig)
         self.index.append((group, f"{name}.png", title))
         done = len(self.index)
@@ -465,14 +482,17 @@ def main():
         checks = output / "_checks"
         checks.mkdir()
         print(f"Outputs: {output}", flush=True)
-        protocols = {(row.samples,row.warmup) for row in data.values() if row.status == "ok"}
+        protocols = {(row.samples,row.warmup,row.replicates,row.cache_protocol) for row in data.values() if row.status == "ok"}
         if len(protocols) != 1:
             raise ValueError("Mixed sample/warmup protocols: use separate CSVs")
-        samples, warmup = protocols.pop()
+        samples, warmup, replicates, cache_protocol = protocols.pop()
         if args.sampled and samples == 1:
             raise ValueError("--sampled requires repeated-sample metadata")
         protocol_note = (f"Median of {samples} samples/kernel; {warmup} warmup launches/kernel; bars show IQR. "
                          if samples > 1 else "One timed launch per case; no error bars. ")
+        if cache_protocol != 'legacy':
+            protocol_note = (f"{cache_protocol}: pooled median, {samples} samples / {replicates} allocations; "
+                             f"IQR bars.\n{warmup} warmups/kernel/replicate. ")
         note = (protocol_note + f"{threads} GPU threads/block. Recorded {len(data)}/{expected}; successful {passed}.")
         plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10,
                              "axes.titlesize": 11, "axes.labelsize": 10})
@@ -500,8 +520,11 @@ def main():
                  "Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.",
                  "Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.",
                  "Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.",
-                 ("Warmed-buffer protocol; caches are not flushed. IQR is within-run dispersion, not a confidence interval."
-                  if samples > 1 else "No automatic crossover estimate, error bars or averaging from this single-launch sweep."),
+                 (("GPU eviction before each sample; self_primed adds one untimed SAME-kernel launch. "
+                   "No guaranteed hardware invalidation or CPU cache flush. Pooled IQR is dispersion, not a confidence interval.")
+                  if cache_protocol != 'legacy' else
+                  ("Warmed-buffer protocol; caches are not flushed. IQR is within-run dispersion, not a confidence interval."
+                   if samples > 1 else "No automatic crossover estimate, error bars or averaging from this single-launch sweep.")),
                  "checks.csv is an internal check, not a publication figure."]
         (checks / "plot_notes.txt").write_text("\n".join(notes) + "\n", encoding="utf-8")
         print(f"Saved {len(writer.index)} figures to {output.resolve()}")
