@@ -1,0 +1,1 @@
+{"argv": ["/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sampled_sweep_20261105T104946Z_on2xluwn/sampled", "67108864", "128", "64", "malloc_bound", "128", "0", "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sampled_sweep_20261105T104946Z_on2xluwn/cases/67108864_128x64_malloc_bound/rows.csv"], "warmup": 10, "samples": 30}

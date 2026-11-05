@@ -1,0 +1,15 @@
+Input: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sampled_sweep_20261105T104946Z_on2xluwn/results.csv
+SHA256: 4afc14f3568f34bd9362159d28ccb3e5725fe76ca7267f3c4efa1da3e2533fb4
+Benchmark run folder: tma_sampled_sweep_20261105T104946Z_on2xluwn
+Plot output: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/plots/tma_sampled_sweep_plots_05_11_26
+Median of 30 samples/kernel; 10 warmup launches/kernel; bars show IQR. 128 GPU threads/block. Recorded 1740/1740; successful 1740.
+Fixed tile: 32x32
+Tile-comparison input: 1 MiB
+Figures: 39; format: PNG
+Missing and failed rows are never replaced by zero or interpolated.
+Sampled placement flag covers initial, after warmup, after timed samples, and after verification; checks are snapshots.
+Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.
+Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.
+Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.
+Warmed-buffer protocol; caches are not flushed. IQR is within-run dispersion, not a confidence interval.
+checks.csv is an internal check, not a publication figure.

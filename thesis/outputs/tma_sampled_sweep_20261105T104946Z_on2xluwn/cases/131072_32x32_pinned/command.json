@@ -1,0 +1,1 @@
+{"argv": ["/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sampled_sweep_20261105T104946Z_on2xluwn/sampled", "131072", "32", "32", "pinned", "128", "2", "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_sampled_sweep_20261105T104946Z_on2xluwn/cases/131072_32x32_pinned/rows.csv"], "warmup": 10, "samples": 30}

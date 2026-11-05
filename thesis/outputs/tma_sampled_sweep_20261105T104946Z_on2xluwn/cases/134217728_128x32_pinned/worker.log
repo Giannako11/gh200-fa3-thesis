@@ -1,0 +1,19 @@
+STAGE device_check
+GPU=NVIDIA GH200 480GB CPU=36 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=0 nodes=
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+STAGE placement_before_warmup
+DIAG_LOCATION pages=2048 nodes=0:2048; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_after_warmup_before_samples
+DIAG_LOCATION pages=2048 nodes=0:2048; negative_status= query_errno=0
+STAGE samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=2048 nodes=0:2048; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=2048 nodes=0:2048; negative_status= query_errno=0
+STAGE finished

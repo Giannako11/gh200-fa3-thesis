@@ -1,0 +1,13 @@
+source,kernel,expected,recorded,ok,failed_or_not_run,missing,host_placement_verified,host_placement_unverified
+hbm,loads_direct,145,145,145,0,0,,
+hbm,loads_shared,145,145,145,0,0,,
+hbm,tma_shared,145,145,145,0,0,,
+pinned,loads_direct,145,145,145,0,0,145,0
+pinned,loads_shared,145,145,145,0,0,145,0
+pinned,tma_shared,145,145,145,0,0,145,0
+registered,loads_direct,145,145,145,0,0,145,0
+registered,loads_shared,145,145,145,0,0,145,0
+registered,tma_shared,145,145,145,0,0,145,0
+malloc_bound,loads_direct,145,145,145,0,0,145,0
+malloc_bound,loads_shared,145,145,145,0,0,145,0
+malloc_bound,tma_shared,145,145,145,0,0,145,0
