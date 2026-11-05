@@ -1,0 +1,40 @@
+group,filename,title
+barplots,time_KiB_hbm.png,Input sizes in KiB | tile 32×32
+barplots,time_KiB_pinned.png,Input sizes in KiB | tile 32×32
+barplots,time_KiB_registered.png,Input sizes in KiB | tile 32×32
+barplots,time_KiB_malloc_bound.png,Input sizes in KiB | tile 32×32
+barplots,time_KiB_all_sources.png,Input sizes in KiB | tile 32×32
+barplots,time_MiB_hbm.png,Input sizes in MiB | tile 32×32
+barplots,time_MiB_pinned.png,Input sizes in MiB | tile 32×32
+barplots,time_MiB_registered.png,Input sizes in MiB | tile 32×32
+barplots,time_MiB_malloc_bound.png,Input sizes in MiB | tile 32×32
+barplots,time_MiB_all_sources.png,Input sizes in MiB | tile 32×32
+barplots,time_GiB_hbm.png,Input sizes in GiB | tile 32×32
+barplots,time_GiB_pinned.png,Input sizes in GiB | tile 32×32
+barplots,time_GiB_registered.png,Input sizes in GiB | tile 32×32
+barplots,time_GiB_malloc_bound.png,Input sizes in GiB | tile 32×32
+barplots,time_GiB_all_sources.png,Input sizes in GiB | tile 32×32
+barplots,time_tiles_1MiB_hbm.png,Tile comparison | input 1 MiB
+barplots,time_tiles_1MiB_pinned.png,Tile comparison | input 1 MiB
+barplots,time_tiles_1MiB_registered.png,Tile comparison | input 1 MiB
+barplots,time_tiles_1MiB_malloc_bound.png,Tile comparison | input 1 MiB
+barplots,time_tiles_1MiB_all_sources.png,Tile comparison | input 1 MiB
+speedup,speedup_hbm.png,TMA speedup | tile 32×32
+speedup,speedup_pinned.png,TMA speedup | tile 32×32
+speedup,speedup_registered.png,TMA speedup | tile 32×32
+speedup,speedup_malloc_bound.png,TMA speedup | tile 32×32
+speedup,speedup_all_sources.png,TMA speedup | tile 32×32
+heatmaps,tiles_speedup_hbm.png,TMA speedup across input sizes and tiles
+heatmaps,tiles_speedup_pinned.png,TMA speedup across input sizes and tiles
+heatmaps,tiles_speedup_registered.png,TMA speedup across input sizes and tiles
+heatmaps,tiles_speedup_malloc_bound.png,TMA speedup across input sizes and tiles
+heatmaps,tiles_speedup_all_sources.png,TMA speedup across input sizes and tiles
+host_vs_hbm,host_vs_hbm_loads_direct.png,Host input relative to HBM | tile 32×32
+host_vs_hbm,host_vs_hbm_loads_shared.png,Host input relative to HBM | tile 32×32
+host_vs_hbm,host_vs_hbm_tma_shared.png,Host input relative to HBM | tile 32×32
+host_vs_hbm,host_vs_hbm_all_kernels.png,Host input relative to HBM | tile 32×32
+input_rate,input_rate_hbm.png,Effective input processing rate | tile 32×32
+input_rate,input_rate_pinned.png,Effective input processing rate | tile 32×32
+input_rate,input_rate_registered.png,Effective input processing rate | tile 32×32
+input_rate,input_rate_malloc_bound.png,Effective input processing rate | tile 32×32
+input_rate,input_rate_all_sources.png,Effective input processing rate | tile 32×32

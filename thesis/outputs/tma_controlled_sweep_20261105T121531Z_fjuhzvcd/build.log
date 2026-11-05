@@ -1,0 +1,12 @@
+/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled.cu(307): warning #177-D: variable "sampled_orders" was declared but never referenced
+  constexpr int sampled_orders[6][3] = {
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled.cu(307): warning #177-D: variable "sampled_orders" was declared but never referenced
+  constexpr int sampled_orders[6][3] = {
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+

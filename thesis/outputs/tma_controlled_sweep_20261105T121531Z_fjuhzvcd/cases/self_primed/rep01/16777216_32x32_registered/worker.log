@@ -1,0 +1,47 @@
+STAGE device_check
+GPU=NVIDIA GH200 480GB CPU=36 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=256 nodes=0:256; negative_status= query_errno=0
+STAGE finished

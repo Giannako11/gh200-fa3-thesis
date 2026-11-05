@@ -1,0 +1,16 @@
+Input: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/self_primed/results.csv
+SHA256: 34c73ab348ab9eba989f630ea8af72baff394d66a06cb88b46e72b34d378d2e3
+Benchmark run folder: self_primed
+Plot output: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/plots/self_primed
+self_primed: pooled median, 90 samples / 3 allocations; IQR bars.
+10 warmups/kernel/replicate. 128 GPU threads/block. Recorded 1740/1740; successful 1740.
+Fixed tile: 32x32
+Tile-comparison input: 1 MiB
+Figures: 39; format: PNG
+Missing and failed rows are never replaced by zero or interpolated.
+Sampled placement flag covers initial, after warmup, after timed samples, and after verification; checks are snapshots.
+Times include the output stores to HBM; this is not isolated DRAM/NVLink latency.
+Effective input GB/s = input_bytes / (kernel_ms * 1e6), recomputed from successful timings.
+Effective input rate is not physical DRAM or NVLink bandwidth and does not count output bytes.
+GPU eviction before each sample; self_primed adds one untimed SAME-kernel launch. No guaranteed hardware invalidation or CPU cache flush. Pooled IQR is dispersion, not a confidence interval.
+checks.csv is an internal check, not a publication figure.
