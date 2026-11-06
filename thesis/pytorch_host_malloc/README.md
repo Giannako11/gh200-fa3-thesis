@@ -69,7 +69,15 @@ root is rejected. The build never resets a source tree with unrelated edits.
 
 The build downloads source/submodules and dependencies from GitHub, conda-forge
 and PyPI. It requires a working C++ compiler, the CUDA Toolkit (12.8.1 on the
-current host), network access and at least 80 GiB free in the build filesystem.
+current host), network access and at least 30 GiB free in the build filesystem.
+This entry threshold is a configurable guard, not a measured peak-build-space
+requirement or a promise the build will fit. `--min-free-gib` changes it.
+During each download/install/compiler command, a watchdog checks free space
+every 0.5 seconds. Below the default 8 GiB reserve (`--reserve-free-gib`), it
+stops only this build's command process group, retains the diagnostics/artifacts,
+and records `stopped_low_disk` in `build_status.json`. The reserve is a stop
+threshold, not a filesystem quota; concurrent users and write bursts can change
+free space between checks. Free space before retrying. No files are deleted.
 Default parallelism is four build jobs; this is adjustable with `--jobs`.
 Its duration depends on downloads and compilation; it is not a short GPU test.
 

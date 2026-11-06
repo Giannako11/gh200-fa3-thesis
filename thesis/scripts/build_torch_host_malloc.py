@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import signal
 import subprocess as sp
 import sys
 import tempfile
@@ -15,6 +16,7 @@ import time
 from torch_host_malloc_common import (ALLOCATOR_BLOB, PACKAGE, PATCH, REPO,
     TORCH_COMMIT, TORCH_REF, capture, clean_environment, conda_executable,
     cuda_home, default_root, digest, progress, runtime_environment, write_json)
+from torch_host_malloc_disk import DiskSpaceError, run_guarded
 
 
 def main():
@@ -22,11 +24,13 @@ def main():
     p.add_argument('--root', type=Path, default=default_root())
     p.add_argument('--cuda-home')
     p.add_argument('--jobs', type=int, default=4)
-    p.add_argument('--min-free-gib', type=int, default=80)
+    p.add_argument('--min-free-gib', type=int, default=30)
+    p.add_argument('--reserve-free-gib', type=int, default=8,
+                   help='Stop this build when free space falls below this reserve')
     p.add_argument('--plan', action='store_true')
     args = p.parse_args()
-    if args.jobs < 1 or args.min_free_gib < 1:
-        p.error('jobs and min-free-gib must be positive')
+    if args.jobs < 1 or args.reserve_free_gib < 1 or args.min_free_gib <= args.reserve_free_gib:
+        p.error('Require jobs>=1 and min-free-gib > reserve-free-gib >=1')
     root = args.root.expanduser().resolve()
     original_prefix = Path(sys.prefix).resolve()
     if root == REPO or REPO in root.parents or root == original_prefix or original_prefix in root.parents:
@@ -34,6 +38,7 @@ def main():
     print('External build root:', root)
     print('Pinned upstream:', TORCH_REF, TORCH_COMMIT)
     print('Environments: build_env, stock_env, fa3_host_malloc (all under build root)')
+    print(f'Disk policy: start with >= {args.min_free_gib} GiB free; stop below {args.reserve_free_gib} GiB free')
     if args.plan:
         return 0
     if platform.system() != 'Linux' or platform.machine() != 'aarch64':
@@ -74,9 +79,21 @@ def main():
         PYTORCH_BUILD_NUMBER='1')
     source = root/'pytorch'
     log = root/'build.log'
-    status = dict(state='building', started=dt.datetime.now(dt.timezone.utc).isoformat(), steps=[])
+    disk_policy = dict(entry_free_gib=args.min_free_gib, reserve_free_gib=args.reserve_free_gib,
+                       poll_seconds=0.5)
+    status = dict(state='building', started=dt.datetime.now(dt.timezone.utc).isoformat(),
+                  disk_policy=disk_policy, steps=[])
     write_json(root/'build_status.json', status)
     count = 0
+    def interrupt(signum, frame):
+        raise KeyboardInterrupt
+    previous = {}
+    for sig in [signal.SIGTERM, signal.SIGHUP]:
+        old = signal.getsignal(sig)
+        if sig == signal.SIGHUP and old == signal.SIG_IGN:
+            continue  # Preserve nohup's disconnect protection.
+        previous[sig] = old
+        signal.signal(sig, interrupt)
 
     def run(argv, cwd=root, run_env=env):
         nonlocal count
@@ -84,7 +101,8 @@ def main():
         print(f'Build command {count}: {argv[0]} ... (log: {log})', flush=True)
         with log.open('a') as f:
             f.write('\nCOMMAND '+json.dumps([str(x) for x in argv])+'\n'); f.flush()
-            sp.run([str(x) for x in argv], cwd=cwd, env=run_env, stdout=f, stderr=sp.STDOUT, check=True)
+            run_guarded(argv, cwd=cwd, env=run_env, log=f, root=root,
+                        reserve_bytes=args.reserve_free_gib*(1 << 30))
         status['steps'].append([str(x) for x in argv])
         write_json(root/'build_status.json', status)
 
@@ -187,15 +205,18 @@ def main():
         write_json(root/'manifest.json', dict(**owner, wheels=wheels, build_environment={k:env[k] for k in
             ['USE_CUDA','USE_CUDNN','USE_DISTRIBUTED','USE_NCCL','USE_MPI','USE_MAGMA','USE_MKLDNN','USE_KINETO',
              'BUILD_TEST','TORCH_CUDA_ARCH_LIST','MAX_JOBS','CMAKE_BUILD_PARALLEL_LEVEL','PYTORCH_BUILD_VERSION']},
-            created=dt.datetime.now(dt.timezone.utc).isoformat()))
+            disk_policy=disk_policy, created=dt.datetime.now(dt.timezone.utc).isoformat()))
         status['state'] = 'complete'
         progress(6, 6, 'build complete; GH200 runtime validation still required')
         print('Run: bash thesis/scripts/run_torch_host_malloc.sh --root '+str(root))
     except BaseException as e:
-        status.update(state='failed', error=repr(e))
+        status.update(state='stopped_low_disk' if isinstance(e, DiskSpaceError) else 'failed', error=repr(e))
         raise
     finally:
         write_json(root/'build_status.json', status)
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)
+        lock.close()
     return 0
 
 

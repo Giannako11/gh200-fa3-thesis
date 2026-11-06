@@ -1,5 +1,13 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-06 — Source-build disk thresholds
+
+- Kept the native PyTorch source-patch/build method. Lowered the initial free
+  disk guard from 80 to 30 GiB, as requested; this is not a measured build size.
+- Added a 0.5-second watchdog with an 8 GiB free-space stop threshold during
+  build commands. It terminates only its own command group and retains logs
+  and partial artifacts. No automatic deletion or package cleanup.
+
 ## 2026-11-06 — Step 2: opt-in malloc in PyTorch
 
 - Prepared a source patch pinned to PyTorch v2.11.0 commit
