@@ -36,6 +36,11 @@ The printed `thesis/outputs/tma_targeted_profile_*` folder holds `plan.json`,
 `status.json`, and one folder per profile with `tma.ncu-rep`, `ncu_raw.csv`,
 `ncu.log`, `command.json`, `rows.csv`, `samples.csv`, and `conditioning.json`.
 `status.json` must show 12 completed of 12 expected for the default run.
+`reports.tar.gz` also includes all `.ncu-rep` files and diagnostic CSV/logs;
+the repository ignores loose `.ncu-rep` files. To share results through GitHub,
+check that the archive is under GitHub's per-file size limit, then add the
+profile output directory, commit, and push. If the archive is too large, share
+it separately or force-add the individual `.ncu-rep` files only when each fits.
 Inspect error logs if a case stops, including possible NVIDIA GPU counter
 permission errors. Do not use CUDA event times from profiled runs as benchmark
 results or infer the 99/125 microsecond split from them; compare cache and

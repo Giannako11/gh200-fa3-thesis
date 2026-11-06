@@ -6,7 +6,6 @@ Compute application replay preserves the program's eviction/primer sequence.
 Profiler timings are diagnostic, not replacements for unprofiled CUDA events.
 """
 import argparse
-import csv
 import datetime as dt
 import fcntl
 import hashlib
@@ -16,6 +15,7 @@ from pathlib import Path
 import shutil
 import subprocess as sp
 import sys
+import tarfile
 import tempfile
 import time
 
@@ -151,7 +151,13 @@ def main():
             print(f'Progress: [{"#"*filled}{"-"*(30-filled)}] {index}/{len(cases)} {name}',flush=True)
     finally:
         (out/'status.json').write_text(json.dumps(dict(completed=completed,expected=len(cases)),indent=2))
+        bundle = out/'reports.tar.gz'
+        with tarfile.open(bundle, 'w:gz') as archive:
+            for child in sorted(out.iterdir()):
+                if child != bundle:
+                    archive.add(child, arcname=child.name)
         print('Outputs:', out, flush=True)
+        print('Shareable reports archive:', bundle, flush=True)
     print('Profiled reports are for traffic/cache diagnosis; use the original sweep CSV for timings.',flush=True)
     return 0
 
