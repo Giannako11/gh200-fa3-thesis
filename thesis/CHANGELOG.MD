@@ -1,5 +1,19 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-06 — Step 2: opt-in malloc in PyTorch
+
+- Prepared a source patch pinned to PyTorch v2.11.0 commit
+  `70d99e998b4955e0049d13a98d77ae1b14db1f45`, redirecting native backing blocks
+  and uncached allocations to ordinary malloc with verified node-0 placement.
+- Added process-frozen OFF-by-default activation, matching free bookkeeping,
+  conservative GPU synchronization, range-policy cleanup and an allocation cap.
+- Added isolated stock/patched wheel builds, fresh conda prefixes, provenance
+  manifests, a 16-case GH200 runner, telemetry, progress and retained diagnostics.
+- Added CPU-only helper tests with explicit CUDA/NUMA test doubles and patch
+  consistency checks. These do not establish GH200 runtime compatibility.
+- Actual PyTorch/CUDA compilation and the full GPU run must still execute on
+  Grace2. Step 2 remains in progress; the existing fa3 installation is not edited.
+
 ## 2026-10-15T11:51:50+00:00 — Qwen baseline
 - Run: `thesis/outputs/qwen_baseline_20261015_091635_497401787`
 - Exit code: 130 (0 = success).

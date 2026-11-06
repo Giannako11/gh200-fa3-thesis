@@ -28,11 +28,16 @@
    (`malloc`) in PyTorch, so selected tensors can use Grace DRAM instead of
    Hopper HBM while still being used by GPU operations. ----- `in progress` (06.11.26)
    Verify where the pages are placed and that the GPU can access them correctly.
-   Start with a small C++/CUDA bridge for one explicitly host-backed tensor,
-   using the verified node-0 binding mechanism. Check GPU reads/writes, simple
-   PyTorch operations, storage sharing, synchronization and buffer lifetime;
-   verify placement before/after execution and exclude implicit HBM staging.
-   Check the installed PyTorch/CUDA versions before choosing the wrapping API.
+   Implement the change in PyTorch's native CUDACachingAllocator, behind an
+   OFF-by-default process flag. Keep fa3 untouched; build stock and patched
+   PyTorch in separate prefixes outside the repository. The new host-malloc
+   runner enables it only for its own subprocesses. This is not a from_blob
+   wrapper or a step-3 custom user allocator.
+   Implementation/scripts and CPU-only helper checks are prepared under
+   pytorch_host_malloc/. Real source builds and all 16 GH200 runtime checks
+   remain required before marking step 2 completed. Check ordinary CUDA tensor
+   operations, pointer provenance, node-0 placement, bounded OOM, stream lifetime,
+   release, and original/OFF behavior. See pytorch_host_malloc/README.md.
 
 3. Look into custom allocators in PyTorch: how to provide our own allocation
    and free functions, and how to choose which tensors use them.

@@ -1,0 +1,392 @@
+--- a/c10/cuda/CUDACachingAllocator.cpp
++++ b/c10/cuda/CUDACachingAllocator.cpp
+@@ -1,4 +1,5 @@
+ #include <c10/cuda/CUDACachingAllocator.h>
++#include <c10/cuda/ThesisHostMalloc.h>
+ 
+ #include <c10/core/impl/GPUTrace.h>
+ #include <c10/cuda/CUDAAllocatorConfig.h>
+@@ -1043,6 +1044,10 @@
+ }
+ 
+ cudaError_t allocPrimitive(void** ptr, size_t size, AllocParams& p) {
++  if (thesis_host_malloc::enabled()) {
++    TORCH_CHECK(!p.pool->owner_PrivatePool, "THESIS_HOST_MALLOC: private pools unsupported");
++    return thesis_host_malloc::allocate(ptr, size);
++  }
+   if (p.pool->owner_PrivatePool && p.pool->owner_PrivatePool->allocator()) {
+     *ptr = p.pool->owner_PrivatePool->allocator()->raw_alloc(size);
+     return *ptr ? cudaSuccess : cudaErrorMemoryAllocation;
+@@ -1477,6 +1482,13 @@
+     }
+ 
+     if (!block_found) {
++      if (thesis_host_malloc::enabled()) {
++        stats.num_ooms += 1;
++        TORCH_CHECK_WITH(OutOfMemoryError, false,
++            "THESIS_HOST_MALLOC: host allocation budget exhausted or malloc failed; "
++            "GPU HBM availability is not the host-memory limit. Requested ", size,
++            " bytes; inspect the allocation log.");
++      }
+       // For any error code other than cudaErrorMemoryAllocation,
+       // alloc_block should have thrown an exception already.
+       TORCH_INTERNAL_ASSERT(params.err == cudaErrorMemoryAllocation);
+@@ -2099,6 +2111,8 @@
+ 
+   /** set memory fraction to limit maximum allocated memory **/
+   void setMemoryFraction(double fraction) {
++    TORCH_CHECK(!thesis_host_malloc::enabled() || fraction == 1.0,
++        "THESIS_HOST_MALLOC: HBM memory fractions unsupported; use THESIS_HOST_MALLOC_MAX_BYTES");
+     TORCH_CHECK(
+         0 <= fraction && fraction <= 1,
+         "invalid fraction:",
+@@ -3521,7 +3535,11 @@
+       // we use the given allocator's delete function.
+       pool->owner_PrivatePool->allocator()->raw_delete(block->ptr);
+     } else {
+-      C10_CUDA_CHECK(cudaFree((void*)block->ptr));
++      if (thesis_host_malloc::enabled()) {
++        C10_CUDA_CHECK(thesis_host_malloc::release(block->ptr));
++      } else {
++        C10_CUDA_CHECK(cudaFree((void*)block->ptr));
++      }
+     }
+     total_allocated_memory -= block->size;
+ 
+@@ -3863,7 +3881,16 @@
+   void* devPtr = nullptr;
+   // Deliberately don't use cudaMallocMaybeCapturing here, to force an error
+   // if someone tries to use forceUncachedAllocator while capturing.
+-  C10_CUDA_CHECK(cudaMalloc(&devPtr, size));
++  if (thesis_host_malloc::enabled()) {
++    TORCH_CHECK(!CUDAAllocatorConfig::expandable_segments(),
++        "THESIS_HOST_MALLOC: expandable_segments must be false");
++    int device = 0;
++    C10_CUDA_CHECK(cudaGetDevice(&device));
++    thesis_host_malloc::guard(cuda::getCurrentCUDAStream(device));
++    C10_CUDA_CHECK(thesis_host_malloc::allocate(&devPtr, size));
++  } else {
++    C10_CUDA_CHECK(cudaMalloc(&devPtr, size));
++  }
+   const c10::impl::PyInterpreter* interp = c10::impl::GPUTrace::get_trace();
+   if (C10_UNLIKELY(interp)) {
+     (*interp)->trace_gpu_memory_allocation(
+@@ -3882,7 +3909,11 @@
+     (*interp)->trace_gpu_memory_deallocation(
+         c10::kCUDA, reinterpret_cast<uintptr_t>(ptr));
+   }
+-  C10_CUDA_CHECK(cudaFree(ptr));
++  if (thesis_host_malloc::enabled()) {
++    C10_CUDA_CHECK(thesis_host_malloc::release(ptr));
++  } else {
++    C10_CUDA_CHECK(cudaFree(ptr));
++  }
+ }
+ 
+ static void local_raw_delete(void* ptr);
+@@ -3941,6 +3972,16 @@
+   }
+ 
+   void init(int device_count) override {
++    if (thesis_host_malloc::enabled()) {
++      TORCH_CHECK(device_count == 1, "THESIS_HOST_MALLOC: one visible GPU required");
++      for (const char* name : {"PYTORCH_CUDA_ALLOC_CONF", "PYTORCH_ALLOC_CONF"}) {
++        const auto conf = c10::utils::get_env(name);
++        TORCH_CHECK(!conf || conf->find("cudaMallocAsync") == std::string::npos,
++                    "THESIS_HOST_MALLOC: backend must be native");
++      }
++      TORCH_CHECK(!CUDAAllocatorConfig::expandable_segments(),
++                  "THESIS_HOST_MALLOC: expandable_segments must be false");
++    }
+     const auto size = static_cast<int64_t>(device_allocator.size());
+     if (size < device_count) {
+       device_allocator.resize(device_count);
+@@ -3961,6 +4002,11 @@
+       c10::DeviceIndex device,
+       size_t size,
+       cudaStream_t stream) {
++    if (thesis_host_malloc::enabled()) {
++      TORCH_CHECK(!CUDAAllocatorConfig::expandable_segments(),
++          "THESIS_HOST_MALLOC: expandable_segments must be false");
++    }
++    thesis_host_malloc::guard(stream);
+     TORCH_INTERNAL_ASSERT(
+         0 <= device && static_cast<size_t>(device) < device_allocator.size(),
+         "Allocator not initialized for device ",
+@@ -4137,6 +4183,7 @@
+   }
+ 
+   ShareableHandle shareIpcHandle(void* ptr) override {
++    TORCH_CHECK(!thesis_host_malloc::enabled(), "THESIS_HOST_MALLOC: CUDA IPC unsupported");
+     Block* block = get_allocated_block(ptr);
+     if (!block) {
+       TORCH_CHECK(false, "invalid device pointer: ", ptr);
+@@ -4349,6 +4396,8 @@
+       c10::DeviceIndex device,
+       MempoolId_t mempool_id,
+       std::function<bool(cudaStream_t)> filter) override {
++    TORCH_CHECK(!thesis_host_malloc::enabled(),
++        "THESIS_HOST_MALLOC: graph capture and user MemPools unsupported in step 2");
+     assertValidDevice(device);
+     device_allocator[device]->beginAllocateToPool(
+         std::move(mempool_id), std::move(filter));
+@@ -4429,6 +4478,11 @@
+       size_t count,
+       cudaStream_t stream,
+       bool p2p_enabled) override {
++    if (thesis_host_malloc::enabled()) {
++      TORCH_CHECK(dstDevice == 0 && srcDevice == 0,
++          "THESIS_HOST_MALLOC: cross-device copies unsupported");
++      return thesis_host_malloc::copy(dst, src, count, stream);
++    }
+     if (p2p_enabled || // memcpy ok because memory is mapped in both devices
+         srcDevice == dstDevice || // memcpy ok on a single device
+         // memcpy ok because both dst and src must have come from cudaMalloc
+@@ -4532,6 +4586,7 @@
+ 
+   ska::flat_hash_map<std::string, MemHandleCacheEntry> ipcMemHandle_to_devptr;
+   std::shared_ptr<void> getIpcDevPtr(std::string handle) override {
++    TORCH_CHECK(!thesis_host_malloc::enabled(), "THESIS_HOST_MALLOC: CUDA IPC unsupported");
+     std::lock_guard<std::mutex> lock(IpcMutex);
+ 
+     auto iter = ipcMemHandle_to_devptr.find(handle);
+@@ -4572,6 +4627,11 @@
+     return "native";
+   }
+   void copy_data(void* dest, const void* src, std::size_t count) const final {
++    if (thesis_host_malloc::enabled()) {
++      C10_CUDA_CHECK(cudaDeviceSynchronize());
++      C10_CUDA_CHECK(thesis_host_malloc::copy(dest, src, count, nullptr));
++      return;
++    }
+     C10_CUDA_CHECK(
+         cudaMemcpy(dest, src, count, cudaMemcpyKind::cudaMemcpyDeviceToDevice));
+   }
+@@ -4647,7 +4707,9 @@
+   }
+ 
+   BackendStaticInitializer() {
+-    auto r = parseEnvForBackend();
++    // Freeze mode before import-time activity. Validate unsupported backend
++    // configurations in init(), where failures propagate as Python errors.
++    auto r = thesis_host_malloc::enabled() ? &Native::allocator : parseEnvForBackend();
+ // Register this HIP allocator as the CUDA allocator to allow it to work
+ // with both c10::GetAllocator(kCUDA) and c10::getDeviceAllocator(kCUDA)
+ // APIs. We don't perform this masquerading inside
+--- /dev/null
++++ b/c10/cuda/ThesisHostMalloc.h
+@@ -0,0 +1,214 @@
++#pragma once
++// Private experimental backend. Enabled only by THESIS_HOST_MALLOC=1 at load.
++// Linux GH200, one visible GPU, native eager allocator only.
++#include <cuda_runtime_api.h>
++#include <linux/mempolicy.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++#include <algorithm>
++#include <cerrno>
++#include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <cstring>
++#include <fcntl.h>
++#include <limits>
++#include <map>
++#include <mutex>
++#include <stdexcept>
++#include <string>
++#include <vector>
++
++namespace thesis_host_malloc {
++inline void require(bool ok, const std::string& message) {
++  if (!ok) throw std::runtime_error("THESIS_HOST_MALLOC: " + message);
++}
++// Called by BackendStaticInitializer: freeze the flag before any allocations.
++// Do not throw from a shared-library static constructor.
++inline int frozen_mode() {
++  static const int mode = [] {
++    const char* v = std::getenv("THESIS_HOST_MALLOC");
++    return !v || !std::strcmp(v, "0") ? 0 : (!std::strcmp(v, "1") ? 1 : 2);
++  }();
++  return mode;
++}
++inline bool enabled() { return frozen_mode() != 0; }
++inline size_t number(const char* name, size_t fallback) {
++  const char* v = std::getenv(name);
++  if (!v) return fallback;
++  require(*v >= '0' && *v <= '9', std::string("invalid ") + name);
++  errno = 0;
++  char* end = nullptr;
++  auto n = std::strtoull(v, &end, 10);
++  require(!errno && end && !*end && n > 0 && n <= SIZE_MAX,
++          std::string("invalid ") + name);
++  return static_cast<size_t>(n);
++}
++struct Block { void* base; size_t bytes; size_t charge; };
++struct State {
++  std::mutex mutex;
++  std::map<uintptr_t, Block> blocks;
++  size_t live = 0;
++  size_t limit = number("THESIS_HOST_MALLOC_MAX_BYTES", size_t(1) << 30);
++  size_t page = static_cast<size_t>(sysconf(_SC_PAGESIZE));
++  FILE* log = nullptr;
++  bool hardware_checked = false;
++  State() {
++    require(frozen_mode() == 1, "flag must be exactly 0 or 1");
++    require(page >= 4096 && (page & (page - 1)) == 0, "invalid system page size");
++    const char* path = std::getenv("THESIS_HOST_MALLOC_LOG");
++    require(path && *path == '/', "absolute THESIS_HOST_MALLOC_LOG required");
++    // A process owns its own fresh log; never truncate another run's evidence.
++    int fd = ::open(path, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC, 0600);
++    require(fd >= 0, "cannot exclusively create allocation log");
++    log = ::fdopen(fd, "w");
++    if (!log) { ::close(fd); throw std::runtime_error("THESIS_HOST_MALLOC: fdopen failed"); }
++    std::setvbuf(log, nullptr, _IOLBF, 0);
++    std::fprintf(log, "{\"event\":\"config\",\"schema\":1,\"pid\":%ld,\"page_size\":%zu,\"limit\":%zu,\"node\":0}\n",
++                 static_cast<long>(getpid()), page, limit);
++  }
++};
++inline State& state() {
++  // CUDA/process teardown order is unspecified. Explicit releases still free
++  // their blocks; OS teardown reclaims any blocks retained in PyTorch's cache.
++  static State* s = new State;
++  return *s;
++}
++inline void cuda_ok(cudaError_t e, const char* operation) {
++  require(e == cudaSuccess, std::string(operation) + ": " + cudaGetErrorString(e));
++}
++inline void check_hardware(State& s) {
++  if (s.hardware_checked) return;
++  int count = 0, device = -1, ats = 0, pageable = 0, concurrent = 0;
++  cuda_ok(cudaGetDeviceCount(&count), "cudaGetDeviceCount");
++  cuda_ok(cudaGetDevice(&device), "cudaGetDevice");
++  require(count == 1 && device == 0, "exactly one visible GPU (logical device 0) required");
++  cudaDeviceProp p{};
++  cuda_ok(cudaGetDeviceProperties(&p, 0), "cudaGetDeviceProperties");
++  cuda_ok(cudaDeviceGetAttribute(&ats, cudaDevAttrPageableMemoryAccessUsesHostPageTables, 0), "ATS query");
++  cuda_ok(cudaDeviceGetAttribute(&pageable, cudaDevAttrPageableMemoryAccess, 0), "pageable query");
++  cuda_ok(cudaDeviceGetAttribute(&concurrent, cudaDevAttrConcurrentManagedAccess, 0), "concurrent query");
++  require(p.major == 9 && p.minor == 0 && std::strstr(p.name, "GH200") &&
++          ats == 1 && pageable == 1 && concurrent == 1, "requires GH200 with ATS/pageable/concurrent access");
++  std::fprintf(s.log, "{\"event\":\"hardware\",\"ats\":1,\"visible_gpus\":1}\n");
++  s.hardware_checked = true;
++}
++inline void check_stream(cudaStream_t stream) {
++  cudaStreamCaptureStatus capture;
++  cuda_ok(cudaStreamIsCapturing(stream, &capture), "capture query");
++  require(capture == cudaStreamCaptureStatusNone, "CUDA graph capture unsupported");
++}
++inline void guard(cudaStream_t stream) {
++  if (!enabled()) return;
++  auto& s = state();
++  check_stream(stream);
++  std::lock_guard<std::mutex> lock(s.mutex);
++  check_hardware(s);
++}
++inline void check_policy(void* ptr) {
++  int policy = -1;
++  unsigned long mask[1024 / (8 * sizeof(unsigned long))] = {};
++  long rc = syscall(SYS_get_mempolicy, &policy, mask, 1024UL, ptr, MPOL_F_ADDR);
++  bool only_zero = mask[0] == 1UL;
++  for (size_t i = 1; i < sizeof(mask) / sizeof(mask[0]); ++i) only_zero &= mask[i] == 0;
++  require(rc == 0 && policy == MPOL_BIND && only_zero,
++          "range policy must bind exclusively to NUMA node 0");
++}
++inline void check_pages(void* ptr, size_t bytes, size_t page) {
++  constexpr size_t batch = 512;
++  for (size_t offset = 0; offset < bytes;) {
++    size_t n = std::min(batch, (bytes - offset) / page);
++    std::vector<void*> pages(n);
++    std::vector<int> status(n, -9999);
++    for (size_t i = 0; i < n; ++i) pages[i] = static_cast<char*>(ptr) + offset + i * page;
++    long rc = syscall(SYS_move_pages, 0, n, pages.data(), nullptr, status.data(), 0);
++    require(rc == 0, "move_pages query failed (all pages must be queryable)");
++    for (int node : status) require(node == 0, "page not resident on CPU NUMA node 0");
++    offset += n * page;
++  }
++}
++inline cudaError_t allocate(void** out, size_t bytes) {
++  *out = nullptr;
++  auto& s = state();
++  std::lock_guard<std::mutex> lock(s.mutex);
++  check_hardware(s);
++  if (!bytes) return cudaSuccess;
++  if (bytes > SIZE_MAX - (s.page - 1)) return cudaErrorMemoryAllocation;
++  size_t rounded = (bytes + s.page - 1) & ~(s.page - 1);
++  if (rounded > SIZE_MAX - (s.page - 1)) return cudaErrorMemoryAllocation;
++  size_t charge = rounded + s.page - 1;
++  if (charge > s.limit || s.live > s.limit - charge) {
++    std::fprintf(s.log, "{\"event\":\"budget_reject\",\"bytes\":%zu,\"live\":%zu}\n", bytes, s.live);
++    return cudaErrorMemoryAllocation;
++  }
++  void* base = std::malloc(charge);
++  if (!base) return cudaErrorMemoryAllocation;
++  uintptr_t address = (reinterpret_cast<uintptr_t>(base) + s.page - 1) & ~(uintptr_t(s.page - 1));
++  void* ptr = reinterpret_cast<void*>(address);
++  try {
++    unsigned long mask = 1;
++    long rc = syscall(SYS_mbind, ptr, rounded, MPOL_BIND, &mask, 8UL * sizeof(mask), 0);
++    require(rc == 0, "mbind failed, errno=" + std::to_string(errno));
++    // Populate and verify before exposing the block to any GPU operation.
++    // Ranges comprise complete pages entirely inside this malloc allocation.
++    std::memset(ptr, 0, rounded);
++    check_policy(ptr);
++    check_pages(ptr, rounded, s.page);
++    s.blocks.emplace(address, Block{base, rounded, charge});
++  } catch (...) {
++    // Do not return a policy-modified range to libc unless reset succeeds.
++    // On reset failure, deliberately retain it until this failing process exits.
++    if (syscall(SYS_mbind, ptr, rounded, MPOL_DEFAULT, nullptr, 0UL, 0) == 0)
++      std::free(base);
++    throw;
++  }
++  s.live += charge;
++  std::fprintf(s.log, "{\"event\":\"alloc\",\"ptr\":%llu,\"base\":%llu,\"bytes\":%zu,\"mapped_bytes\":%zu,\"charge\":%zu,\"live\":%zu,\"node\":0}\n",
++               static_cast<unsigned long long>(address), static_cast<unsigned long long>(reinterpret_cast<uintptr_t>(base)),
++               bytes, rounded, charge, s.live);
++  *out = ptr;
++  return cudaSuccess;
++}
++inline bool contains_locked(const State& s, const void* ptr, size_t bytes) {
++  auto address = reinterpret_cast<uintptr_t>(ptr);
++  auto it = s.blocks.upper_bound(address);
++  if (it == s.blocks.begin()) return false;
++  --it;
++  size_t offset = address - it->first;
++  return offset < it->second.bytes && bytes <= it->second.bytes - offset;
++}
++inline cudaError_t release(void* ptr) {
++  if (!ptr) return cudaSuccess;
++  // cudaFree used to provide implicit synchronization on actual segment
++  // release. Preserve safety before replacing it with non-synchronizing free.
++  guard(nullptr);
++  cuda_ok(cudaDeviceSynchronize(), "synchronize before free");
++  auto& s = state();
++  std::lock_guard<std::mutex> lock(s.mutex);
++  auto it = s.blocks.find(reinterpret_cast<uintptr_t>(ptr));
++  require(it != s.blocks.end(), "attempt to free an unknown host block");
++  check_policy(ptr);
++  check_pages(ptr, it->second.bytes, s.page);
++  auto block = it->second;
++  // Remove VMA policy before libc can reuse the allocation's pages.
++  long rc = syscall(SYS_mbind, ptr, block.bytes, MPOL_DEFAULT, nullptr, 0UL, 0);
++  require(rc == 0, "cannot reset range policy before free");
++  s.blocks.erase(it);
++  s.live -= block.charge;
++  std::free(block.base);
++  std::fprintf(s.log, "{\"event\":\"free\",\"ptr\":%llu,\"live\":%zu,\"node\":0}\n",
++               static_cast<unsigned long long>(reinterpret_cast<uintptr_t>(ptr)), s.live);
++  return cudaSuccess;
++}
++inline cudaError_t copy(void* dst, const void* src, size_t bytes, cudaStream_t stream) {
++  guard(stream);
++  cuda_ok(cudaStreamSynchronize(stream), "synchronize before host-backed copy");
++  auto& s = state();
++  std::lock_guard<std::mutex> lock(s.mutex);
++  require(!bytes || (contains_locked(s, dst, bytes) && contains_locked(s, src, bytes)),
++          "CUDA-to-CUDA copy includes external/non-host-backed storage");
++  if (bytes) std::memmove(dst, src, bytes);
++  std::fprintf(s.log, "{\"event\":\"host_copy\",\"bytes\":%zu}\n", bytes);
++  return cudaSuccess;
++}
++} // namespace thesis_host_malloc
