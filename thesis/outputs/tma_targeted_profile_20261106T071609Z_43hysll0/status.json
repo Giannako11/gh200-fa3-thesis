@@ -1,0 +1,149 @@
+{
+  "completed": [
+    {
+      "case": "registered_rep1_gpu_evicted_sample3",
+      "source": "registered",
+      "allocation": 1,
+      "protocol": "gpu_evicted",
+      "selected_sample": 3,
+      "matching_launches_skipped": 13,
+      "profiled_process_event_ms": 142.670715332,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep1_gpu_evicted_sample3/tma.ncu-rep",
+      "seconds": 6.588,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep1_gpu_evicted_sample5",
+      "source": "registered",
+      "allocation": 1,
+      "protocol": "gpu_evicted",
+      "selected_sample": 5,
+      "matching_launches_skipped": 15,
+      "profiled_process_event_ms": 140.524765015,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep1_gpu_evicted_sample5/tma.ncu-rep",
+      "seconds": 6.058,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep1_self_primed_sample3",
+      "source": "registered",
+      "allocation": 1,
+      "protocol": "self_primed",
+      "selected_sample": 3,
+      "matching_launches_skipped": 16,
+      "profiled_process_event_ms": 141.11605835,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep1_self_primed_sample3/tma.ncu-rep",
+      "seconds": 6.059,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep1_self_primed_sample5",
+      "source": "registered",
+      "allocation": 1,
+      "protocol": "self_primed",
+      "selected_sample": 5,
+      "matching_launches_skipped": 20,
+      "profiled_process_event_ms": 139.373245239,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep1_self_primed_sample5/tma.ncu-rep",
+      "seconds": 6.06,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep2_self_primed_sample3",
+      "source": "registered",
+      "allocation": 2,
+      "protocol": "self_primed",
+      "selected_sample": 3,
+      "matching_launches_skipped": 16,
+      "profiled_process_event_ms": 138.612518311,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_self_primed_sample3/tma.ncu-rep",
+      "seconds": 6.062,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep2_self_primed_sample5",
+      "source": "registered",
+      "allocation": 2,
+      "protocol": "self_primed",
+      "selected_sample": 5,
+      "matching_launches_skipped": 20,
+      "profiled_process_event_ms": 138.881820679,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_self_primed_sample5/tma.ncu-rep",
+      "seconds": 6.164,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep2_gpu_evicted_sample3",
+      "source": "registered",
+      "allocation": 2,
+      "protocol": "gpu_evicted",
+      "selected_sample": 3,
+      "matching_launches_skipped": 13,
+      "profiled_process_event_ms": 140.847259521,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_gpu_evicted_sample3/tma.ncu-rep",
+      "seconds": 6.064,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep2_gpu_evicted_sample5",
+      "source": "registered",
+      "allocation": 2,
+      "protocol": "gpu_evicted",
+      "selected_sample": 5,
+      "matching_launches_skipped": 15,
+      "profiled_process_event_ms": 139.833465576,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_gpu_evicted_sample5/tma.ncu-rep",
+      "seconds": 6.067,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep3_gpu_evicted_sample3",
+      "source": "registered",
+      "allocation": 3,
+      "protocol": "gpu_evicted",
+      "selected_sample": 3,
+      "matching_launches_skipped": 13,
+      "profiled_process_event_ms": 139.608673096,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep3_gpu_evicted_sample3/tma.ncu-rep",
+      "seconds": 6.066,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep3_gpu_evicted_sample5",
+      "source": "registered",
+      "allocation": 3,
+      "protocol": "gpu_evicted",
+      "selected_sample": 5,
+      "matching_launches_skipped": 15,
+      "profiled_process_event_ms": 140.978302002,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep3_gpu_evicted_sample5/tma.ncu-rep",
+      "seconds": 6.013,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep3_self_primed_sample3",
+      "source": "registered",
+      "allocation": 3,
+      "protocol": "self_primed",
+      "selected_sample": 3,
+      "matching_launches_skipped": 16,
+      "profiled_process_event_ms": 141.353820801,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep3_self_primed_sample3/tma.ncu-rep",
+      "seconds": 6.064,
+      "status": "ok"
+    },
+    {
+      "case": "registered_rep3_self_primed_sample5",
+      "source": "registered",
+      "allocation": 3,
+      "protocol": "self_primed",
+      "selected_sample": 5,
+      "matching_launches_skipped": 20,
+      "profiled_process_event_ms": 139.410690308,
+      "report": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep3_self_primed_sample5/tma.ncu-rep",
+      "seconds": 6.062,
+      "status": "ok"
+    }
+  ],
+  "expected": 12
+}

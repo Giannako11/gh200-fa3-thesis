@@ -1,0 +1,40 @@
+{
+  "argv": [
+    "numactl",
+    "--cpunodebind=0",
+    "--membind=0",
+    "/usr/local/cuda/bin/ncu",
+    "--replay-mode",
+    "application",
+    "--cache-control",
+    "none",
+    "--clock-control",
+    "none",
+    "--section",
+    "MemoryWorkloadAnalysis",
+    "--kernel-name-base",
+    "function",
+    "--kernel-name",
+    "regex:tma_shared",
+    "--launch-skip",
+    "13",
+    "--launch-count",
+    "1",
+    "--export",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_gpu_evicted_sample3/tma",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled",
+    "33554432",
+    "128",
+    "128",
+    "registered",
+    "128",
+    "1",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_gpu_evicted_sample3/rows.csv"
+  ],
+  "env": {
+    "TMA_CONTROLLED_PROTOCOL": "gpu_evicted",
+    "TMA_CONTROLLED_CASE_DIR": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_gpu_evicted_sample3",
+    "TMA_SAMPLE_WARMUP": "10",
+    "TMA_SAMPLE_COUNT": "6"
+  }
+}

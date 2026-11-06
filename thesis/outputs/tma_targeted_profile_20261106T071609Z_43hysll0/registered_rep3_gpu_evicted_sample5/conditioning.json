@@ -1,0 +1,1 @@
+{"protocol":"gpu_evicted","l2_bytes":62914560,"eviction_bytes":553648128,"block_bytes":524288,"blocks":1056,"expected_sms":132,"minimum_covered_sms":132,"passes":2,"eviction_calls":18,"eviction_kernel_launches":36,"primers_per_sample":0,"hardware_invalidation_claim":false,"cpu_cache_flush":false}

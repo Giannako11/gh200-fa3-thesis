@@ -1,0 +1,31 @@
+nohup: ignoring input
+Source sweep: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd
+Plan: 12 separate profiler reports; 32 MiB, 128x128, tma_shared; ncu application replay, cache-control none, clock-control none.
+  registered allocation 1, gpu_evicted, timed sample 3: skip 13 matching TMA launches, profile 1
+  registered allocation 1, gpu_evicted, timed sample 5: skip 15 matching TMA launches, profile 1
+  registered allocation 1, self_primed, timed sample 3: skip 16 matching TMA launches, profile 1
+  registered allocation 1, self_primed, timed sample 5: skip 20 matching TMA launches, profile 1
+  registered allocation 2, self_primed, timed sample 3: skip 16 matching TMA launches, profile 1
+  registered allocation 2, self_primed, timed sample 5: skip 20 matching TMA launches, profile 1
+  registered allocation 2, gpu_evicted, timed sample 3: skip 13 matching TMA launches, profile 1
+  registered allocation 2, gpu_evicted, timed sample 5: skip 15 matching TMA launches, profile 1
+  registered allocation 3, gpu_evicted, timed sample 3: skip 13 matching TMA launches, profile 1
+  registered allocation 3, gpu_evicted, timed sample 5: skip 15 matching TMA launches, profile 1
+  registered allocation 3, self_primed, timed sample 3: skip 16 matching TMA launches, profile 1
+  registered allocation 3, self_primed, timed sample 5: skip 20 matching TMA launches, profile 1
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0
+Progress: [##----------------------------] 1/12 registered_rep1_gpu_evicted_sample3
+Progress: [#####-------------------------] 2/12 registered_rep1_gpu_evicted_sample5
+Progress: [#######-----------------------] 3/12 registered_rep1_self_primed_sample3
+Progress: [##########--------------------] 4/12 registered_rep1_self_primed_sample5
+Progress: [############------------------] 5/12 registered_rep2_self_primed_sample3
+Progress: [###############---------------] 6/12 registered_rep2_self_primed_sample5
+Progress: [#################-------------] 7/12 registered_rep2_gpu_evicted_sample3
+Progress: [####################----------] 8/12 registered_rep2_gpu_evicted_sample5
+Progress: [######################--------] 9/12 registered_rep3_gpu_evicted_sample3
+Progress: [#########################-----] 10/12 registered_rep3_gpu_evicted_sample5
+Progress: [###########################---] 11/12 registered_rep3_self_primed_sample3
+Progress: [##############################] 12/12 registered_rep3_self_primed_sample5
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0
+Shareable reports archive: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/reports.tar.gz
+Profiled reports are for traffic/cache diagnosis; use the original sweep CSV for timings.

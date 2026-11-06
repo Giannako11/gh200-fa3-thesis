@@ -1,0 +1,404 @@
+STAGE device_check
+==WARNING== Note: Running with uncontrolled GPU caches. Profiling results may be inconsistent.
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 3485370 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=35 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 1
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485370
+STAGE device_check
+==PROF== Connected to process 3485387 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=41 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 2
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485387
+STAGE device_check
+==PROF== Connected to process 3485402 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=42 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 3
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485402
+STAGE device_check
+==PROF== Connected to process 3485417 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=42 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 4
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485417
+STAGE device_check
+==PROF== Connected to process 3485432 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=49 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 5
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485432
+STAGE device_check
+==PROF== Connected to process 3485447 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=42 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 6
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485447
+STAGE device_check
+==PROF== Connected to process 3485462 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=42 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 7
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485462
+STAGE device_check
+==PROF== Connected to process 3485477 (/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_controlled_sweep_20261105T121531Z_fjuhzvcd/controlled)
+GPU=NVIDIA GH200 480GB CPU=42 NUMA=0
+STAGE allocation
+DIAG_POLICY scope=thread rc=0 errno=0 mode=2 nodes=0:
+DIAG_POLICY scope=address rc=0 errno=0 mode=5 nodes=0:
+STAGE measure
+CONDITIONING l2_bytes=62914560 scratch_bytes=553648128 block_bytes=524288 blocks=1056 expected_sms=132 passes=2
+STAGE loads_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE tma_shared
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+==PROF== Profiling "tma_shared": Application replay pass 8
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE loads_direct
+STAGE placement_before_warmup
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_before_sampling
+STAGE warmup
+STAGE placement_before_samples
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE conditioned_samples
+STAGE placement_after_samples_before_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE correctness_after_sampling
+STAGE placement_after_verification
+DIAG_LOCATION pages=512 nodes=0:512; negative_status= query_errno=0
+STAGE finished
+==PROF== Disconnected from process 3485477
+==PROF== Creating report from application replay data: 0%..........100%
+==PROF== Report: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/tma_targeted_profile_20261106T071609Z_43hysll0/registered_rep2_self_primed_sample5/tma.ncu-rep
