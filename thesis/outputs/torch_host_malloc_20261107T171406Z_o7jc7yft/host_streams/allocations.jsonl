@@ -1,0 +1,9 @@
+{"event":"config","schema":1,"pid":1167916,"page_size":65536,"limit":268435456,"node":0}
+{"event":"hardware","ats":1,"visible_gpus":1}
+{"event":"alloc","ptr":199846395576320,"base":199846395533632,"bytes":2097152,"mapped_bytes":2097152,"charge":2162687,"live":2162687,"node":0}
+{"event":"alloc","ptr":257342864031744,"base":257342863966224,"bytes":33554432,"mapped_bytes":33554432,"charge":33619967,"live":35782654,"node":0}
+{"event":"free","ptr":199846395576320,"live":33619967,"node":0}
+{"event":"alloc","ptr":257342804328448,"base":257342804262928,"bytes":2097152,"mapped_bytes":2097152,"charge":2162687,"live":35782654,"node":0}
+{"event":"alloc","ptr":257342802100224,"base":257342802034704,"bytes":2097152,"mapped_bytes":2097152,"charge":2162687,"live":37945341,"node":0}
+{"event":"free","ptr":257342804328448,"live":35782654,"node":0}
+{"event":"free","ptr":257342802100224,"live":33619967,"node":0}

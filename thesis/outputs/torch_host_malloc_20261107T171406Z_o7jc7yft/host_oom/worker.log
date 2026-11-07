@@ -1,0 +1,13 @@
+{
+  "case": "oom",
+  "host": true,
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "python": "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python",
+  "checks": [
+    "budget OOM is recoverable; no huge host allocation touched"
+  ],
+  "elapsed_seconds": 0.191,
+  "remaining_segments": 1,
+  "status": "PASS"
+}

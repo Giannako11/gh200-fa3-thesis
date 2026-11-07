@@ -1,0 +1,24 @@
+{
+  "case": "uncached",
+  "host": true,
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "python": "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python",
+  "checks": [
+    "CUDA creation/fill/add for four dtypes and zero/odd/large sizes",
+    "CPU writes -> GPU kernel -> CPU reads at identical data_ptr",
+    "copies/views/reduction and FP32/FP16/BF16 cuBLAS matmul",
+    "large segment released after GPU completion and empty_cache"
+  ],
+  "elapsed_seconds": 0.361,
+  "physical_memory_observation": {
+    "tensor_bytes": 33554432,
+    "free_hbm_before": 101221859328,
+    "free_hbm_after": 101221859328,
+    "hbm_delta": 0,
+    "logical_allocated": 0,
+    "logical_reserved": 0
+  },
+  "remaining_segments": 2,
+  "status": "PASS"
+}

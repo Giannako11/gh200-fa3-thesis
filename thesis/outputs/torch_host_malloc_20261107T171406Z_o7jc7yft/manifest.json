@@ -1,0 +1,149 @@
+{
+  "build": {
+    "schema": 1,
+    "upstream": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+    "patch_sha256": "55cb09b9d147974a00d5c47a9ce30524ea3d1efa6e4cd47dc3601800258736fd",
+    "helper_sha256": "fb29ac8d2ba05c96cd218cc65c579efaff339f75b246e81a1049b01a7c6651a0",
+    "original_prefix": "/local/ggiannak/miniconda3/envs/fa3",
+    "cuda_home": "/usr/local/cuda-13.0",
+    "jobs": 4,
+    "python_version": "3.11",
+    "wheels": {
+      "stock": {
+        "path": "/local/ggiannak/thesis_host_malloc/wheels/stock/torch-2.11.0+thesis-cp311-cp311-linux_aarch64.whl",
+        "sha256": "47865b664c213220eadb39ffda270a0b689348eb4f742fb774a12f3e22e69805",
+        "python": "/local/ggiannak/thesis_host_malloc/stock_env/bin/python"
+      },
+      "host": {
+        "path": "/local/ggiannak/thesis_host_malloc/wheels/host/torch-2.11.0+thesis-cp311-cp311-linux_aarch64.whl",
+        "sha256": "54eeb25a1a7bcf8202bd2f98212760dd8fce889b72c399aa1e7ea0d459c2bc43",
+        "python": "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python"
+      }
+    },
+    "build_environment": {
+      "USE_CUDA": "1",
+      "USE_CUDNN": "0",
+      "USE_DISTRIBUTED": "0",
+      "USE_NCCL": "0",
+      "USE_MPI": "0",
+      "USE_MAGMA": "0",
+      "USE_MKLDNN": "0",
+      "USE_KINETO": "1",
+      "BUILD_TEST": "0",
+      "TORCH_CUDA_ARCH_LIST": "9.0",
+      "MAX_JOBS": "4",
+      "CMAKE_BUILD_PARALLEL_LEVEL": "4",
+      "PYTORCH_BUILD_VERSION": "2.11.0+thesis"
+    },
+    "disk_policy": {
+      "entry_free_gib": 30,
+      "reserve_free_gib": 8,
+      "poll_seconds": 0.5
+    },
+    "created": "2026-11-06T15:23:24.163557+00:00"
+  },
+  "cases": [
+    [
+      "stock_standard",
+      "stock",
+      "standard",
+      false
+    ],
+    [
+      "stock_streams",
+      "stock",
+      "streams",
+      false
+    ],
+    [
+      "off_standard",
+      "host",
+      "standard",
+      false
+    ],
+    [
+      "off_streams",
+      "host",
+      "streams",
+      false
+    ],
+    [
+      "off_frozen",
+      "host",
+      "frozen_off",
+      false
+    ],
+    [
+      "host_standard",
+      "host",
+      "standard",
+      true
+    ],
+    [
+      "host_streams",
+      "host",
+      "streams",
+      true
+    ],
+    [
+      "host_uncached",
+      "host",
+      "uncached",
+      true
+    ],
+    [
+      "host_oom",
+      "host",
+      "oom",
+      true
+    ],
+    [
+      "host_graph_reject",
+      "host",
+      "graph_reject",
+      true
+    ],
+    [
+      "host_fraction_reject",
+      "host",
+      "fraction_reject",
+      true
+    ],
+    [
+      "host_frozen",
+      "host",
+      "frozen_on",
+      true
+    ],
+    [
+      "host_bad_flag",
+      "host",
+      "bad_flag",
+      true
+    ],
+    [
+      "host_async_reject",
+      "host",
+      "backend_async",
+      true
+    ],
+    [
+      "host_expandable_reject",
+      "host",
+      "expandable",
+      true
+    ],
+    [
+      "host_reconfigure_reject",
+      "host",
+      "reconfigure_reject",
+      true
+    ]
+  ],
+  "files": {
+    "thesis/scripts/run_torch_host_malloc.py": "a6178764d155efa74a01215f6fb6b193f099b803f1bd4cd586d231d6be689f70",
+    "thesis/tests/test_torch_host_malloc.py": "51bf45072fe7572eeb84d76b35211d58c6f1e830d57145cadc00f14a7348cd51",
+    "thesis/pytorch_host_malloc/patches/native_host_malloc.patch": "55cb09b9d147974a00d5c47a9ce30524ea3d1efa6e4cd47dc3601800258736fd",
+    "thesis/pytorch_host_malloc/ThesisHostMalloc.h": "fb29ac8d2ba05c96cd218cc65c579efaff339f75b246e81a1049b01a7c6651a0"
+  }
+}

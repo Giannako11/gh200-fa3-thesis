@@ -1,0 +1,5 @@
+{"event":"config","schema":1,"pid":1168127,"page_size":65536,"limit":268435456,"node":0}
+{"event":"hardware","ats":1,"visible_gpus":1}
+{"event":"alloc","ptr":193266057936896,"base":193266057894896,"bytes":2097152,"mapped_bytes":2097152,"charge":2162687,"live":2162687,"node":0}
+{"event":"budget_reject","bytes":1073741824,"live":2162687}
+{"event":"budget_reject","bytes":1073741824,"live":2162687}

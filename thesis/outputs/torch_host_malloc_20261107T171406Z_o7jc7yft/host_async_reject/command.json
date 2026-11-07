@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "numactl",
+    "--cpunodebind=0",
+    "--membind=0",
+    "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/tests/test_torch_host_malloc.py",
+    "--case",
+    "backend_async",
+    "--output",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/torch_host_malloc_20261107T171406Z_o7jc7yft/host_async_reject/result.json",
+    "--host"
+  ],
+  "env": {
+    "THESIS_HOST_MALLOC": "1",
+    "THESIS_HOST_MALLOC_MAX_BYTES": "268435456",
+    "THESIS_HOST_MALLOC_LOG": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/torch_host_malloc_20261107T171406Z_o7jc7yft/host_async_reject/allocations.jsonl",
+    "PYTORCH_CUDA_ALLOC_CONF": "backend:cudaMallocAsync"
+  }
+}

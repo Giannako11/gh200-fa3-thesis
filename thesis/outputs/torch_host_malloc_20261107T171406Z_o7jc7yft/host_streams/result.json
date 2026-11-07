@@ -1,0 +1,155 @@
+{
+  "case": "streams",
+  "host": true,
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "python": "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python",
+  "checks": [
+    "20 cross-stream record_stream/reuse/release iterations"
+  ],
+  "placement": [
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    },
+    {
+      "ptr": 257342802100224,
+      "bytes": 65536,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 257342802100224
+    }
+  ],
+  "elapsed_seconds": 0.54,
+  "remaining_segments": 1,
+  "status": "PASS"
+}

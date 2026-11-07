@@ -1,0 +1,429 @@
+{
+  "case": "standard",
+  "host": true,
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "python": "/local/ggiannak/thesis_host_malloc/fa3_host_malloc/bin/python",
+  "checks": [
+    "CUDA creation/fill/add for four dtypes and zero/odd/large sizes",
+    "CPU writes -> GPU kernel -> CPU reads at identical data_ptr",
+    "copies/views/reduction and FP32/FP16/BF16 cuBLAS matmul",
+    "large segment released after GPU completion and empty_cache"
+  ],
+  "placement": [
+    {
+      "phase": "before",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "after",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 4,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 4,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 68,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 68,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 4096,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 4096,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 400012,
+      "pages": 7,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 400012,
+      "pages": 7,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "after",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 2,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 2,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 34,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 34,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 2048,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 2048,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 200006,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 200006,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "after",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 2,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 2,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 34,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 34,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 2048,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 2048,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 200006,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 200006,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "after",
+      "bytes": 0,
+      "pages": 0
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 8,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 8,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 136,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 136,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 8192,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 8192,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "before",
+      "ptr": 256034077016064,
+      "bytes": 800024,
+      "pages": 13,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "after",
+      "ptr": 256034077016064,
+      "bytes": 800024,
+      "pages": 13,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "direct_before",
+      "ptr": 256034077016064,
+      "bytes": 262144,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "phase": "direct_after",
+      "ptr": 256034077016064,
+      "bytes": 262144,
+      "pages": 4,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077278208,
+      "bytes": 16384,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077016064,
+      "bytes": 16384,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077032448,
+      "bytes": 16384,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077048832,
+      "bytes": 65536,
+      "pages": 2,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077114368,
+      "bytes": 65536,
+      "pages": 2,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077179904,
+      "bytes": 65536,
+      "pages": 2,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077016064,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077048832,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077081600,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077016064,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077048832,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256034077114368,
+      "bytes": 32768,
+      "pages": 1,
+      "node": 0,
+      "segment_ptr": 256034077016064
+    },
+    {
+      "ptr": 256021842231296,
+      "bytes": 33554432,
+      "pages": 512,
+      "node": 0,
+      "segment_ptr": 256021842231296
+    }
+  ],
+  "elapsed_seconds": 0.353,
+  "physical_memory_observation": {
+    "tensor_bytes": 33554432,
+    "free_hbm_before": 101221072896,
+    "free_hbm_after": 101221072896,
+    "hbm_delta": 0,
+    "logical_allocated": 67141632,
+    "logical_reserved": 69206016
+  },
+  "remaining_segments": 2,
+  "status": "PASS"
+}
