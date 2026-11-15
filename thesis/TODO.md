@@ -54,5 +54,8 @@
    See [step 3 instructions](pytorch_custom_alloc/README.md) and
    [GH200 results](outputs/torch_custom_alloc_20261115T182058Z_qduryofk/result.json).
 
-   Follow-up: try selected sparse attention buffers in Grace DRAM with dense
-   data in Hopper HBM on a small workload, and measure HBM usage and runtime.
+   Follow-up — block-sparse decode placement: `in progress`.
+   The benchmark compares the same direct-read CUDA attention path with K/V
+   in Hopper HBM and Grace DRAM. It records K/V HBM usage and timed samples
+   for both placements, and plots latency by fraction of blocks read.
+   [Run instructions](microbenchmarks/sparse_attention_placement/README.md).
