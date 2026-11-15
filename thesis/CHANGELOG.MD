@@ -1,14 +1,22 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-16 — Mixed K/V placement completed
+
+- The smoke and full runs passed on GH200. The full run recorded 280/280
+  samples across seven layouts. Outputs matched the all-HBM baseline and
+  the FP32 reference. Grace page placement and pool release checks passed.
+- With 32 MiB of HBM saved in each layout, keeping all active blocks in HBM
+  took 28.24 µs, splitting active blocks evenly took 94.34 µs, and keeping
+  all active blocks in Grace took 138.86 µs. The block list was fixed.
+- Results: [full mixed-placement run](outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/summary.md).
+
 ## 2026-11-15 — Sparse attention K/V placement
 
 - The all-HBM vs. all-Grace benchmark passed on GH200. Moving the K/V cache
   saved 32 MiB of HBM. Grace-backed decode latency was 2.82–5.24× higher,
   depending on the number of blocks read. All 240 full-run samples are
   [recorded here](outputs/sparse_attention_placement_20261115T185926Z_36wtnrid/summary.md).
-- Added mixed K/V placement with 64/128 active blocks held fixed. Includes
-  a comparison at equal HBM usage while changing where the active blocks
-  reside. GH200 validation and timing are pending.
+- Added mixed K/V placement with 64 of 128 blocks read in every layout.
 
 ## 2026-11-15 — Step 3: selective CUDA tensor allocation completed
 

@@ -64,5 +64,9 @@
    with 2.82–5.24× higher decode latency for all-Grace K/V in this workload.
    [Results](outputs/sparse_attention_placement_20261115T185926Z_36wtnrid/summary.md).
 
-   Mixed K/V placement: `in progress`. Compare both endpoints, intermediate
-   placements and three policies with the same 32 MiB HBM saving. GH200 run pending.
+   Mixed K/V placement: `completed` (16.11.26). Both the smoke and full runs
+   passed on GH200. The full run recorded 280/280 samples across seven layouts,
+   reading the same 64 of 128 blocks from a 64 MiB K/V cache.
+   With the same 32 MiB HBM saving, median decode time was 28.24, 94.34 and
+   138.86 µs when 0, 32 and 64 active blocks were read from Grace, respectively.
+   [Full results](outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/summary.md).
