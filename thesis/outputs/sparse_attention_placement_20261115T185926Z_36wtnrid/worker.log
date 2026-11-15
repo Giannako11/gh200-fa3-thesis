@@ -1,0 +1,8 @@
+grace_alloc ptr=0xe614e4de0000 bytes=16777216 pages=256 live=16842751
+grace_alloc ptr=0xe614e3dc0000 bytes=16777216 pages=256 live=33685502
+PASS [1/4] 8/64 blocks
+PASS [2/4] 16/64 blocks
+PASS [3/4] 32/64 blocks
+PASS [4/4] 64/64 blocks
+grace_free ptr=0xe614e3dc0000 bytes=16777216 live=16842751
+grace_free ptr=0xe614e4de0000 bytes=16777216 live=0

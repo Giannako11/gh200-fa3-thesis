@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "torch_cuda": "13.0",
+  "gpu": "NVIDIA GH200 480GB",
+  "seed": 20261115,
+  "queries_per_head": 1,
+  "heads": 8,
+  "head_dim": 128,
+  "tokens": 8192,
+  "tokens_per_block": 128,
+  "kv_dtype": "bfloat16",
+  "kv_bytes": 33554432,
+  "warmups_per_placement": 10,
+  "sample_pairs": 30,
+  "cache_protocol": "warmed buffers, alternating order, no eviction",
+  "hbm_delta_bytes": {
+    "hbm": 33554432,
+    "grace": 0
+  },
+  "grace_pages_before": [
+    256,
+    256
+  ],
+  "grace_node": 0,
+  "matching_kv_inputs": true,
+  "selected_block_ids": {
+    "16": [
+      3,
+      4,
+      7,
+      16,
+      18,
+      24,
+      25,
+      27,
+      35,
+      37,
+      43,
+      48,
+      50,
+      56,
+      58,
+      61
+    ]
+  },
+  "grace_pages_after": [
+    256,
+    256
+  ],
+  "grace_live_bytes_after_close": 0
+}
