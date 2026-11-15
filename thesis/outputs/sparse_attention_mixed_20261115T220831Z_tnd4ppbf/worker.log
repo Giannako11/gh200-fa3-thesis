@@ -1,0 +1,7 @@
+PASS pass 1/1 [1/3] all_hbm
+grace_alloc ptr=0xf05a01330000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xf05a01330000 bytes=33554432 live=0
+PASS pass 1/1 [2/3] balanced_50
+grace_alloc ptr=0xf0599bff0000 bytes=67108864 pages=1024 live=67174399
+grace_free ptr=0xf0599bff0000 bytes=67108864 live=0
+PASS pass 1/1 [3/3] all_grace

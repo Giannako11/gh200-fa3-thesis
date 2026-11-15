@@ -1,0 +1,55 @@
+{
+  "git_commit": "1412fc140be0d77a5c7ba1e97d6b9b9c01f0c161",
+  "files_sha256": {
+    "thesis/pytorch_custom_alloc/grace_allocator.cpp": "bdb554c73e1d33605eb90af43f4803955d3804ec5aed7acfa738b88034211144",
+    "thesis/microbenchmarks/sparse_attention_placement/block_sparse_decode.cu": "d19ebd98b539429db646a585fc5bc15470514e65c73c124c503bc903394f7cf7",
+    "thesis/pytorch_custom_alloc/grace_pool.py": "d059a0cb25d813cef2ab1b1b98bbf7f7c2c2e6f26c73b0b4d6093e040a2716bb",
+    "thesis/microbenchmarks/sparse_attention_placement/bench_sparse_attention_placement.py": "0520ca0dbe33f855a9786d3372185f499aab28c005171ae908ab0a38fd4cab2a",
+    "thesis/microbenchmarks/sparse_attention_placement/bench_mixed.py": "6730c766e42f4e28dc0aa6bf71d3dde943800202f2c06b99f427ff44a86ba0f0",
+    "thesis/microbenchmarks/sparse_attention_placement/plot.py": "2c12778498ab45eb2c52c7453d563d583c2260b7305ee962bf7993ad3b005975",
+    "thesis/scripts/run_sparse_attention_placement.py": "0379a277e16f0b236c65bec21b4182c2ee406770cad8232c5abcafc42f814f1d",
+    "thesis/scripts/run_sparse_attention_placement.sh": "740dddedbba833a96c2990b668760bbe7c0c40b945dfaab5bf320dd044ea7a21"
+  },
+  "stock_root": "/local/ggiannak/thesis_host_malloc",
+  "stock_build_manifest_sha256": "2fc6ae21fb7c8833404e6ddcdc82251bd5be3ecf248d9f4c5a6423726dad0879",
+  "cuda_home": "/usr/local/cuda-13.0",
+  "compile_commands": [
+    [
+      "/usr/local/cuda-13.0/bin/nvcc",
+      "-std=c++17",
+      "-O3",
+      "--shared",
+      "--cudart=shared",
+      "-Xcompiler=-fPIC,-pthread",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/pytorch_custom_alloc/grace_allocator.cpp",
+      "-o",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/grace_allocator.so"
+    ],
+    [
+      "/usr/local/cuda-13.0/bin/nvcc",
+      "-std=c++17",
+      "-O3",
+      "--shared",
+      "--cudart=shared",
+      "-Xcompiler=-fPIC,-pthread",
+      "-arch=sm_90",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/sparse_attention_placement/block_sparse_decode.cu",
+      "-o",
+      "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/block_sparse_decode.so"
+    ]
+  ],
+  "worker_command": [
+    "numactl",
+    "--cpunodebind=0",
+    "--membind=0",
+    "/local/ggiannak/thesis_host_malloc/stock_env/bin/python3.11",
+    "-u",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/sparse_attention_placement/bench_mixed.py",
+    "--allocator",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/grace_allocator.so",
+    "--kernel",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu/block_sparse_decode.so",
+    "--out",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/sparse_attention_mixed_20261115T220837Z_va6lhsqu"
+  ]
+}

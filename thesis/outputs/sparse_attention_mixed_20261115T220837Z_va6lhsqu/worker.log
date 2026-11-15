@@ -1,0 +1,38 @@
+PASS pass 1/2 [1/7] all_hbm
+grace_alloc ptr=0xea098f1d0000 bytes=16777216 pages=256 live=16842751
+grace_free ptr=0xea098f1d0000 bytes=16777216 live=0
+PASS pass 1/2 [2/7] balanced_25
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 1/2 [3/7] balanced_50
+grace_alloc ptr=0xea098d1d0000 bytes=50331648 pages=768 live=50397183
+grace_free ptr=0xea098d1d0000 bytes=50331648 live=0
+PASS pass 1/2 [4/7] balanced_75
+grace_alloc ptr=0xea098c1d0000 bytes=67108864 pages=1024 live=67174399
+grace_free ptr=0xea098c1d0000 bytes=67108864 live=0
+PASS pass 1/2 [5/7] all_grace
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 1/2 [6/7] active_hbm
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 1/2 [7/7] active_grace
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 2/2 [1/7] active_grace
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 2/2 [2/7] active_hbm
+grace_alloc ptr=0xea098c1d0000 bytes=67108864 pages=1024 live=67174399
+grace_free ptr=0xea098c1d0000 bytes=67108864 live=0
+PASS pass 2/2 [3/7] all_grace
+grace_alloc ptr=0xea098d1d0000 bytes=50331648 pages=768 live=50397183
+grace_free ptr=0xea098d1d0000 bytes=50331648 live=0
+PASS pass 2/2 [4/7] balanced_75
+grace_alloc ptr=0xea098e1d0000 bytes=33554432 pages=512 live=33619967
+grace_free ptr=0xea098e1d0000 bytes=33554432 live=0
+PASS pass 2/2 [5/7] balanced_50
+grace_alloc ptr=0xb1babc430000 bytes=16777216 pages=256 live=16842751
+grace_free ptr=0xb1babc430000 bytes=16777216 live=0
+PASS pass 2/2 [6/7] balanced_25
+PASS pass 2/2 [7/7] all_hbm
