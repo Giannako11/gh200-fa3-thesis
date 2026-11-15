@@ -24,20 +24,24 @@
    heavily perturbed. This does not block starting step 2; no further full
    sweep is currently scheduled.
 
-2. Check how to replace GPU-memory allocations with normal host allocations
-   (`malloc`) in PyTorch, so selected tensors can use Grace DRAM instead of
-   Hopper HBM while still being used by GPU operations. ----- `in progress` (06.11.26)
-   Verify where the pages are placed and that the GPU can access them correctly.
-   Implement the change in PyTorch's native CUDACachingAllocator, behind an
-   OFF-by-default process flag. Keep fa3 untouched; build stock and patched
-   PyTorch in separate prefixes outside the repository. The new host-malloc
-   runner enables it only for its own subprocesses. This is not a from_blob
-   wrapper or a step-3 custom user allocator.
-   Implementation/scripts and CPU-only helper checks are prepared under
-   pytorch_host_malloc/. Real source builds and all 16 GH200 runtime checks
-   remain required before marking step 2 completed. Check ordinary CUDA tensor
-   operations, pointer provenance, node-0 placement, bounded OOM, stream lifetime,
-   release, and original/OFF behavior. See pytorch_host_malloc/README.md.
+2. Verify that PyTorch CUDA tensors can use Grace DRAM via system `malloc`
+   and still execute ordinary GPU operations. ----- `completed` (07.11.26)
+
+   Built stock and patched PyTorch from the same pinned source in separate
+   prefixes outside the repository. The patched native CUDACachingAllocator
+   uses the original CUDA path by default. The runner sets
+   `THESIS_HOST_MALLOC=1` only for its host-test subprocesses.
+
+   GH200 validation passed 16/16 checks on one GPU in eager mode. A 32 MiB
+   allocation increased HBM use by 32 MiB in stock and patched OFF. With
+   the flag ON, cached and uncached tests showed no increase in HBM use
+   and confirmed all 512 pages on CPU NUMA node 0. GPU operations on the
+   host-backed tensor returned correct results. Stream lifetime, release,
+   and bounded OOM recovery also passed.
+
+   See [GH200 results](outputs/torch_host_malloc_20261107T171406Z_o7jc7yft/summary.md)
+   and [implementation notes](pytorch_host_malloc/README.md).
+
 
 3. Look into custom allocators in PyTorch: how to provide our own allocation
    and free functions, and how to choose which tensors use them.
