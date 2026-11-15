@@ -8,8 +8,9 @@
 - First GH200 test: keep one CUDA tensor in Hopper HBM and one in Grace DRAM
   in the same process. Check placement, run a GPU operation on both tensors,
   and verify the custom free callback on pool teardown.
-- Implementation and GH200 validation are pending. After validation, try
-  placing selected sparse attention buffers in Grace DRAM on a small workload.
+- Added the shared-library callbacks, scoped pool wrapper, and GH200 runner.
+  GH200 validation is pending. After it passes, try placing selected sparse
+  attention buffers in Grace DRAM on a small workload.
 
 ## 2026-11-07 — Step 2: GH200 runtime validation completed
 

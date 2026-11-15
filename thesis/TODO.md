@@ -48,6 +48,9 @@
    callbacks. Load it in stock PyTorch 2.11 with `CUDAPluggableAllocator` and
    `MemPool`. Use the pool only when creating a selected tensor.
 
+   Implementation and runner are ready. See
+   [step 3 instructions](pytorch_custom_alloc/README.md). GH200 validation is pending.
+
    GH200 checks: create a CUDA tensor in Hopper HBM and one in Grace DRAM
    in the same process, verify both placements, run a GPU operation that
    uses both tensors, and confirm that pool teardown calls the custom free
