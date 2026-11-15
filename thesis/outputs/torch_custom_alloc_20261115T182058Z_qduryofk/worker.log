@@ -1,0 +1,5 @@
+grace_alloc ptr=0xf95411ff0000 bytes=33554432 pages=512 live=33619967
+PASS placement and default allocator after pool scope
+PASS GPU results and post-kernel placement
+grace_free ptr=0xf95411ff0000 bytes=33554432 live=0
+PASS custom free and zero retained bytes

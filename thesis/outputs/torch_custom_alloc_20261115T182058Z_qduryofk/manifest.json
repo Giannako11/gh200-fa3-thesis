@@ -1,0 +1,35 @@
+{
+  "stock_root": "/local/ggiannak/thesis_host_malloc",
+  "stock_torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "stock_build_manifest_sha256": "2fc6ae21fb7c8833404e6ddcdc82251bd5be3ecf248d9f4c5a6423726dad0879",
+  "cuda_home": "/usr/local/cuda-13.0",
+  "git_commit": "dbe9f6f5ec49678633d958de1f1dc9d6a7816127",
+  "files_sha256": {
+    "thesis/pytorch_custom_alloc/grace_allocator.cpp": "bdb554c73e1d33605eb90af43f4803955d3804ec5aed7acfa738b88034211144",
+    "thesis/pytorch_custom_alloc/grace_pool.py": "d059a0cb25d813cef2ab1b1b98bbf7f7c2c2e6f26c73b0b4d6093e040a2716bb",
+    "thesis/tests/test_pytorch_custom_alloc.py": "15963f9c587df722e309806b0f20a201291034e5acc02d959eaef4b41007a952",
+    "thesis/scripts/run_pytorch_custom_alloc.py": "f013e9b0c3ba6b06338bce0d2f1e43e491e7a18c46451eb6c240c1d131010e12",
+    "thesis/scripts/run_pytorch_custom_alloc.sh": "75570fa5fa9bd7d1c75b228b79e0eb2ec91d352640e7efa3ae627d506079437c"
+  },
+  "compile_command": [
+    "/usr/local/cuda-13.0/bin/nvcc",
+    "-std=c++17",
+    "-O2",
+    "--shared",
+    "--cudart=shared",
+    "-Xcompiler=-fPIC,-Wall,-Wextra,-pthread",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/pytorch_custom_alloc/grace_allocator.cpp",
+    "-o",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/torch_custom_alloc_20261115T182058Z_qduryofk/grace_allocator.so"
+  ],
+  "worker_command": [
+    "/usr/bin/numactl",
+    "--cpunodebind=0",
+    "--membind=0",
+    "/local/ggiannak/thesis_host_malloc/stock_env/bin/python3.11",
+    "-u",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/tests/test_pytorch_custom_alloc.py",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/torch_custom_alloc_20261115T182058Z_qduryofk/grace_allocator.so",
+    "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/torch_custom_alloc_20261115T182058Z_qduryofk/result.json"
+  ]
+}

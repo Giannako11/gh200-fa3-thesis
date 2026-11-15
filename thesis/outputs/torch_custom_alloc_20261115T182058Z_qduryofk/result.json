@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "scope": "single GH200, stock PyTorch eager",
+  "torch_version": "2.11.0+thesis",
+  "torch_commit": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "torch_cuda": "13.0",
+  "python": "/local/ggiannak/thesis_host_malloc/stock_env/bin/python3.11",
+  "gpu": "NVIDIA GH200 480GB",
+  "tensor_bytes": 33554432,
+  "expected_grace_pages": 512,
+  "placement": {
+    "hbm_input": {
+      "ptr": "0xf953f9e00000",
+      "hbm_delta_bytes": 33554432,
+      "device_pointer": true,
+      "grace_pages": 0
+    },
+    "grace_input": {
+      "ptr": "0xf95411ff0000",
+      "hbm_delta_bytes": 0,
+      "grace_pages_before": 512,
+      "cpu_numa_node": 0,
+      "grace_pages_after": 512
+    },
+    "hbm_output_after_pool_scope": {
+      "ptr": "0xf953fbe00000",
+      "hbm_delta_bytes": 33554432,
+      "device_pointer": true,
+      "grace_pages": 0
+    }
+  },
+  "gpu_checks": {
+    "hbm_all_5": true,
+    "grace_all_7": true,
+    "mixed_sum_all_12": true
+  },
+  "release": {
+    "live_bytes_before": 33619967,
+    "live_bytes_after": 0
+  }
+}
