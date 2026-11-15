@@ -42,19 +42,17 @@
    See [GH200 results](outputs/torch_host_malloc_20261107T171406Z_o7jc7yft/summary.md)
    and [implementation notes](pytorch_host_malloc/README.md).
 
-3. Add a custom allocator for selected CUDA tensors in PyTorch. ----- `in progress` (15.11.26)
+3. Add a custom allocator for selected CUDA tensors in PyTorch. ----- `completed` (15.11.26)
 
-   Plan: compile a small shared library with Grace DRAM allocation and free
-   callbacks. Load it in stock PyTorch 2.11 with `CUDAPluggableAllocator` and
-   `MemPool`. Use the pool only when creating a selected tensor.
+   Added Grace DRAM allocation and free callbacks and a scoped `MemPool`
+   for selected tensors in stock PyTorch 2.11. The GH200 run passed: CUDA
+   tensors in Hopper HBM and Grace DRAM coexisted in the same process.
+   The 32 MiB Grace tensor added no HBM usage and all 512 pages stayed on
+   CPU NUMA node 0. The mixed-memory GPU operation returned correct results.
+   Pool teardown invoked the custom free callback and returned live bytes to zero.
 
-   Implementation and runner are ready. See
-   [step 3 instructions](pytorch_custom_alloc/README.md). GH200 validation is pending.
+   See [step 3 instructions](pytorch_custom_alloc/README.md) and
+   [GH200 results](outputs/torch_custom_alloc_20261115T182058Z_qduryofk/result.json).
 
-   GH200 checks: create a CUDA tensor in Hopper HBM and one in Grace DRAM
-   in the same process, verify both placements, run a GPU operation that
-   uses both tensors, and confirm that pool teardown calls the custom free
-   callback and releases its allocations.
-
-   Follow-up after validation: try selected sparse attention buffers in
-   Grace DRAM with dense data in Hopper HBM on a small workload.
+   Follow-up: try selected sparse attention buffers in Grace DRAM with dense
+   data in Hopper HBM on a small workload, and measure HBM usage and runtime.

@@ -1,16 +1,17 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
-## 2026-11-15 — Step 3: selective CUDA tensor allocation (in progress)
+## 2026-11-15 — Step 3: selective CUDA tensor allocation completed
 
-- Agreed on the implementation plan: use stock PyTorch 2.11 with a small
-  shared library for Grace DRAM allocation and free. Use
-  `CUDAPluggableAllocator` and `MemPool` to select tensors at allocation time.
-- First GH200 test: keep one CUDA tensor in Hopper HBM and one in Grace DRAM
-  in the same process. Check placement, run a GPU operation on both tensors,
-  and verify the custom free callback on pool teardown.
-- Added the shared-library callbacks, scoped pool wrapper, and GH200 runner.
-  GH200 validation is pending. After it passes, try placing selected sparse
-  attention buffers in Grace DRAM on a small workload.
+- Added Grace DRAM allocation and free callbacks, a scoped `MemPool` wrapper
+  for stock PyTorch 2.11, and a GH200 validation runner.
+- GH200 validation passed. In the same process, the default 32 MiB input and
+  output each used 32 MiB of HBM. The 32 MiB Grace input added zero HBM use
+  and all 512 pages stayed on CPU NUMA node 0 before and after GPU work.
+- Adding the two inputs on the GPU produced 12 in every output element.
+  Pool teardown called `grace_free` for the allocated pointer and live bytes
+  returned to zero.
+- Results: [GH200 validation](outputs/torch_custom_alloc_20261115T182058Z_qduryofk/result.json).
+- Follow-up: test placement of selected sparse attention buffers in Grace DRAM.
 
 ## 2026-11-07 — Step 2: GH200 runtime validation completed
 
