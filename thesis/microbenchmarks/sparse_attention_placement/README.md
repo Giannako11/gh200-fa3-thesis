@@ -53,3 +53,42 @@ plots from any Python environment with Matplotlib and access to the files:
 ```bash
 bash thesis/scripts/run_sparse_attention_placement.sh --plots-only /path/to/run
 ```
+
+## Mixed K/V placement
+
+```bash
+bash thesis/scripts/run_sparse_attention_placement.sh --mixed --smoke
+bash thesis/scripts/run_sparse_attention_placement.sh --mixed
+```
+
+The mixed experiment uses a 64 MiB K/V cache (16,384 tokens) and reads the
+same 64 of 128 blocks for every policy. The two endpoints and all
+intermediate placements use the same CUDA entry point. Per-block pointers
+in HBM select the packed HBM or Grace shard directly. The kernel reads those
+shards during attention, with no staging into HBM in the timed region.
+
+| Policy | K/V resident in Grace | Active blocks read from Grace |
+|---|---:|---:|
+| All HBM | 0/128 | 0/64 |
+| Balanced 25% | 32/128 | 16/64 |
+| Balanced 50% | 64/128 | 32/64 |
+| Balanced 75% | 96/128 | 48/64 |
+| All Grace | 128/128 | 64/64 |
+| Active blocks in HBM | 64/128 | 0/64 |
+| Active blocks in Grace | 64/128 | 64/64 |
+
+The full run uses two passes with reversed policy order and fresh backing
+allocations per policy, 10 warmups and 20 timed samples per pass. The smoke
+run uses one pass with both endpoints and balanced 50%. Buffer values, block
+addresses and the FP32 reference are prepared before timing. The worker
+checks physical HBM allocation deltas, Grace residency before and after GPU
+work, output against the reference, and complete Grace allocator teardown.
+
+Output is under `thesis/outputs/sparse_attention_mixed_*`. The two plots show
+the latency vs. HBM saved across balanced policies, and the latency at a
+fixed 32 MiB HBM saving as the number of active blocks on Grace changes.
+Use the full run for the three-way comparison at equal capacity. The HBM
+reference source used to populate the experimental cache and check outputs
+remains in the process and is excluded from the experimental K/V deltas.
+The fixed block list models known access patterns and does not include a
+runtime policy for predicting or moving hot blocks.

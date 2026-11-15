@@ -11,8 +11,9 @@ constexpr int max_selected = 64;
 constexpr int warp = 32;
 constexpr int threads = 128;
 
+template <bool pointer_table>
 __global__ void block_partials(
-    const __nv_bfloat16* q, const __nv_bfloat16* k, const __nv_bfloat16* v,
+    const __nv_bfloat16* q, const void* k, const void* v,
     const int32_t* selected, int tokens, int count,
     float* partial_max, float* partial_sum, float* partial_v) {
     const int part = blockIdx.x;
@@ -20,9 +21,19 @@ __global__ void block_partials(
     const int dim = threadIdx.x;
     const int lane = dim % warp;
     const int warp_id = dim / warp;
-    const int start = selected[part] * block_tokens;
-    const int row = (head * tokens + start) * head_dim;
     const int partial = head * count + part;
+    const __nv_bfloat16* key_block;
+    const __nv_bfloat16* value_block;
+    if constexpr (pointer_table) {
+        // One virtual address per (head, selected block), in logical block order.
+        key_block = reinterpret_cast<const __nv_bfloat16*>(static_cast<const uint64_t*>(k)[partial]);
+        value_block = reinterpret_cast<const __nv_bfloat16*>(static_cast<const uint64_t*>(v)[partial]);
+    } else {
+        const int start = selected[part] * block_tokens;
+        const int row = (head * tokens + start) * head_dim;
+        key_block = static_cast<const __nv_bfloat16*>(k) + row;
+        value_block = static_cast<const __nv_bfloat16*>(v) + row;
+    }
     __shared__ float weights[block_tokens];
 
     const auto* query = q + head * head_dim;
@@ -33,7 +44,7 @@ __global__ void block_partials(
     }
 
     for (int token = warp_id; token < block_tokens; token += threads / warp) {
-        const auto* key = k + row + token * head_dim;
+        const auto* key = key_block + token * head_dim;
         float dot = 0.0f;
         #pragma unroll
         for (int component = 0; component < head_dim / warp; ++component) {
@@ -66,7 +77,7 @@ __global__ void block_partials(
 
     float weighted_v = 0.0f;
     for (int token = 0; token < block_tokens; ++token) {
-        weighted_v = fmaf(weights[token], __bfloat162float(v[row + token * head_dim + dim]),
+        weighted_v = fmaf(weights[token], __bfloat162float(value_block[token * head_dim + dim]),
                           weighted_v);
     }
     partial_v[partial * head_dim + dim] = weighted_v;
@@ -104,6 +115,7 @@ __global__ void merge_partials(const float* partial_max, const float* partial_su
 }  // namespace
 
 namespace {
+template <bool pointer_table>
 cudaError_t launch_decode(const void* q, const void* k, const void* v,
                              const int32_t* selected, int heads, int tokens, int count,
                              float* partial_max, float* partial_sum, float* partial_v,
@@ -112,10 +124,9 @@ cudaError_t launch_decode(const void* q, const void* k, const void* v,
         || count <= 0 || count > max_selected || count > tokens / block_tokens) {
         return cudaErrorInvalidValue;
     }
-    block_partials<<<dim3(count, heads), threads, 0, stream>>>(
-        static_cast<const __nv_bfloat16*>(q), static_cast<const __nv_bfloat16*>(k),
-        static_cast<const __nv_bfloat16*>(v), selected, tokens, count, partial_max,
-        partial_sum, partial_v);
+    block_partials<pointer_table><<<dim3(count, heads), threads, 0, stream>>>(
+        static_cast<const __nv_bfloat16*>(q), k, v, selected, tokens, count,
+        partial_max, partial_sum, partial_v);
     const cudaError_t status = cudaGetLastError();
     if (status != cudaSuccess) {
         return status;
@@ -134,9 +145,9 @@ public:
         }
     }
 };
-}  // namespace
 
-extern "C" int sparse_decode(const void* q, const void* k, const void* v,
+template <bool pointer_table>
+int decode(const void* q, const void* k, const void* v,
                              const int32_t* selected, int heads, int tokens, int count,
                              float* partial_max, float* partial_sum, float* partial_v,
                              float* output, cudaStream_t stream, float* measured_ms) {
@@ -151,7 +162,7 @@ extern "C" int sparse_decode(const void* q, const void* k, const void* v,
         }
     }
 
-    status = launch_decode(q, k, v, selected, heads, tokens, count,
+    status = launch_decode<pointer_table>(q, k, v, selected, heads, tokens, count,
                            partial_max, partial_sum, partial_v, output, stream);
     if (status != cudaSuccess || !measured_ms) {
         return status;
@@ -161,4 +172,21 @@ extern "C" int sparse_decode(const void* q, const void* k, const void* v,
         return status;
     }
     return cudaEventElapsedTime(measured_ms, start.handle, end.handle);
+}
+}  // namespace
+
+extern "C" int sparse_decode(const void* q, const void* k, const void* v,
+                             const int32_t* selected, int heads, int tokens, int count,
+                             float* partial_max, float* partial_sum, float* partial_v,
+                             float* output, cudaStream_t stream, float* measured_ms) {
+    return decode<false>(q, k, v, selected, heads, tokens, count,
+                         partial_max, partial_sum, partial_v, output, stream, measured_ms);
+}
+
+extern "C" int sparse_decode_mixed(const void* q, const void* k_table, const void* v_table,
+                                   const int32_t* selected, int heads, int tokens, int count,
+                                   float* partial_max, float* partial_sum, float* partial_v,
+                                   float* output, cudaStream_t stream, float* measured_ms) {
+    return decode<true>(q, k_table, v_table, selected, heads, tokens, count,
+                        partial_max, partial_sum, partial_v, output, stream, measured_ms);
 }

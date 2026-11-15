@@ -43,13 +43,14 @@ def run(args, root, build, python, cuda, out):
     sources = [ALLOC / "grace_allocator.cpp", BENCH / "block_sparse_decode.cu"]
     compile_allocator = [*flags, str(sources[0]), "-o", str(allocator)]
     compile_kernel = [*flags, "-arch=sm_90", str(sources[1]), "-o", str(kernel)]
-    worker = BENCH / "bench_sparse_attention_placement.py"
+    base_worker = BENCH / "bench_sparse_attention_placement.py"
+    worker = BENCH / "bench_mixed.py" if args.mixed else base_worker
     command = ["numactl", "--cpunodebind=0", "--membind=0", str(python), "-u",
                str(worker), "--allocator", str(allocator), "--kernel", str(kernel),
                "--out", str(out)]
     if args.smoke:
         command.append("--smoke")
-    files = [*sources, ALLOC / "grace_pool.py", worker, BENCH / "plot.py",
+    files = [*sources, ALLOC / "grace_pool.py", base_worker, worker, BENCH / "plot.py",
              Path(__file__), THESIS / "scripts/run_sparse_attention_placement.sh"]
     write_json(out / "manifest.json", {
         "git_commit": capture(["git", "rev-parse", "HEAD"], cwd=REPO).strip(),
@@ -65,7 +66,7 @@ def run(args, root, build, python, cuda, out):
     progress(1, 3, "compile allocator and decode kernel")
     run_logged(compile_allocator, out / "compile_allocator.log", env)
     run_logged(compile_kernel, out / "compile_kernel.log", env)
-    progress(2, 3, "validate and benchmark both K/V placements")
+    progress(2, 3, "validate and benchmark K/V placements")
     run_logged(command, out / "worker.log", env)
     if json.loads((out / "result.json").read_text())["status"] != "PASS":
         raise RuntimeError("benchmark worker did not report PASS")
@@ -89,7 +90,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=default_root())
     parser.add_argument("--cuda-home", type=Path)
-    parser.add_argument("--smoke", action="store_true", help="only test 16/64 blocks")
+    parser.add_argument("--mixed", action="store_true", help="compare mixed HBM/Grace K/V policies")
+    parser.add_argument("--smoke", action="store_true", help="run a reduced set of placements")
     parser.add_argument("--plan", action="store_true", help="show the steps without GPU work")
     parser.add_argument("--plots-only", type=Path, metavar="RUN_DIR",
                         help="regenerate both plots without CUDA")
@@ -101,8 +103,12 @@ def main():
     print("Stock PyTorch environment:", root / "stock_env")
     if args.plan:
         print("Compile Grace allocator and direct-read block-sparse CUDA decode.")
-        print("Compare both K/V placements for 16/64 blocks." if args.smoke
-              else "Compare both K/V placements for 8, 16, 32 and 64 blocks.")
+        if args.mixed:
+            count = 3 if args.smoke else 7
+            print(f"Compare {count} K/V placement policies with 64/128 blocks read.")
+        else:
+            print("Compare both K/V placements for 16/64 blocks." if args.smoke
+                  else "Compare both K/V placements for 8, 16, 32 and 64 blocks.")
         print("Write latency samples, HBM deltas, validation and plots.")
         return 0
 
@@ -129,7 +135,8 @@ def main():
             if any(line.strip().isdigit() for line in pids.splitlines()):
                 raise RuntimeError("GPU compute process present; run on an idle GH200")
             stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-            out = Path(tempfile.mkdtemp(prefix=f"sparse_attention_placement_{stamp}_", dir=outputs))
+            prefix = "sparse_attention_mixed" if args.mixed else "sparse_attention_placement"
+            out = Path(tempfile.mkdtemp(prefix=f"{prefix}_{stamp}_", dir=outputs))
             print("Outputs:", out, flush=True)
             _, core_max = resource.getrlimit(resource.RLIMIT_CORE)
             resource.setrlimit(resource.RLIMIT_CORE, (0, core_max))

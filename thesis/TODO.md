@@ -54,8 +54,15 @@
    See [step 3 instructions](pytorch_custom_alloc/README.md) and
    [GH200 results](outputs/torch_custom_alloc_20261115T182058Z_qduryofk/result.json).
 
-   Follow-up — block-sparse decode placement: `in progress`.
+   Follow-up — block-sparse decode placement: `completed` (15.11.26).
    The benchmark compares the same direct-read CUDA attention path with K/V
    in Hopper HBM and Grace DRAM. It records K/V HBM usage and timed samples
    for both placements, and plots latency by fraction of blocks read.
    [Run instructions](microbenchmarks/sparse_attention_placement/README.md).
+
+   The full run passed 240/240 samples and verified a 32 MiB HBM saving,
+   with 2.82–5.24× higher decode latency for all-Grace K/V in this workload.
+   [Results](outputs/sparse_attention_placement_20261115T185926Z_36wtnrid/summary.md).
+
+   Mixed K/V placement: `in progress`. Compare both endpoints, intermediate
+   placements and three policies with the same 32 MiB HBM saving. GH200 run pending.

@@ -1,5 +1,15 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-15 — Sparse attention K/V placement
+
+- The all-HBM vs. all-Grace benchmark passed on GH200. Moving the K/V cache
+  saved 32 MiB of HBM. Grace-backed decode latency was 2.82–5.24× higher,
+  depending on the number of blocks read. All 240 full-run samples are
+  [recorded here](outputs/sparse_attention_placement_20261115T185926Z_36wtnrid/summary.md).
+- Added mixed K/V placement with 64/128 active blocks held fixed. Includes
+  a comparison at equal HBM usage while changing where the active blocks
+  reside. GH200 validation and timing are pending.
+
 ## 2026-11-15 — Step 3: selective CUDA tensor allocation completed
 
 - Added Grace DRAM allocation and free callbacks, a scoped `MemPool` wrapper

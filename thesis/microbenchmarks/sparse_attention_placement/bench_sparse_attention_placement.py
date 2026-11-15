@@ -34,11 +34,12 @@ def write_csv(path, rows):
 
 
 class Decode:
-    def __init__(self, library):
+    def __init__(self, library, *, tokens=TOKENS, indirect=False):
         from torch import cuda, empty, float32
 
         self.library = ctypes.CDLL(str(library))
-        self.launch = self.library.sparse_decode
+        self.tokens = tokens
+        self.launch = self.library.sparse_decode_mixed if indirect else self.library.sparse_decode
         ptr = ctypes.c_void_p
         self.launch.argtypes = (
             (ptr,) * 4 + (ctypes.c_int,) * 3 + (ptr,) * 5
@@ -58,7 +59,7 @@ class Decode:
         k, v = kv
         status = self.launch(
             query.data_ptr(), k.data_ptr(), v.data_ptr(), blocks.data_ptr(),
-            HEADS, TOKENS, blocks.numel(), *(t.data_ptr() for t in self.scratch),
+            HEADS, self.tokens, blocks.numel(), *(t.data_ptr() for t in self.scratch),
             self.output.data_ptr(), self.stream, ctypes.byref(elapsed) if timed else None,
         )
         require(status == 0, f"CUDA decode launch/timing failed with runtime status {status}")
