@@ -42,7 +42,16 @@
    See [GH200 results](outputs/torch_host_malloc_20261107T171406Z_o7jc7yft/summary.md)
    and [implementation notes](pytorch_host_malloc/README.md).
 
+3. Add a custom allocator for selected CUDA tensors in PyTorch. ----- `in progress` (15.11.26)
 
-3. Look into custom allocators in PyTorch: how to provide our own allocation
-   and free functions, and how to choose which tensors use them.
-   Start with a small test before trying it with a full model.
+   Plan: compile a small shared library with Grace DRAM allocation and free
+   callbacks. Load it in stock PyTorch 2.11 with `CUDAPluggableAllocator` and
+   `MemPool`. Use the pool only when creating a selected tensor.
+
+   GH200 checks: create a CUDA tensor in Hopper HBM and one in Grace DRAM
+   in the same process, verify both placements, run a GPU operation that
+   uses both tensors, and confirm that pool teardown calls the custom free
+   callback and releases its allocations.
+
+   Follow-up after validation: try selected sparse attention buffers in
+   Grace DRAM with dense data in Hopper HBM on a small workload.
