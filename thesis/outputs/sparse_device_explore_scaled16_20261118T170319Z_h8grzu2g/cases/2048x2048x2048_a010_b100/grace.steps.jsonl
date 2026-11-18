@@ -1,0 +1,39 @@
+{"device": "grace", "sample": null, "event": "start", "stage": "imports_and_device_init"}
+{"device": "grace", "sample": null, "event": "done", "stage": "imports_and_device_init", "seconds": 1.1685633569722995}
+{"device": "grace", "sample": null, "event": "start", "stage": "generate_a"}
+{"device": "grace", "sample": null, "event": "done", "stage": "generate_a", "seconds": 0.023794790031388402}
+{"device": "grace", "sample": null, "event": "start", "stage": "generate_b"}
+{"device": "grace", "sample": null, "event": "done", "stage": "generate_b", "seconds": 0.0010681989369913936}
+{"device": "grace", "sample": null, "event": "start", "stage": "prepare_reference"}
+{"device": "grace", "sample": null, "event": "done", "stage": "prepare_reference", "seconds": 0.0002593930112197995}
+{"device": "grace", "sample": null, "event": "start", "stage": "prepare_resident_inputs"}
+{"device": "grace", "sample": null, "event": "done", "stage": "prepare_resident_inputs", "seconds": 0.02031911804806441}
+{"device": "grace", "sample": 0, "event": "start", "stage": "end_to_end"}
+{"device": "grace", "sample": 0, "event": "start", "stage": "transfer_hbm_to_grace"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "transfer_hbm_to_grace", "seconds": 0.0007650289917364717}
+{"device": "grace", "sample": 0, "event": "start", "stage": "prepare_b"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "prepare_b", "seconds": 4.643294960260391e-05}
+{"device": "grace", "sample": 0, "event": "start", "stage": "compute"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "compute", "seconds": 0.10338824498467147}
+{"device": "grace", "sample": 0, "event": "start", "stage": "materialize_output"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "materialize_output", "seconds": 1.1615920811891556e-05}
+{"device": "grace", "sample": 0, "event": "start", "stage": "transfer_grace_to_hbm"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "transfer_grace_to_hbm", "seconds": 0.000158688984811306}
+{"device": "grace", "sample": 0, "event": "done", "stage": "end_to_end", "seconds": 0.10453977202996612}
+{"device": "grace", "sample": 0, "event": "start", "stage": "validate"}
+{"device": "grace", "sample": 0, "event": "done", "stage": "validate", "seconds": 0.009010816109366715}
+{"device": "grace", "sample": 1, "event": "start", "stage": "end_to_end"}
+{"device": "grace", "sample": 1, "event": "start", "stage": "transfer_hbm_to_grace"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "transfer_hbm_to_grace", "seconds": 8.905702270567417e-05}
+{"device": "grace", "sample": 1, "event": "start", "stage": "prepare_b"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "prepare_b", "seconds": 1.167994923889637e-05}
+{"device": "grace", "sample": 1, "event": "start", "stage": "compute"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "compute", "seconds": 0.10319560300558805}
+{"device": "grace", "sample": 1, "event": "start", "stage": "materialize_output"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "materialize_output", "seconds": 1.1808006092905998e-05}
+{"device": "grace", "sample": 1, "event": "start", "stage": "transfer_grace_to_hbm"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "transfer_grace_to_hbm", "seconds": 0.0001645450247451663}
+{"device": "grace", "sample": 1, "event": "done", "stage": "end_to_end", "seconds": 0.10360834200400859}
+{"device": "grace", "sample": 1, "event": "start", "stage": "validate"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "validate", "seconds": 0.0001924489624798298}
+{"device": "grace", "sample": null, "event": "pass", "stage": "result"}

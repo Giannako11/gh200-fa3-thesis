@@ -1,0 +1,33 @@
+{"device": "hopper", "sample": null, "event": "start", "stage": "imports_and_device_init"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "imports_and_device_init", "seconds": 1.0905227669281885}
+{"device": "hopper", "sample": null, "event": "start", "stage": "generate_a"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "generate_a", "seconds": 0.017890782095491886}
+{"device": "hopper", "sample": null, "event": "start", "stage": "generate_b"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "generate_b", "seconds": 0.0013040100457146764}
+{"device": "hopper", "sample": null, "event": "start", "stage": "prepare_reference"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "prepare_reference", "seconds": 0.00014614500105381012}
+{"device": "hopper", "sample": null, "event": "start", "stage": "prepare_resident_inputs"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "prepare_resident_inputs", "seconds": 0.08037730096839368}
+{"device": "hopper", "sample": 0, "event": "start", "stage": "end_to_end"}
+{"device": "hopper", "sample": 0, "event": "start", "stage": "prepare_b"}
+{"device": "hopper", "sample": 0, "event": "done", "stage": "prepare_b", "seconds": 0.01863225898705423}
+{"device": "hopper", "sample": 0, "event": "start", "stage": "compute"}
+{"device": "hopper", "sample": 0, "event": "device_time", "stage": "compute", "seconds": 0.017912832260131836}
+{"device": "hopper", "sample": 0, "event": "done", "stage": "compute", "seconds": 0.018047295045107603}
+{"device": "hopper", "sample": 0, "event": "start", "stage": "materialize_output"}
+{"device": "hopper", "sample": 0, "event": "done", "stage": "materialize_output", "seconds": 0.024265162996016443}
+{"device": "hopper", "sample": 0, "event": "done", "stage": "end_to_end", "seconds": 0.06116615701466799}
+{"device": "hopper", "sample": 0, "event": "start", "stage": "validate"}
+{"device": "hopper", "sample": 0, "event": "done", "stage": "validate", "seconds": 0.004491006955504417}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "end_to_end"}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "prepare_b"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "prepare_b", "seconds": 0.0002908820752054453}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "compute"}
+{"device": "hopper", "sample": 1, "event": "device_time", "stage": "compute", "seconds": 0.000818015992641449}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "compute", "seconds": 0.0009066300699487329}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "materialize_output"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "materialize_output", "seconds": 0.0019185090204700828}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "end_to_end", "seconds": 0.003227157983928919}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "validate"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "validate", "seconds": 0.00017168105114251375}
+{"device": "hopper", "sample": null, "event": "pass", "stage": "result"}

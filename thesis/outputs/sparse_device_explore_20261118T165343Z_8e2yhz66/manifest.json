@@ -1,0 +1,23 @@
+{
+  "identity": {
+    "smoke": true,
+    "warmups": 1,
+    "repeats": 1,
+    "threads": 16,
+    "python": "/local/ggiannak/miniconda3/envs/fa3/bin/python",
+    "code_sha256": {
+      "run.py": "9d1fcaaf262083b8e470f259ad9ef51192a5752a136f4a4fe00242da37fd6772",
+      "worker.py": "7b583cd68d367a4a8165ce182b3e3bef77c3cb794b4f891f217a1961342b13c5",
+      "grid.py": "52c6e45ff4ab30350f1e778a960eecf36321b78ef508a54ec03ce474317e888c"
+    },
+    "environment": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "gpu": "NVIDIA GH200 480GB"
+    }
+  },
+  "timeout_seconds": 1200,
+  "config_count": 4
+}

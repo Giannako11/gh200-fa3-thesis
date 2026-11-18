@@ -1,0 +1,3 @@
+config,m,k,n,a_pct,b_pct,strategy,grace_status,hopper_status,wall_seconds
+32768x32768x32768_a100_b100,32768,32768,32768,100,100,dense_dense,pass,pass,111.2468493579654
+16384x16384x16384_a100_b100,16384,16384,16384,100,100,dense_dense,pending,pass,1.9157775570638478
