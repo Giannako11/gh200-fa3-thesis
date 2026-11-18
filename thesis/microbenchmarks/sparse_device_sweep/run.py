@@ -1,9 +1,10 @@
-"""Run or resume the two density endpoints for the large GH200 shapes."""
+"""Run or resume large-shape GH200 matrix multiply sweeps."""
 
 import argparse
 from collections import Counter, defaultdict
 import csv
 from datetime import datetime, timezone
+import importlib.util
 import fcntl
 import hashlib
 import json
@@ -17,11 +18,12 @@ import sys
 import tempfile
 from time import perf_counter
 
-from grid import DEVICES, SHAPES, cases
+from grid import Case, DEVICES, FULL_DENSITIES, SHAPES, cases, full_cases
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 WORKER = HERE / "worker.py"
+PLOTTER = HERE / "plot.py"
 OUTPUTS = REPO / "thesis/outputs"
 
 
@@ -40,8 +42,12 @@ def write_csv(path, rows, fields):
     temp.replace(path)
 
 
-def workload(smoke):
-    return cases(((64, 80, 48),)) if smoke else cases()
+def workload(smoke, full=False):
+    if not full:
+        return cases(((64, 80, 48),)) if smoke else cases()
+    if smoke:
+        return [Case(64, 80, 48, a, b) for a, b in ((5, 5), (5, 100), (100, 5), (100, 100))]
+    return full_cases()
 
 
 def environment(threads):
@@ -120,27 +126,32 @@ def execute(args, case, device, out, env):
         "wall_seconds": wall, "last_stage": started[-1]["stage"] if started else "", "error": error,
     }
     samples = defaultdict(list)
+    transfers = defaultdict(dict)
+    directions = ("transfer_hbm_to_grace", "transfer_grace_to_hbm")
     for e in events:
         if e.get("sample") is not None and e["sample"] > 0 and e["event"] in {"done", "device_time"}:
             key = "cuda_compute" if e["event"] == "device_time" else e["stage"]
             samples[key].append(e["seconds"])
+            if key in directions:
+                transfers[e["sample"]][key] = e["seconds"]
+    samples["transfer"] = [sum(pair.values()) for pair in transfers.values()
+                           if all(direction in pair for direction in directions)]
     for field in ("prepare_b", "compute", "cuda_compute", "materialize_output",
-                  "transfer_hbm_to_grace", "transfer_grace_to_hbm", "end_to_end"):
+                  *directions, "transfer", "end_to_end"):
         result[f"median_{field}_seconds"] = statistics.median(samples[field]) if samples[field] else ""
     save_json(final, result)
     return result
 
 
-def summarize(out, configs):
+def summarize(out, configs, full=False):
     devices = []
     stage_rows = []
     for case in configs:
         for device in DEVICES:
             prefix = out / "cases" / case.name / device
             result_path = prefix.with_suffix(".json")
-            if not result_path.exists():
-                continue
-            devices.append(json.loads(result_path.read_text()))
+            if result_path.exists():
+                devices.append(json.loads(result_path.read_text()))
             for event in read_events(prefix.with_suffix(".steps.jsonl")):
                 stage_rows.append({"config": case.name, **event})
     if devices:
@@ -166,30 +177,49 @@ def summarize(out, configs):
         write_csv(out / "config_times.csv", config_rows, list(config_rows[0]))
 
     counts = Counter(r["status"] for r in devices)
-    lines = ["# GH200 large-shape density endpoints", "",
+    title = "full 5% density sweep" if full else "large-shape density endpoints"
+    lines = [f"# GH200 {title}", "",
              f"- Passed device runs: {counts['pass']} / {2 * len(configs)}.",
              f"- Failed: {counts['failed']}. Timed out: {counts['timeout']}.",
              f"- Recorded device worker wall time: {sum(r['wall_seconds'] for r in devices):.1f} s.", ""]
-    lines += ["| M×K×N | Density A / B | Grace wall (s) | Hopper wall (s) |",
-              "|---|---:|---:|---:|"]
-    for case in configs:
-        elapsed = []
-        for device in DEVICES:
-            row = by_case[case.name].get(device)
-            if row is None:
-                elapsed.append("pending")
-            elif row["status"] != "pass":
-                elapsed.append(f"{row['status']} ({row['wall_seconds']:.2f} s)")
-            else:
-                elapsed.append(f"{row['wall_seconds']:.2f}")
-        lines.append(f"| {case.m}×{case.k}×{case.n} | {case.a_pct}% / {case.b_pct}% | "
-                     f"{elapsed[0]} | {elapsed[1]} |")
+    if full:
+        lines += ["| M×K×N | Configs passed | Device workers recorded | Worker wall (s) |",
+                  "|---|---:|---:|---:|"]
+        groups = defaultdict(list)
+        for case in configs:
+            groups[case.m, case.k, case.n].append(by_case[case.name])
+        for shape, group in groups.items():
+            passed = sum(all(records.get(d, {}).get("status") == "pass" for d in DEVICES)
+                         for records in group)
+            workers = [row for records in group for row in records.values()]
+            wall = sum(row["wall_seconds"] for row in workers)
+            lines.append(f"| {'×'.join(map(str, shape))} | {passed}/{len(group)} | "
+                         f"{len(workers)}/{2 * len(group)} | {wall:.2f} |")
+        if (out / "device_times.csv").exists():
+            lines += ["", "Use device_times.csv for per-config timings and the plotter "
+                      "for the three heatmaps. Incomplete pairs have no speed ratio."]
+    else:
+        lines += ["| M×K×N | Density A / B | Grace wall (s) | Hopper wall (s) |",
+                  "|---|---:|---:|---:|"]
+        for case in configs:
+            elapsed = []
+            for device in DEVICES:
+                row = by_case[case.name].get(device)
+                if row is None:
+                    elapsed.append("pending")
+                elif row["status"] != "pass":
+                    elapsed.append(f"{row['status']} ({row['wall_seconds']:.2f} s)")
+                else:
+                    elapsed.append(f"{row['wall_seconds']:.2f}")
+            lines.append(f"| {case.m}×{case.k}×{case.n} | {case.a_pct}% / {case.b_pct}% | "
+                         f"{elapsed[0]} | {elapsed[1]} |")
     (out / "summary.md").write_text("\n".join(lines) + "\n")
     return counts["pass"]
 
 
 def manifest(args):
     return {
+        "mode": "full5" if args.full else "extremes",
         "smoke": args.smoke, "warmups": args.warmups, "repeats": args.repeats,
         "threads": args.threads, "python": sys.executable,
         "shapes": [list(shape) for shape in SHAPES],
@@ -201,7 +231,11 @@ def manifest(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", action="store_true", help="list configs without starting CUDA")
-    parser.add_argument("--smoke", action="store_true", help="test both density endpoints at a small shape")
+    parser.add_argument("--full", action="store_true",
+                        help="sweep both operand densities from 5 to 100 in steps of 5")
+    parser.add_argument("--smoke", action="store_true", help="test the selected mode at a small shape")
+    parser.add_argument("--plots-only", type=Path, metavar="RUN_DIR",
+                        help="render the three heatmaps from a full sweep CSV without CUDA")
     parser.add_argument("--resume", type=Path, help="continue an existing run with the same settings")
     parser.add_argument("--retry-failed", action="store_true", help="retry failures when resuming")
     parser.add_argument("--timeout", type=float, default=1200, help="seconds per device worker")
@@ -213,7 +247,9 @@ def main():
         parser.error("threads, repeats, and timeout must be positive and warmups nonnegative")
     if args.retry_failed and args.resume is None:
         parser.error("--retry-failed requires --resume")
-    configs = workload(args.smoke)
+    if args.plots_only:
+        return subprocess.call([sys.executable, str(PLOTTER), str(args.plots_only)])
+    configs = workload(args.smoke, args.full)
     if args.plan:
         for case in configs:
             print(f"{case.name} {case.strategy}")
@@ -248,7 +284,8 @@ def main():
                 parser.error("resume needs the original code, environment, and run settings")
         else:
             stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-            out = Path(tempfile.mkdtemp(prefix=f"sparse_device_explore_extremes_{stamp}_", dir=OUTPUTS))
+            prefix = "sparse_device_full5" if args.full else "sparse_device_explore_extremes"
+            out = Path(tempfile.mkdtemp(prefix=f"{prefix}_{stamp}_", dir=OUTPUTS))
             save_json(out / "manifest.json", {"identity": identity,
                       "timeout_seconds": args.timeout, "config_count": len(configs)})
         print("Outputs:", out, flush=True)
@@ -267,12 +304,20 @@ def main():
                     row = execute(args, case, device, out, env)
                     times.append(f"{device}: {row['status']} {row['wall_seconds']:.2f}s")
                 progress(i, len(configs), f"{case.name} {' | '.join(times)}")
+                if args.full and not args.smoke and i % len(FULL_DENSITIES) ** 2 == 0 and i < len(configs):
+                    summarize(out, configs, full=True)
         except KeyboardInterrupt:
             interrupted = True
         finally:
             signal.signal(signal.SIGTERM, previous)
-            passed = summarize(out, configs)
+            passed = summarize(out, configs, full=args.full)
             print("Summary:", out / "summary.md")
+        if args.full and not args.smoke and (out / "device_times.csv").exists():
+            if importlib.util.find_spec("matplotlib") is None:
+                print(f"Heatmaps pending. Run --plots-only {out} with Matplotlib available.")
+            elif subprocess.call([sys.executable, str(PLOTTER), str(out)]) != 0:
+                print("Heatmap generation failed. The benchmark results were saved.", file=sys.stderr)
+                return 130 if interrupted else 1
         return 130 if interrupted else int(passed != 2 * len(configs))
 
 

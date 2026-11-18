@@ -1,11 +1,13 @@
 """Shared workload definitions and the benchmark routing policy."""
 
 from dataclasses import dataclass
+from itertools import product
 
 SHAPES = tuple((m * 1024, k * 1024, m * 1024) for m, k in (
     (2, 2), (4, 4), (16, 16), (32, 32), (4, 16), (16, 4), (2, 32), (32, 2),
 ))
 DEVICES = ("grace", "hopper")
+FULL_DENSITIES = tuple(range(5, 101, 5))
 
 
 @dataclass(frozen=True)
@@ -35,3 +37,9 @@ class Case:
 def cases(shapes=SHAPES):
     ordered = sorted(shapes, key=lambda shape: -(shape[0] * shape[1] * shape[2]))
     return [Case(*shape, density, density) for density in (100, 0) for shape in ordered]
+
+
+def full_cases():
+    ordered = sorted(SHAPES, key=lambda shape: shape[0] * shape[1] * shape[2])
+    return [Case(*shape, a, b) for shape in ordered
+            for a, b in product(reversed(FULL_DENSITIES), repeat=2)]
