@@ -1,12 +1,9 @@
 """Shared workload definitions and the benchmark routing policy."""
 
 from dataclasses import dataclass
-from itertools import product
 
-EXPLORE = (1, 10, 50, 100)
-SHAPES = tuple((m, k, m) for m, k in (
-    (128, 128), (256, 256), (1024, 1024), (2048, 2048),
-    (256, 1024), (1024, 256), (128, 2048), (2048, 128),
+SHAPES = tuple((m * 1024, k * 1024, m * 1024) for m, k in (
+    (2, 2), (4, 4), (16, 16), (32, 32), (4, 16), (16, 4), (2, 32), (32, 2),
 ))
 DEVICES = ("grace", "hopper")
 
@@ -35,8 +32,6 @@ class Case:
         return "dense_dense"
 
 
-def cases(shapes=SHAPES, densities=EXPLORE):
-    # Visit the heavy corner first so the runtime estimate gets usable
-    # anchors early and any resource problem is visible immediately.
-    return [Case(*shape, a, b) for shape in sorted(shapes, key=lambda s: -s[0]*s[1]*s[2])
-            for a, b in product(reversed(densities), repeat=2)]
+def cases(shapes=SHAPES):
+    ordered = sorted(shapes, key=lambda shape: -(shape[0] * shape[1] * shape[2]))
+    return [Case(*shape, density, density) for density in (100, 0) for shape in ordered]

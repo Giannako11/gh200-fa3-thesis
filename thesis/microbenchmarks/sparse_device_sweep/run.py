@@ -1,4 +1,4 @@
-"""Run or resume the GH200 sparsity exploration and estimate the full sweep."""
+"""Run or resume the two density endpoints for the large GH200 shapes."""
 
 import argparse
 from collections import Counter, defaultdict
@@ -17,7 +17,7 @@ import sys
 import tempfile
 from time import perf_counter
 
-from grid import Case, DEVICES, EXPLORE, SHAPES, cases
+from grid import DEVICES, SHAPES, cases
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
@@ -41,11 +41,7 @@ def write_csv(path, rows, fields):
 
 
 def workload(smoke):
-    if smoke:
-        return [Case(64, 80, 48, a, b) for a, b in ((1, 1), (1, 100), (100, 1), (100, 100))]
-    planned = cases()
-    # Run the 100%×100% corners for all shapes before the lower densities.
-    return sorted(planned, key=lambda c: (-c.a_pct, -c.b_pct))
+    return cases(((64, 80, 48),)) if smoke else cases()
 
 
 def environment(threads):
@@ -135,31 +131,7 @@ def execute(args, case, device, out, env):
     return result
 
 
-def shape_estimate(by_case, shape):
-    anchors = defaultdict(list)
-    for a in EXPLORE:
-        for b in EXPLORE:
-            case = Case(*shape, a, b)
-            records = by_case.get(case.name, {})
-            seconds = None
-            if all(records.get(device, {}).get("status") == "pass" for device in DEVICES):
-                seconds = sum(records[device]["wall_seconds"] for device in DEVICES)
-            anchors[case.strategy].append((a, b, seconds))
-    covered = 0
-    estimate = 0
-    for a in range(1, 101):
-        for b in range(1, 101):
-            group = anchors[Case(*shape, a, b).strategy]
-            if not group:
-                continue
-            closest = min(group, key=lambda x: (abs(x[0] - a) + abs(x[1] - b), x[0], x[1]))
-            if closest[2] is not None:
-                covered += 1
-                estimate += closest[2]
-    return covered, estimate
-
-
-def summarize(out, configs, smoke):
+def summarize(out, configs):
     devices = []
     stage_rows = []
     for case in configs:
@@ -194,35 +166,24 @@ def summarize(out, configs, smoke):
         write_csv(out / "config_times.csv", config_rows, list(config_rows[0]))
 
     counts = Counter(r["status"] for r in devices)
-    lines = ["# GH200 sparsity exploration at 1/16 scale", "",
+    lines = ["# GH200 large-shape density endpoints", "",
              f"- Passed device runs: {counts['pass']} / {2 * len(configs)}.",
              f"- Failed: {counts['failed']}. Timed out: {counts['timeout']}.",
              f"- Recorded device worker wall time: {sum(r['wall_seconds'] for r in devices):.1f} s.", ""]
-    if not smoke:
-        lines += [
-            "## Full 1%–100% grid projection at 1/16 scale", "",
-            "Same scaled shapes, backend policy, warmups, repeats and fresh workers. Each full-grid "
-            "cell uses the wall time of the nearest exploration point for that shape and "
-            "strategy. Cells nearest a failed, timed-out or pending point are unestimated. "
-            "This is an approximation, not a bound.", "",
-            "| M×K×N | Estimated cells / 10,000 | Hours for estimated cells |",
-            "|---|---:|---:|",
-        ]
-        coverage, seconds = 0, 0
-        estimates = []
-        for shape in SHAPES:
-            n, elapsed = shape_estimate(by_case, shape)
-            coverage += n
-            seconds += elapsed
-            label = "×".join(map(str, shape))
-            lines.append(f"| {label} | {n:,} | {elapsed / 3600:.2f} |")
-            estimates.append({"shape": label, "covered_cells": n, "unestimated_cells": 10_000 - n,
-                              "estimated_worker_seconds": elapsed})
-        write_csv(out / "estimate.csv", estimates, list(estimates[0]))
-        lines += ["", f"Estimated coverage: **{coverage:,} / 80,000** cells. "
-                 f"Projected wall time for covered cells: **{seconds / 3600:.2f} h**."]
-        if coverage < 80_000:
-            lines.append("A full-run estimate is unavailable for the uncovered cells.")
+    lines += ["| M×K×N | Density A / B | Grace wall (s) | Hopper wall (s) |",
+              "|---|---:|---:|---:|"]
+    for case in configs:
+        elapsed = []
+        for device in DEVICES:
+            row = by_case[case.name].get(device)
+            if row is None:
+                elapsed.append("pending")
+            elif row["status"] != "pass":
+                elapsed.append(f"{row['status']} ({row['wall_seconds']:.2f} s)")
+            else:
+                elapsed.append(f"{row['wall_seconds']:.2f}")
+        lines.append(f"| {case.m}×{case.k}×{case.n} | {case.a_pct}% / {case.b_pct}% | "
+                     f"{elapsed[0]} | {elapsed[1]} |")
     (out / "summary.md").write_text("\n".join(lines) + "\n")
     return counts["pass"]
 
@@ -240,12 +201,12 @@ def manifest(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", action="store_true", help="list configs without starting CUDA")
-    parser.add_argument("--smoke", action="store_true", help="test all four paths at a small shape")
+    parser.add_argument("--smoke", action="store_true", help="test both density endpoints at a small shape")
     parser.add_argument("--resume", type=Path, help="continue an existing run with the same settings")
     parser.add_argument("--retry-failed", action="store_true", help="retry failures when resuming")
     parser.add_argument("--timeout", type=float, default=1200, help="seconds per device worker")
     parser.add_argument("--threads", type=int, default=16, help="CPU and BLAS thread budget")
-    parser.add_argument("--warmups", type=int, default=1)
+    parser.add_argument("--warmups", type=int, default=0)
     parser.add_argument("--repeats", type=int, default=1)
     args = parser.parse_args()
     if args.threads < 1 or args.warmups < 0 or args.repeats < 1 or args.timeout <= 0:
@@ -287,7 +248,7 @@ def main():
                 parser.error("resume needs the original code, environment, and run settings")
         else:
             stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-            out = Path(tempfile.mkdtemp(prefix=f"sparse_device_explore_scaled16_{stamp}_", dir=OUTPUTS))
+            out = Path(tempfile.mkdtemp(prefix=f"sparse_device_explore_extremes_{stamp}_", dir=OUTPUTS))
             save_json(out / "manifest.json", {"identity": identity,
                       "timeout_seconds": args.timeout, "config_count": len(configs)})
         print("Outputs:", out, flush=True)
@@ -310,7 +271,7 @@ def main():
             interrupted = True
         finally:
             signal.signal(signal.SIGTERM, previous)
-            passed = summarize(out, configs, args.smoke)
+            passed = summarize(out, configs)
             print("Summary:", out / "summary.md")
         return 130 if interrupted else int(passed != 2 * len(configs))
 

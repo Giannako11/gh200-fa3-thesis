@@ -34,6 +34,8 @@ class Timing:
 
 def matrix(np, rows, cols, pct, rng):
     """Generate a reproducible FP32 matrix with an exact requested nnz count."""
+    if pct == 0:
+        return np.zeros((rows, cols), dtype=np.float32)
     if pct == 100:
         return np.ones((rows, cols), dtype=np.float32)
     target = (rows * cols * pct + 50) // 100
