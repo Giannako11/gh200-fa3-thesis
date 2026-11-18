@@ -1,21 +1,22 @@
-# Grace CPU vs. Hopper GPU: 128-case matrix multiply exploration
+# Grace CPU vs. Hopper GPU: 128-case matrix multiply exploration at 1/16 scale
 
 This pilot estimates the cost of a complete density-by-density sweep. It
 uses one deterministic row-uniform sparsity pattern, FP32 and exactly 128
 configs: densities 1%, 10%, 50% and 100% for each input at eight shapes.
 Each config runs on both devices. The eight 100% × 100% cases run first,
-starting at 32K × 32K × 32K.
+starting at 2048 × 2048 × 2048.
 
 | A shape | B shape | C shape |
 |---|---|---|
-| 2K×2K, 4K×4K, 16K×16K, 32K×32K | Same dimensions as A | Same dimensions as A |
-| 4K×16K | 16K×4K | 4K×4K |
-| 16K×4K | 4K×16K | 16K×16K |
-| 2K×32K | 32K×2K | 2K×2K |
-| 32K×2K | 2K×32K | 32K×32K |
+| 128×128, 256×256, 1024×1024, 2048×2048 | Same dimensions as A | Same dimensions as A |
+| 256×1024 | 1024×256 | 256×256 |
+| 1024×256 | 256×1024 | 1024×1024 |
+| 128×2048 | 2048×128 | 128×128 |
+| 2048×128 | 128×2048 | 2048×2048 |
 
-K = 1024. Matrices use implicit or explicit ones at the selected nonzero
-positions. Both workers regenerate the same inputs from fixed seeds and
+Each dimension of the previous exploration was divided by 16. Start a
+fresh run for this grid. Matrices use ones at the selected nonzero positions.
+Both workers regenerate the same inputs from fixed seeds and
 compare up to 64 output entries to an independent FP32 reference. No
 matrices are written to disk.
 
@@ -64,7 +65,7 @@ You can change the timeout on a retry.
 
 ## Outputs
 
-Each run writes `thesis/outputs/sparse_device_explore_*` with:
+Each run writes `thesis/outputs/sparse_device_explore_scaled16_*` with:
 
 - `config_times.csv`: total worker time per config, including both devices.
 - `device_times.csv`: wall time and timing medians per device and config,
@@ -73,7 +74,7 @@ Each run writes `thesis/outputs/sparse_device_explore_*` with:
   warmups, timed iterations, copies, conversion, compute and validation.
   Per-worker files are flushed as the stages finish.
 - `estimate.csv` and `summary.md`: estimated hours per shape for the
-  80,000-cell sweep with the same backend policy and timing protocol.
+  80,000-cell sweep on the scaled shapes with the same backend policy and timing protocol.
   Each cell is estimated from the nearest pilot point of the same shape
   and strategy. Timeouts and failed anchors leave explicit coverage gaps.
   The estimate assumes serial processing and fresh workers and should be

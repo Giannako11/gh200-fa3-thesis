@@ -3,10 +3,10 @@
 from dataclasses import dataclass
 from itertools import product
 
-KIB = 1024
 EXPLORE = (1, 10, 50, 100)
-SHAPES = tuple((m * KIB, k * KIB, m * KIB) for m, k in (
-    (2, 2), (4, 4), (16, 16), (32, 32), (4, 16), (16, 4), (2, 32), (32, 2),
+SHAPES = tuple((m, k, m) for m, k in (
+    (128, 128), (256, 256), (1024, 1024), (2048, 2048),
+    (256, 1024), (1024, 256), (128, 2048), (2048, 128),
 ))
 DEVICES = ("grace", "hopper")
 

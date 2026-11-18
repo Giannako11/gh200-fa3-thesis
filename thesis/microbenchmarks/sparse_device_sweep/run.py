@@ -194,14 +194,14 @@ def summarize(out, configs, smoke):
         write_csv(out / "config_times.csv", config_rows, list(config_rows[0]))
 
     counts = Counter(r["status"] for r in devices)
-    lines = ["# GH200 sparsity exploration", "",
+    lines = ["# GH200 sparsity exploration at 1/16 scale", "",
              f"- Passed device runs: {counts['pass']} / {2 * len(configs)}.",
              f"- Failed: {counts['failed']}. Timed out: {counts['timeout']}.",
              f"- Recorded device worker wall time: {sum(r['wall_seconds'] for r in devices):.1f} s.", ""]
     if not smoke:
         lines += [
-            "## Full 1%–100% grid projection", "",
-            "Same shapes, backend policy, warmups, repeats and fresh workers. Each full-grid "
+            "## Full 1%–100% grid projection at 1/16 scale", "",
+            "Same scaled shapes, backend policy, warmups, repeats and fresh workers. Each full-grid "
             "cell uses the wall time of the nearest exploration point for that shape and "
             "strategy. Cells nearest a failed, timed-out or pending point are unestimated. "
             "This is an approximation, not a bound.", "",
@@ -231,6 +231,7 @@ def manifest(args):
     return {
         "smoke": args.smoke, "warmups": args.warmups, "repeats": args.repeats,
         "threads": args.threads, "python": sys.executable,
+        "shapes": [list(shape) for shape in SHAPES],
         "code_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                         for p in (Path(__file__), WORKER, HERE / "grid.py")},
     }
@@ -286,7 +287,7 @@ def main():
                 parser.error("resume needs the original code, environment, and run settings")
         else:
             stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-            out = Path(tempfile.mkdtemp(prefix=f"sparse_device_explore_{stamp}_", dir=OUTPUTS))
+            out = Path(tempfile.mkdtemp(prefix=f"sparse_device_explore_scaled16_{stamp}_", dir=OUTPUTS))
             save_json(out / "manifest.json", {"identity": identity,
                       "timeout_seconds": args.timeout, "config_count": len(configs)})
         print("Outputs:", out, flush=True)
