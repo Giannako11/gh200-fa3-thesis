@@ -1,5 +1,17 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-19 — Qwen real-input sparsity profiling prepared
+
+- Added the requested 2,100-generation experiment: 300 distinct LongBench-v2
+  questions at seven exact input lengths from 1K to 64K, without repeated filler.
+- Reuses the local Qwen checkpoint, original fa3 environment and baseline config.
+  Adds read-only MLP/Q/K/V statistics, one static weight scan, compressed summaries,
+  empirical distributions and source-document cluster bootstrap uncertainty.
+- Added progress, per-forward/per-generation timings, per-case OOM records,
+  integrity-checked resume, retained attempts and original-code snapshots.
+- Added CPU metric/bookkeeping/resume tests. GH200 smoke and actual full-run
+  results remain pending. Existing kernels, allocators and matrix sweep are unchanged.
+
 ## 2026-11-16 — Mixed K/V placement completed
 
 - The smoke and full runs passed on GH200. The full run recorded 280/280

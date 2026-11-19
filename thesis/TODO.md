@@ -1,5 +1,18 @@
 # this is my todo file where i keep track of some things so i dont forget anything
 
+## 19.11.26 — Qwen activation sparsity distributions — `in progress`
+
+- Prepared 300 real LongBench-v2 questions × 1K/2K/4K/8K/16K/32K/64K:
+  2,100 generations, up to 64 new tokens each, using the existing BF16/FA3 model.
+- Read-only MLP/Q/K/V sampling, exact-zero/near-zero/block statistics, static
+  weight scan, prompt-balanced distributions and source-cluster bootstrap intervals.
+- Atomic per-generation checkpoints, retained partial attempts, original-code
+  snapshots and resume; diagnostics do not change allocation or numerical values.
+- Pending: GH200 smoke, full capture and review of coverage/OOMs/distributions.
+  Then replay representative real shapes/values on Grace and Hopper before
+  making a placement policy. No automatic routing is claimed by this profiler.
+- [Run and resume instructions](qwen_sparsity/README.md).
+
 ## 14.10.26 -- setup qwen etc ----- done!
 
 ## 01.11.26 — Next steps
