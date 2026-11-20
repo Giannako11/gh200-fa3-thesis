@@ -175,6 +175,32 @@ estimate this experiment's duration, not compare raw Qwen throughput. The next
 step is to replay representative real operations on Grace/Hopper, including
 format conversions and transfers; sparsity frequency alone does not decide placement.
 
+## Simple frequency histograms from existing captures
+
+For a single-chart view of the most common sparsity range, without another
+model run:
+
+```bash
+python thesis/qwen_sparsity/plot_frequency.py /absolute/path/to/output
+```
+
+This creates two supplementary PNGs and accompanying CSV/JSON under `plots/`:
+
+- `sparsity_frequency_per_generation.png`: one value per generation, calculated
+  as all exact zeros divided by all measured activation elements. This is an
+  element-weighted summary of the stored samples, not an exhaustive measurement
+  of every activation in inference. Each generation has equal histogram weight.
+- `sparsity_frequency_encountered_vectors.png`: sparsity of an encountered
+  sampled token/layer/tensor feature vector. Each generation has equal total
+  weight, with equal weight per sampled vector inside it. Exact zero sparsity
+  is a separate point mass; the positive tail uses fine percentage-point bins.
+
+The first chart answers how the average sampled sparsity varies between runs;
+the second answers which individual sampled vectors are commonly encountered.
+They must not be conflated for a per-tensor placement policy. Both use actual
+empirical frequencies, without imposing a normal distribution. Report the modal
+interval with its bin width; it is not an exact point-probability estimate.
+
 ## Validation
 
 CPU tests check metrics against NumPy, hook equivalence, exact weight counts,

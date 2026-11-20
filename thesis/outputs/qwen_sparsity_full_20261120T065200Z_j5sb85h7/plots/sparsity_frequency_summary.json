@@ -1,0 +1,19 @@
+{
+  "generations": 2100,
+  "mean_sampled_sparsity_pct": 0.00544032248686113,
+  "minimum_sampled_sparsity_pct": 0.004489605243389423,
+  "maximum_sampled_sparsity_pct": 0.006400214301215278,
+  "modal_intervals": [
+    {
+      "low_pct": 0.005475726047428574,
+      "high_pct": 0.005537358597681022,
+      "probability": 0.08714285714285715,
+      "generations": 183
+    }
+  ],
+  "encountered_vectors_probability_zero_sparsity": 0.8294230072463742,
+  "generation_bin_rule": "equal-width Freedman-Diaconis bins, clipped to 12–40 bins; the modal interval depends on the chosen binning",
+  "generation_definition": "element-weighted exact-zero fraction across stored activation samples, one value per PASS generation",
+  "vector_definition": "one sampled token/layer/tensor vector; equal weight per generation and per sampled vector within it",
+  "scope": "selected positions of 5 tensor types, not exhaustive inference sparsity; empirical frequencies, no Gaussian assumption"
+}

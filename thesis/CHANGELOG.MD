@@ -1,5 +1,14 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-20 — Simple empirical Qwen sparsity frequency plots
+
+- Added a standalone, CPU-only plotter using the existing captured activations.
+  It separates the distribution of per-generation sampled averages from the
+  distribution of encountered token/layer/tensor vectors.
+- Added two close-range frequency histograms and their CSV/JSON data. Curves
+  follow measured frequencies; no Gaussian distribution is imposed. Original
+  captures and the fourteen original plots are retained.
+
 ## 2026-11-20 — Qwen checkpoint discovery fix
 
 - Removed the accidental requirement for historical baseline output files.
