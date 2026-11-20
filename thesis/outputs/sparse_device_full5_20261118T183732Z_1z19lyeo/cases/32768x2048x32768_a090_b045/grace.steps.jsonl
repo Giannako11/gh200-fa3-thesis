@@ -1,0 +1,25 @@
+{"device": "grace", "sample": null, "event": "start", "stage": "imports_and_device_init"}
+{"device": "grace", "sample": null, "event": "done", "stage": "imports_and_device_init", "seconds": 1.1382760669803247}
+{"device": "grace", "sample": null, "event": "start", "stage": "generate_a"}
+{"device": "grace", "sample": null, "event": "done", "stage": "generate_a", "seconds": 0.3307974950876087}
+{"device": "grace", "sample": null, "event": "start", "stage": "generate_b"}
+{"device": "grace", "sample": null, "event": "done", "stage": "generate_b", "seconds": 0.23790946300141513}
+{"device": "grace", "sample": null, "event": "start", "stage": "prepare_reference"}
+{"device": "grace", "sample": null, "event": "done", "stage": "prepare_reference", "seconds": 0.0003326740115880966}
+{"device": "grace", "sample": null, "event": "start", "stage": "prepare_resident_inputs"}
+{"device": "grace", "sample": null, "event": "done", "stage": "prepare_resident_inputs", "seconds": 0.010634477017447352}
+{"device": "grace", "sample": 1, "event": "start", "stage": "end_to_end"}
+{"device": "grace", "sample": 1, "event": "start", "stage": "transfer_hbm_to_grace"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "transfer_hbm_to_grace", "seconds": 0.010529228020459414}
+{"device": "grace", "sample": 1, "event": "start", "stage": "prepare_b"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "prepare_b", "seconds": 5.904003046452999e-05}
+{"device": "grace", "sample": 1, "event": "start", "stage": "compute"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "compute", "seconds": 3.274526676046662}
+{"device": "grace", "sample": 1, "event": "start", "stage": "materialize_output"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "materialize_output", "seconds": 4.5088003389537334e-05}
+{"device": "grace", "sample": 1, "event": "start", "stage": "transfer_grace_to_hbm"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "transfer_grace_to_hbm", "seconds": 0.012467514025047421}
+{"device": "grace", "sample": 1, "event": "done", "stage": "end_to_end", "seconds": 3.316900134901516}
+{"device": "grace", "sample": 1, "event": "start", "stage": "validate"}
+{"device": "grace", "sample": 1, "event": "done", "stage": "validate", "seconds": 0.010043176007457078}
+{"device": "grace", "sample": null, "event": "pass", "stage": "result"}

@@ -1,0 +1,22 @@
+{"device": "hopper", "sample": null, "event": "start", "stage": "imports_and_device_init"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "imports_and_device_init", "seconds": 1.129026708076708}
+{"device": "hopper", "sample": null, "event": "start", "stage": "generate_a"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "generate_a", "seconds": 1.1482713299337775}
+{"device": "hopper", "sample": null, "event": "start", "stage": "generate_b"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "generate_b", "seconds": 1.61921114299912}
+{"device": "hopper", "sample": null, "event": "start", "stage": "prepare_reference"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "prepare_reference", "seconds": 0.003654138999991119}
+{"device": "hopper", "sample": null, "event": "start", "stage": "prepare_resident_inputs"}
+{"device": "hopper", "sample": null, "event": "done", "stage": "prepare_resident_inputs", "seconds": 3.962920361896977}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "end_to_end"}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "prepare_b"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "prepare_b", "seconds": 3.814499359577894e-05}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "compute"}
+{"device": "hopper", "sample": 1, "event": "device_time", "stage": "compute", "seconds": 0.8077383422851563}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "compute", "seconds": 0.8078789190622047}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "materialize_output"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "materialize_output", "seconds": 3.187195397913456e-05}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "end_to_end", "seconds": 0.8080828880192712}
+{"device": "hopper", "sample": 1, "event": "start", "stage": "validate"}
+{"device": "hopper", "sample": 1, "event": "done", "stage": "validate", "seconds": 0.00794386607594788}
+{"device": "hopper", "sample": null, "event": "pass", "stage": "result"}

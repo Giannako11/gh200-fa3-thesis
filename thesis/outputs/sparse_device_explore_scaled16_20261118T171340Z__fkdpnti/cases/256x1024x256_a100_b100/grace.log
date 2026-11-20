@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/sparse_device_sweep/worker.py", line 237, in <module>
+    main()
+  File "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/sparse_device_sweep/worker.py", line 233, in main
+    run(args, Timing(args.device, stream))
+  File "/local/ggiannak/repos/gh200-fa3-thesis/thesis/microbenchmarks/sparse_device_sweep/worker.py", line 115, in run
+    import torch
+  File "/local/ggiannak/miniconda3/envs/fa3/lib/python3.11/site-packages/torch/__init__.py", line 442, in <module>
+    from torch._C import *  # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 216, in _lock_unlock_module
+KeyboardInterrupt

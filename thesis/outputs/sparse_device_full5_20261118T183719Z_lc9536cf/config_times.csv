@@ -1,0 +1,5 @@
+config,m,k,n,a_pct,b_pct,strategy,grace_status,hopper_status,wall_seconds
+64x80x48_a005_b005,64,80,48,5,5,csr_csr,pass,pass,3.080741674057208
+64x80x48_a005_b100,64,80,48,5,100,csr_dense,pass,pass,2.93061369296629
+64x80x48_a100_b005,64,80,48,100,5,dense_csr,pass,pass,2.8805843939771876
+64x80x48_a100_b100,64,80,48,100,100,dense_dense,pass,pass,2.8805635939352214

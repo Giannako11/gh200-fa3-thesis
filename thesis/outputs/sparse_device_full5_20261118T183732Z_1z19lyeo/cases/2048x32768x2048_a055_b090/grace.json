@@ -1,0 +1,22 @@
+{
+  "config": "2048x32768x2048_a055_b090",
+  "m": 2048,
+  "k": 32768,
+  "n": 2048,
+  "a_pct": 55,
+  "b_pct": 90,
+  "strategy": "dense_dense",
+  "device": "grace",
+  "status": "pass",
+  "wall_seconds": 2.366302044945769,
+  "last_stage": "validate",
+  "error": "",
+  "median_prepare_b_seconds": 5.283195059746504e-05,
+  "median_compute_seconds": 0.20150456298142672,
+  "median_cuda_compute_seconds": "",
+  "median_materialize_output_seconds": 4.5601045712828636e-05,
+  "median_transfer_hbm_to_grace_seconds": 0.16226310702040792,
+  "median_transfer_grace_to_hbm_seconds": 0.0002777939662337303,
+  "median_transfer_seconds": 0.16254090098664165,
+  "median_end_to_end_seconds": 0.3646701090037823
+}

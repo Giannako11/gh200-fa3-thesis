@@ -1,0 +1,22 @@
+{
+  "config": "16384x4096x16384_a090_b005",
+  "m": 16384,
+  "k": 4096,
+  "n": 16384,
+  "a_pct": 90,
+  "b_pct": 5,
+  "strategy": "dense_csr",
+  "device": "hopper",
+  "status": "pass",
+  "wall_seconds": 1.7656589709222317,
+  "last_stage": "validate",
+  "error": "",
+  "median_prepare_b_seconds": 0.015071545960381627,
+  "median_compute_seconds": 0.037736369064077735,
+  "median_cuda_compute_seconds": 0.03762921524047851,
+  "median_materialize_output_seconds": 0.001845422899350524,
+  "median_transfer_hbm_to_grace_seconds": "",
+  "median_transfer_grace_to_hbm_seconds": "",
+  "median_transfer_seconds": "",
+  "median_end_to_end_seconds": 0.05477289005648345
+}
