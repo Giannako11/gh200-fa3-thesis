@@ -19,6 +19,7 @@ import time
 import traceback
 
 from metrics import Collector, scan_weights
+from checkpoint import discover_checkpoint, verify_checkpoint
 from prepare import prepare_prompts
 from protocol import (BLOCKS, DECODE_STEPS, KINDS, LENGTHS, MAG_EDGES, MAX_NEW_TOKENS,
                       METRICS, MODEL, PREFILL_ROWS, PROMPTS, THRESHOLDS, archive_attempt,
@@ -54,7 +55,7 @@ def progress(done, total, message):
 
 
 def code_identity():
-    return {p: sha(HERE / p) for p in ("protocol.py", "prepare.py", "metrics.py", "run.py")}
+    return {p: sha(HERE / p) for p in ("protocol.py", "prepare.py", "metrics.py", "checkpoint.py", "run.py")}
 
 
 def baseline(explicit):
@@ -79,6 +80,20 @@ def baseline(explicit):
             continue
     raise RuntimeError("No successful local Qwen32B BF16/FA3 YaRN4 baseline found. "
                        "Pass --baseline-dir pointing to its existing output folder.")
+
+
+def model_setup(args):
+    if args.model_dir is None:
+        try:
+            folder, info, config = baseline(args.baseline_dir)
+            return str(folder), info, config
+        except RuntimeError:
+            if args.baseline_dir:
+                raise
+    source, config = discover_checkpoint(args.cache_dir, args.model_dir)
+    print(f"Using existing local Qwen checkpoint: {source['folder']}", flush=True)
+    print("No matching historical baseline required. Runtime config: YaRN factor 4, max context 131072; source config.json is unchanged.", flush=True)
+    return None, {"revision": source["revision"], "model_source": source["folder"], "checkpoint": source}, config
 
 
 def environment():
@@ -120,7 +135,7 @@ def load_model(manifest, out):
     started = time.perf_counter()
     print("Loading the existing local Qwen checkpoint once; no model download/build", flush=True)
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL, revision=manifest["revision"], cache_dir=manifest["cache_dir"],
+        manifest.get("model_source", MODEL), revision=manifest["revision"], cache_dir=manifest["cache_dir"],
         config=config, local_files_only=True, dtype=torch.bfloat16,
         device_map={"": "cuda:0"}, attn_implementation="flash_attention_3", use_safetensors=True)
     model.eval()
@@ -296,6 +311,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--baseline-dir")
+    parser.add_argument("--model-dir", type=Path, help="Existing local checkpoint directory or Hugging Face model cache; no baseline artifacts required")
     parser.add_argument("--cache-dir", type=Path, default=Path.home() / "models/huggingface")
     parser.add_argument("--dataset-cache", type=Path, default=Path.home() / ".cache/thesis_qwen_sparsity")
     parser.add_argument("--smoke", action="store_true", help="4 short generations, separate output directory")
@@ -309,8 +325,10 @@ def main():
         return 0
     if args.max_runs is not None and args.max_runs < 1:
         parser.error("--max-runs must be positive")
-    if args.resume and (args.smoke or args.baseline_dir):
-        parser.error("Resume uses the saved protocol; do not combine --resume with --smoke/--baseline-dir")
+    if args.resume and (args.smoke or args.baseline_dir or args.model_dir):
+        parser.error("Resume uses the saved protocol; do not combine --resume with --smoke/--baseline-dir/--model-dir")
+    if args.baseline_dir and args.model_dir:
+        parser.error("Choose --baseline-dir or --model-dir, not both")
     for name in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE", "HF_HUB_DISABLE_TELEMETRY"):
         os.environ[name] = "1"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -337,12 +355,15 @@ def main():
             for p in manifest.get("prompts", []):
                 if sha(out / "prompts" / p["tokens_file"]) != p["tokens_sha256"]:
                     raise RuntimeError("Saved prompt tokens changed.")
+            if manifest.get("checkpoint"):
+                verify_checkpoint(manifest["checkpoint"])
         else:
             ready = False
-            folder, info, config = baseline(args.baseline_dir)
+            folder, info, config = model_setup(args)
             mode = "smoke" if args.smoke else "full"
             out = Path(tempfile.mkdtemp(prefix=f"qwen_sparsity_{mode}_" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "_", dir=OUTPUTS))
-            manifest = {"out": str(out), "baseline": str(folder), "revision": info["revision"], "config": config,
+            manifest = {"out": str(out), "baseline": folder, "revision": info["revision"], "config": config,
+                        "model_source": info.get("model_source", MODEL), "checkpoint": info.get("checkpoint"),
                         "cache_dir": str(args.cache_dir.resolve()), "dataset_cache": str(args.dataset_cache.resolve()),
                         "environment": env, "code": code_identity(),
                         "created_at": stamp(), "protocol": {
@@ -366,7 +387,7 @@ def main():
         stack.enter_context(redirect_stderr(Tee(sys.stderr, log)))
         print(f"Outputs: {out}", flush=True)
         print(f"Resume command: bash thesis/scripts/run_qwen_sparsity.sh --resume {out}", flush=True)
-        tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=manifest["revision"],
+        tokenizer = AutoTokenizer.from_pretrained(manifest.get("model_source", MODEL), revision=manifest["revision"],
                        cache_dir=manifest["cache_dir"], local_files_only=True, trust_remote_code=False)
         if not ready:
             p = manifest["protocol"]

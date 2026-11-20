@@ -26,6 +26,98 @@ from protocol import (BLOCKS, KINDS, LENGTHS, METRICS, THRESHOLDS, archive_attem
                       sha, stratified_order, write_tokens)
 import run as runner
 from run import execute, summarize
+from checkpoint import EXPECTED, MODEL_CACHE, discover_checkpoint, inspect_checkpoint, runtime_config, verify_checkpoint
+
+
+class CheckpointTests(unittest.TestCase):
+    def checkpoint(self, folder):
+        folder.mkdir(parents=True, exist_ok=True)
+        config = {**EXPECTED, "torch_dtype": "bfloat16", "max_position_embeddings": 32768}
+        atomic_json(folder / "config.json", config)
+        atomic_json(folder / "model.safetensors.index.json", {"weight_map": {"test": "model-00001.safetensors"}})
+        (folder / "model-00001.safetensors").write_bytes(b"unit-test fixture, not model weights")
+        for name in ("tokenizer.json", "tokenizer_config.json"):
+            atomic_json(folder / name, {})
+        return config
+
+    def test_standard_cache_without_baseline_selects_local_ref(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_cache = root / MODEL_CACHE
+            folder = model_cache / "snapshots" / ("a"*40)
+            original = self.checkpoint(folder)
+            (model_cache / "refs").mkdir()
+            (model_cache / "refs/main").write_text("a"*40)
+            source, config = discover_checkpoint(root)
+            self.assertEqual(source["folder"], str(folder))
+            self.assertEqual(source["revision"], "a"*40)
+            self.assertFalse(source["baseline_success_claimed"])
+            self.assertEqual(config["rope_scaling"]["factor"], 4)
+            self.assertEqual(config["max_position_embeddings"], 131072)
+            self.assertEqual(json.loads((folder / "config.json").read_text()), original)
+            verify_checkpoint(source)
+
+    def test_flat_local_checkpoint_and_nested_hub_cache(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            flat = root / "local-model"
+            self.checkpoint(flat)
+            source, _ = discover_checkpoint(root, flat)
+            self.assertEqual(source["folder"], str(flat))
+            self.assertIsNone(source["revision"])
+            snapshot = root / "hub" / MODEL_CACHE / "snapshots" / ("b"*40)
+            self.checkpoint(snapshot)
+            source, _ = discover_checkpoint(root)
+            self.assertEqual(source["folder"], str(snapshot))
+
+    def test_missing_shards_or_tokenizer_fail_without_downloading(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            self.checkpoint(folder)
+            (folder / "model-00001.safetensors").unlink()
+            with self.assertRaisesRegex(RuntimeError, "checkpoint file"):
+                inspect_checkpoint(folder)
+            self.checkpoint(folder)
+            (folder / "tokenizer.json").unlink()
+            with self.assertRaisesRegex(RuntimeError, "tokenizer.json"):
+                inspect_checkpoint(folder)
+
+    def test_incompatible_config_and_ambiguous_snapshots_are_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_cache = root / MODEL_CACHE
+            one, two = model_cache / "snapshots" / ("a"*40), model_cache / "snapshots" / ("b"*40)
+            original = self.checkpoint(one)
+            self.checkpoint(two)
+            with self.assertRaisesRegex(RuntimeError, "unique snapshot"):
+                discover_checkpoint(root)
+            bad = {**original, "rope_scaling": {"rope_type": "linear", "factor": 2}}
+            with self.assertRaisesRegex(RuntimeError, "different RoPE"):
+                runtime_config(bad)
+            with self.assertRaisesRegex(RuntimeError, "hidden_size"):
+                runtime_config({**original, "hidden_size": 4096})
+
+    def test_local_file_changes_are_detected_on_resume(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            self.checkpoint(folder)
+            source, _ = inspect_checkpoint(folder)
+            (folder / "tokenizer.json").write_text('{"changed":true}')
+            with self.assertRaisesRegex(RuntimeError, "changed since preparation"):
+                verify_checkpoint(source)
+
+    def test_missing_baseline_falls_back_but_explicit_bad_baseline_is_not_ignored(self):
+        args = SimpleNamespace(model_dir=None, baseline_dir=None, cache_dir=Path("unused"))
+        details = {"folder": "/local/checkpoint", "revision": "a"*40}
+        with patch.object(runner, "baseline", side_effect=RuntimeError("missing historical artifacts")), \
+                patch.object(runner, "discover_checkpoint", return_value=(details, {})) as locate:
+            folder, info, _ = runner.model_setup(args)
+            self.assertIsNone(folder)
+            self.assertEqual(info["model_source"], "/local/checkpoint")
+            args.baseline_dir = "/explicit/bad/baseline"
+            with self.assertRaisesRegex(RuntimeError, "missing historical"):
+                runner.model_setup(args)
+            self.assertEqual(locate.call_count, 1)
 
 
 class TinyMLP(nn.Module):

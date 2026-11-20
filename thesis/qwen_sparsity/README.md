@@ -13,7 +13,7 @@ This is diagnostic inference, not a Grace execution policy or an inference speed
 | Generations | **2,100**; the same questions at all seven lengths |
 | Generation | Batch 1, raw-logit greedy argmax without sampling/logit processors, up to 64 new tokens, normal EOS stopping |
 | Model | Existing local Qwen2.5-32B-Instruct, all weights in Hopper HBM |
-| Configuration | Pinned revision and existing YaRN factor-4 config from the successful local baseline |
+| Configuration | Existing baseline config when available; otherwise validated local checkpoint with explicit runtime YaRN4/128K config |
 | Activations | MLP input, input to `down_proj` after the gated activation, Q/K/V projection outputs; all 64 layers |
 | Prefill sampling | 16 evenly spaced token rows, including the first and last |
 | Decode sampling | Steps 1, 2, 4, 8, 16, 32, 48, 63, when generation reaches them |
@@ -83,8 +83,26 @@ cases. Weight scanning is omitted in the smoke. The full run has no automatic
 wall-time limit; `--max-runs N` optionally ends cleanly after N attempted cases.
 
 Model weights and tokenizer are read offline from the existing cache (default
-`$HOME/models/huggingface`, override with `--cache-dir`). The successful baseline
-is located in `thesis/outputs/qwen_baseline_*`, or supply `--baseline-dir`.
+`$HOME/models/huggingface`, override with `--cache-dir`). A successful historical
+baseline in `thesis/outputs/qwen_baseline_*` is reused when available. It is not
+required: the runner can find the existing `models--Qwen--Qwen2.5-32B-Instruct`
+cache, its optional `hub/` parent, or a local Qwen checkpoint. For an exact path:
+
+```bash
+bash thesis/scripts/run_qwen_sparsity.sh --smoke --model-dir /path/to/checkpoint
+```
+
+`--model-dir` accepts the directory containing `config.json` and the weight files,
+or the Hugging Face model cache directory containing `refs/` and `snapshots/`.
+Without old baseline files, the runner validates Qwen32B's architecture, BF16
+configuration, tokenizer files and every listed safetensors shard. It creates the
+explicit YaRN-factor-4/128K config in memory, leaving the cached config unchanged.
+The manifest records that this came from a local checkpoint, not a historical
+successful run. Snapshot revision, config/tokenizer hashes and file size/mtime
+records are retained and checked on resume. Large shard bytes are not fully
+hashed by this preflight; the actual loader/runtime validation still has to pass.
+Ambiguous cached revisions without a local `refs/main` need an exact `--model-dir`.
+An explicit `--baseline-dir` still requires a valid baseline and is not ignored.
 Other compute processes cause preflight to stop; the runner never kills them.
 The dataset download uses HTTPS independently of offline model loading.
 

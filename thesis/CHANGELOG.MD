@@ -1,5 +1,16 @@
 # this is my changelog, here i keep track of changes i make by the end of the day
 
+## 2026-11-20 — Qwen checkpoint discovery fix
+
+- Removed the accidental requirement for historical baseline output files.
+  The profiler can now discover the existing local Qwen cache, or accept
+  `--model-dir`, without downloading the model again.
+- Added shard/tokenizer/config checks and recorded checkpoint provenance.
+  The fallback uses an explicit runtime YaRN4/128K configuration and does not
+  edit the cached config or claim that an old baseline passed.
+- Added CPU checks for missing files, ambiguous snapshots, config compatibility,
+  baseline fallback and detecting checkpoint changes on resume.
+
 ## 2026-11-19 — Qwen real-input sparsity profiling prepared
 
 - Added the requested 2,100-generation experiment: 300 distinct LongBench-v2
