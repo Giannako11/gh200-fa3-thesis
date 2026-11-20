@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "unprofiled_vs_profiled_logits": "bitwise equal",
+  "fa3_calls": {
+    "regular": 128,
+    "varlen": 0
+  },
+  "forward_calls": 2
+}

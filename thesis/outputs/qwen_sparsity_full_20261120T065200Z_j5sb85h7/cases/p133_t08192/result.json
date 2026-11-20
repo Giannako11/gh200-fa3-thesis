@@ -1,0 +1,24 @@
+{
+  "id": "p133_t08192",
+  "prompt_index": 133,
+  "source_id": "66f2e874821e116aacb2c0af",
+  "domain": "Code Repository Understanding",
+  "input_tokens": 8192,
+  "peak_allocated_bytes": 69410202624,
+  "peak_reserved_bytes": 69971476480,
+  "sampled_elements": 61341696,
+  "observations": 7680,
+  "identity": "a4b9fbe5da737b2dbea3592b911c2e4e1b163fe434683797d890bd0c130a6f3b",
+  "status": "pass",
+  "generated_tokens": 64,
+  "finished_at": "2026-11-20T09:30:23.382938+00:00",
+  "prefill_profiled_seconds": 1.2005932159954682,
+  "decode_seconds": 6.645646820426919,
+  "wall_seconds": 7.911835400969721,
+  "timing_note": "Instrumented diagnostic; not baseline inference latency",
+  "artifacts": {
+    "observations.npz": "caee788d48b6cd85baaff970c6dfab383161d947da5c3d87edab9df614e38633",
+    "generation.json": "bad44a8840050fd8feaf64b4e387f25f551565241e00ce72846a83c75c2b6ae5",
+    "steps.jsonl": "5291f3d953cf586a347c8dcf865d756232c6167e1a7a603e63d5cc478309cf48"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "source_url": "https://huggingface.co/datasets/zai-org/LongBench-v2/resolve/ac35867b9c9436dc81c4c7535fe640ba7cf47877/data.json",
+  "source_sha256": "15d61c22d92c96900b3c4948b6aeea218d3214b676a65df48e7b8555604c7fe2",
+  "domains": {
+    "Code Repository Understanding": 1,
+    "Long In-context Learning": 1
+  },
+  "prompts": [
+    {
+      "index": 0,
+      "source_id": "66f57379821e116aacb33b7a",
+      "context_sha256": "9537a4af90117f97fe0b07464df3a8b2fa28175183e3d6c6241547f8660b7f51",
+      "domain": "Code Repository Understanding",
+      "sub_domain": "Code repo QA",
+      "source_length_group": "long",
+      "tokens_file": "p000.json.gz",
+      "tokens_sha256": "8180bcb275269629d30072bd50d1b394d877d4c5bb417500c006399812921610",
+      "context_tokens_kept": 2048,
+      "framing_tokens": 186
+    },
+    {
+      "index": 1,
+      "source_id": "66ec1054821e116aacb19f1a",
+      "context_sha256": "0349319b4d02a01a1c849e01d8f7851c3ce7deaf29770d1c9302837c9fc9129e",
+      "domain": "Long In-context Learning",
+      "sub_domain": "User guide QA",
+      "source_length_group": "medium",
+      "tokens_file": "p001.json.gz",
+      "tokens_sha256": "c35c724826a80f27c6fd341c3d6558bc1883fb1acf1912846638f8ec5d96e6be",
+      "context_tokens_kept": 2048,
+      "framing_tokens": 352
+    }
+  ],
+  "selection": "seed-711 domain round-robin, distinct question IDs, long-enough only",
+  "distinct_source_contexts": 2,
+  "context_policy": "first max-T source tokens, then head+tail crop per exact input budget",
+  "scope": "long-source LongBench-v2 subset; not the population of all Qwen workloads",
+  "quality_note": "Cropping may remove answer evidence. This is not a task-accuracy evaluation."
+}

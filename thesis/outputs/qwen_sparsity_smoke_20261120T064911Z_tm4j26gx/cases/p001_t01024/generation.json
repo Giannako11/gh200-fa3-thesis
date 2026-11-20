@@ -1,0 +1,16 @@
+{
+  "token_ids": [
+    785,
+    3897,
+    2266,
+    1558
+  ],
+  "text": "The provided context does",
+  "stopped_on_eos": false,
+  "input_token_ids_sha256": "fc81e89202fa329a016a3ec7fd8b95fa6e0f4e4aabed08b80209db3af993bf16",
+  "sampled_decode_steps": [
+    1,
+    2,
+    3
+  ]
+}

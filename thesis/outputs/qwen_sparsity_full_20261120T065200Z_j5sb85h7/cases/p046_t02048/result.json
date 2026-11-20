@@ -1,0 +1,24 @@
+{
+  "id": "p046_t02048",
+  "prompt_index": 46,
+  "source_id": "67285e1dbb02136c067d901b",
+  "domain": "Long Structured Data Understanding",
+  "input_tokens": 2048,
+  "peak_allocated_bytes": 66525471744,
+  "peak_reserved_bytes": 66668462080,
+  "sampled_elements": 61341696,
+  "observations": 7680,
+  "identity": "a4b9fbe5da737b2dbea3592b911c2e4e1b163fe434683797d890bd0c130a6f3b",
+  "status": "pass",
+  "generated_tokens": 64,
+  "finished_at": "2026-11-20T07:49:36.729128+00:00",
+  "prefill_profiled_seconds": 0.6125360479345545,
+  "decode_seconds": 6.667874143109657,
+  "wall_seconds": 7.344509587972425,
+  "timing_note": "Instrumented diagnostic; not baseline inference latency",
+  "artifacts": {
+    "observations.npz": "471c382f6f85cf68f0694a65e44cecad319078b2117d19824adb49424a5e9e54",
+    "generation.json": "8251861abf95a0fee713f82f7fce97065d6a27b905c509afa5f80fef5ed0b2dc",
+    "steps.jsonl": "31da7dd179c85772b6732fa53c66516f96583a57458a7a0e4554be4c08eed9ce"
+  }
+}

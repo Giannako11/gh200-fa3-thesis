@@ -1,0 +1,28 @@
+Outputs: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/qwen_sparsity_smoke_20261120T064911Z_tm4j26gx
+Resume command: bash thesis/scripts/run_qwen_sparsity.sh --resume /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/qwen_sparsity_smoke_20261120T064911Z_tm4j26gx
+Downloading pinned LongBench v2 prompts (444 MiB) once: /local/ggiannak/.cache/thesis_qwen_sparsity/longbench-v2.json
+Prepared prompts: 2/2; inspected 2 source items
+Plan: 2 prompts x 2 lengths = 4 generations
+Saved: 0; pending/retries: 4
+Loading the existing local Qwen checkpoint once; no model download/build
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|5         | 1/17 [00:02<00:40,  2.52s/it]Loading checkpoint shards:  12%|#1        | 2/17 [00:05<00:39,  2.65s/it]Loading checkpoint shards:  18%|#7        | 3/17 [00:07<00:37,  2.69s/it]Loading checkpoint shards:  24%|##3       | 4/17 [00:10<00:34,  2.67s/it]Loading checkpoint shards:  29%|##9       | 5/17 [00:13<00:32,  2.73s/it]Loading checkpoint shards:  35%|###5      | 6/17 [00:16<00:30,  2.73s/it]Loading checkpoint shards:  41%|####1     | 7/17 [00:19<00:27,  2.76s/it]Loading checkpoint shards:  47%|####7     | 8/17 [00:21<00:24,  2.76s/it]Loading checkpoint shards:  53%|#####2    | 9/17 [00:24<00:21,  2.68s/it]Loading checkpoint shards:  59%|#####8    | 10/17 [00:26<00:18,  2.59s/it]Loading checkpoint shards:  65%|######4   | 11/17 [00:28<00:14,  2.49s/it]Loading checkpoint shards:  71%|#######   | 12/17 [00:31<00:11,  2.40s/it]Loading checkpoint shards:  76%|#######6  | 13/17 [00:33<00:09,  2.33s/it]Loading checkpoint shards:  82%|########2 | 14/17 [00:35<00:06,  2.27s/it]Loading checkpoint shards:  88%|########8 | 15/17 [00:38<00:04,  2.45s/it]Loading checkpoint shards:  94%|#########4| 16/17 [00:41<00:02,  2.58s/it]Loading checkpoint shards: 100%|##########| 17/17 [00:43<00:00,  2.48s/it]Loading checkpoint shards: 100%|##########| 17/17 [00:43<00:00,  2.56s/it]
+[------------------------] 0/4 p000_t01024 start
+[######------------------] 1/4 p000_t01024 pass 1.80s
+[######------------------] 1/4 p000_t02048 start
+[############------------] 2/4 p000_t02048 pass 1.87s
+[############------------] 2/4 p001_t01024 start
+[##################------] 3/4 p001_t01024 pass 1.79s
+[##################------] 3/4 p001_t02048 start
+[########################] 4/4 p001_t02048 pass 1.90s
+Resume: bash thesis/scripts/run_qwen_sparsity.sh --resume /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/qwen_sparsity_smoke_20261120T064911Z_tm4j26gx
+Building prompt-balanced distribution tables from saved PASS generations
+Saved plot: distribution_exact_zero.png
+Saved plot: distribution_abs_le_0.001.png
+Saved plot: survival_exact_zero.png
+Saved plot: layer_mean_exact_zero.png
+Saved plot: layer_distribution_T01024.png
+Saved plot: layer_distribution_T02048.png
+Saved plot: magnitude_distribution.png
+Saved plot: zero_feature_blocks.png
+Saved plot: profiling_times.png
+Plots and distribution tables: /local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/qwen_sparsity_smoke_20261120T064911Z_tm4j26gx

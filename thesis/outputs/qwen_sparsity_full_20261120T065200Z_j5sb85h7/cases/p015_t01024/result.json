@@ -1,0 +1,24 @@
+{
+  "id": "p015_t01024",
+  "prompt_index": 15,
+  "source_id": "67041f08bb02136c067cdb52",
+  "domain": "Long In-context Learning",
+  "input_tokens": 1024,
+  "peak_allocated_bytes": 66045731840,
+  "peak_reserved_bytes": 66121105408,
+  "sampled_elements": 61341696,
+  "observations": 7680,
+  "identity": "a4b9fbe5da737b2dbea3592b911c2e4e1b163fe434683797d890bd0c130a6f3b",
+  "status": "pass",
+  "generated_tokens": 64,
+  "finished_at": "2026-11-20T07:13:48.803831+00:00",
+  "prefill_profiled_seconds": 0.46386441600043327,
+  "decode_seconds": 6.668689330923371,
+  "wall_seconds": 7.197276690043509,
+  "timing_note": "Instrumented diagnostic; not baseline inference latency",
+  "artifacts": {
+    "observations.npz": "d0a69aa47888486965f061a5ae20d12179323c9f1000e58741449e55c4d44113",
+    "generation.json": "51b872fcc371e3cfde36a48998a425033f945fd896b4e0f3857bd916dff5f5d7",
+    "steps.jsonl": "c12894a3f33ff2f66d68ad15c5d741010b580ebad1b31d666745c516547574f2"
+  }
+}

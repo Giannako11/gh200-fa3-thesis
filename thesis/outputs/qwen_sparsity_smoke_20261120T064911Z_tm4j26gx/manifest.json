@@ -1,0 +1,313 @@
+{
+  "out": "/local/ggiannak/repos/gh200-fa3-thesis/thesis/outputs/qwen_sparsity_smoke_20261120T064911Z_tm4j26gx",
+  "baseline": null,
+  "revision": "5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+  "config": {
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "attention_dropout": 0.0,
+    "bos_token_id": 151643,
+    "eos_token_id": 151645,
+    "hidden_act": "silu",
+    "hidden_size": 5120,
+    "initializer_range": 0.02,
+    "intermediate_size": 27648,
+    "max_position_embeddings": 131072,
+    "max_window_layers": 70,
+    "model_type": "qwen2",
+    "num_attention_heads": 40,
+    "num_hidden_layers": 64,
+    "num_key_value_heads": 8,
+    "rms_norm_eps": 1e-06,
+    "rope_theta": 1000000.0,
+    "sliding_window": 131072,
+    "tie_word_embeddings": false,
+    "torch_dtype": "bfloat16",
+    "transformers_version": "4.43.1",
+    "use_cache": true,
+    "use_sliding_window": false,
+    "vocab_size": 152064,
+    "rope_scaling": {
+      "rope_type": "yarn",
+      "factor": 4.0,
+      "original_max_position_embeddings": 32768
+    }
+  },
+  "model_source": "/local/ggiannak/models/huggingface/models--Qwen--Qwen2.5-32B-Instruct/snapshots/5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+  "checkpoint": {
+    "folder": "/local/ggiannak/models/huggingface/models--Qwen--Qwen2.5-32B-Instruct/snapshots/5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+    "revision": "5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+    "files": [
+      {
+        "name": "model-00001-of-00017.safetensors",
+        "bytes": 3916539832,
+        "mtime_ns": 1792540495987633968
+      },
+      {
+        "name": "model-00002-of-00017.safetensors",
+        "bytes": 3900847496,
+        "mtime_ns": 1792540442769260916
+      },
+      {
+        "name": "model-00003-of-00017.safetensors",
+        "bytes": 3900847480,
+        "mtime_ns": 1792540463850408645
+      },
+      {
+        "name": "model-00004-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540485951563588
+      },
+      {
+        "name": "model-00005-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540380484824834
+      },
+      {
+        "name": "model-00006-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540366985730405
+      },
+      {
+        "name": "model-00007-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540355981653449
+      },
+      {
+        "name": "model-00008-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540502850682105
+      },
+      {
+        "name": "model-00009-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540554281043017
+      },
+      {
+        "name": "model-00010-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540556311057269
+      },
+      {
+        "name": "model-00011-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540632458592205
+      },
+      {
+        "name": "model-00012-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540651326724846
+      },
+      {
+        "name": "model-00013-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540677221906942
+      },
+      {
+        "name": "model-00014-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540681777938986
+      },
+      {
+        "name": "model-00015-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540702848087206
+      },
+      {
+        "name": "model-00016-of-00017.safetensors",
+        "bytes": 3900847544,
+        "mtime_ns": 1792540702976088107
+      },
+      {
+        "name": "model-00017-of-00017.safetensors",
+        "bytes": 3098588976,
+        "mtime_ns": 1792540702918087699
+      },
+      {
+        "name": "config.json",
+        "bytes": 663,
+        "mtime_ns": 1792540194835529102,
+        "sha256": "9c6772f138ef9e5b3d1c18f2c87e451bbc01f5f1a4eabb36f9bf4f53829b903e"
+      },
+      {
+        "name": "tokenizer.json",
+        "bytes": 7031645,
+        "mtime_ns": 1795157341863495600,
+        "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      {
+        "name": "tokenizer_config.json",
+        "bytes": 7305,
+        "mtime_ns": 1795157342007496560,
+        "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "bytes": 63248,
+        "mtime_ns": 1792540195424533200,
+        "sha256": "0183543f2e6e40d3d1e863ed0b2a8c9cdaf2ee4045ce724a45cea30e9995a0af"
+      },
+      {
+        "name": "generation_config.json",
+        "bytes": 242,
+        "mtime_ns": 1792540715174173934,
+        "sha256": "ea35dfb6fc5051b01114f9b995820d55dab01ed33ee490f6378b442af82c09f9"
+      }
+    ],
+    "config_source": "local_checkpoint_with_explicit_runtime_yarn4",
+    "baseline_success_claimed": false
+  },
+  "cache_dir": "/local/ggiannak/models/huggingface",
+  "dataset_cache": "/local/ggiannak/.cache/thesis_qwen_sparsity",
+  "environment": {
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.1",
+    "flash_attn_3": "3.0.1",
+    "cuda": "12.8",
+    "gpu": "NVIDIA GH200 480GB",
+    "gpu_uuid": "9217acad-4914-c72f-84ac-8d86c56ee881",
+    "total_memory": 102005473280,
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.2"
+  },
+  "code": {
+    "protocol.py": "1a1f0eb23f77585dff1b3db037a227ff999125b723648b855365897ecde472e1",
+    "prepare.py": "8f7bb0fe8cd2448cc60cf3a5dc04324a5effd2fbeee312e0d1695983aa6477ab",
+    "metrics.py": "7577d8f23c2823028e10eb75906780d0ae137e3b4415dc919c55e92c6debfc71",
+    "checkpoint.py": "571c1acb54acbeb54073413b7469321f174e26ba49c00624cd291cc4851a7dc9",
+    "run.py": "9fc15f3973dad9dfea8a3d695e80a5e66da4c967f47e9ff0ffd248bff18416d0"
+  },
+  "created_at": "2026-11-20T06:49:11.829915+00:00",
+  "protocol": {
+    "lengths": [
+      1024,
+      2048
+    ],
+    "prompts": 2,
+    "max_new_tokens": 4,
+    "prefill_rows": 4,
+    "decode_steps": [
+      1,
+      2,
+      3
+    ],
+    "scan_weights": false,
+    "batch": 1,
+    "seed": 711,
+    "greedy": true,
+    "stop_on_eos": true,
+    "kinds": [
+      "mlp_input",
+      "mlp_down_input",
+      "attention_q",
+      "attention_k",
+      "attention_v"
+    ],
+    "thresholds": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.01
+    ],
+    "block_widths": [
+      16,
+      64,
+      256
+    ],
+    "magnitude_edges": [
+      1e-08,
+      1e-06,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "metrics": [
+      "zero_count",
+      "nonfinite_count",
+      "mean_abs",
+      "rms",
+      "max_abs",
+      "small_1e-05_count",
+      "small_0.0001_count",
+      "small_0.001_count",
+      "small_0.01_count",
+      "zero_blocks_16",
+      "zero_blocks_64",
+      "zero_blocks_256",
+      "magnitude_bin_0",
+      "magnitude_bin_1",
+      "magnitude_bin_2",
+      "magnitude_bin_3",
+      "magnitude_bin_4",
+      "magnitude_bin_5",
+      "magnitude_bin_6",
+      "magnitude_bin_7",
+      "magnitude_bin_8",
+      "magnitude_bin_9"
+    ],
+    "block_definition": "contiguous nonoverlapping feature-axis blocks in one token row; full blocks only"
+  },
+  "prompts": [
+    {
+      "index": 0,
+      "source_id": "66f57379821e116aacb33b7a",
+      "context_sha256": "9537a4af90117f97fe0b07464df3a8b2fa28175183e3d6c6241547f8660b7f51",
+      "domain": "Code Repository Understanding",
+      "sub_domain": "Code repo QA",
+      "source_length_group": "long",
+      "tokens_file": "p000.json.gz",
+      "tokens_sha256": "8180bcb275269629d30072bd50d1b394d877d4c5bb417500c006399812921610",
+      "context_tokens_kept": 2048,
+      "framing_tokens": 186
+    },
+    {
+      "index": 1,
+      "source_id": "66ec1054821e116aacb19f1a",
+      "context_sha256": "0349319b4d02a01a1c849e01d8f7851c3ce7deaf29770d1c9302837c9fc9129e",
+      "domain": "Long In-context Learning",
+      "sub_domain": "User guide QA",
+      "source_length_group": "medium",
+      "tokens_file": "p001.json.gz",
+      "tokens_sha256": "c35c724826a80f27c6fd341c3d6558bc1883fb1acf1912846638f8ec5d96e6be",
+      "context_tokens_kept": 2048,
+      "framing_tokens": 352
+    }
+  ],
+  "cases": [
+    {
+      "id": "p000_t01024",
+      "prompt_index": 0,
+      "source_id": "66f57379821e116aacb33b7a",
+      "domain": "Code Repository Understanding",
+      "input_tokens": 1024
+    },
+    {
+      "id": "p000_t02048",
+      "prompt_index": 0,
+      "source_id": "66f57379821e116aacb33b7a",
+      "domain": "Code Repository Understanding",
+      "input_tokens": 2048
+    },
+    {
+      "id": "p001_t01024",
+      "prompt_index": 1,
+      "source_id": "66ec1054821e116aacb19f1a",
+      "domain": "Long In-context Learning",
+      "input_tokens": 1024
+    },
+    {
+      "id": "p001_t02048",
+      "prompt_index": 1,
+      "source_id": "66ec1054821e116aacb19f1a",
+      "domain": "Long In-context Learning",
+      "input_tokens": 2048
+    }
+  ],
+  "source_commit": "f8b7be9f3087548d3da4a3b4b750faee85ed3520",
+  "identity": "1ba7ff323fb79b4a341419ee2ffe9d4c0035c695c00b326c357e90556874fc36"
+}

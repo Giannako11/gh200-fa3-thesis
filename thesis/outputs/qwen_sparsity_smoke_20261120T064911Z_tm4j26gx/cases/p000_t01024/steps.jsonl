@@ -1,0 +1,4 @@
+{"phase": "prefill", "decode_step": 0, "seconds": 0.5480161330197006, "profiled": true}
+{"phase": "decode", "decode_step": 1, "seconds": 0.41555956995580345, "profiled": true}
+{"phase": "decode", "decode_step": 2, "seconds": 0.40936960792168975, "profiled": true}
+{"phase": "decode", "decode_step": 3, "seconds": 0.4107245299965143, "profiled": true}

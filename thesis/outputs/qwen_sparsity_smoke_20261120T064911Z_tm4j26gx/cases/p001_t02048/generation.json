@@ -1,0 +1,16 @@
+{
+  "token_ids": [
+    28715,
+    389,
+    279,
+    3897
+  ],
+  "text": "Based on the provided",
+  "stopped_on_eos": false,
+  "input_token_ids_sha256": "ca9f95e9cd9643392cff4ac8438b21aa74c36a56d395c09990e38ee38d305ba1",
+  "sampled_decode_steps": [
+    1,
+    2,
+    3
+  ]
+}

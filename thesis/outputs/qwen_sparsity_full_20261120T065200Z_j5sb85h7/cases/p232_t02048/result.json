@@ -1,0 +1,24 @@
+{
+  "id": "p232_t02048",
+  "prompt_index": 232,
+  "source_id": "66f2cacb821e116aacb2ba50",
+  "domain": "Multi-Document QA",
+  "input_tokens": 2048,
+  "peak_allocated_bytes": 66525471744,
+  "peak_reserved_bytes": 66668462080,
+  "sampled_elements": 61341696,
+  "observations": 7680,
+  "identity": "a4b9fbe5da737b2dbea3592b911c2e4e1b163fe434683797d890bd0c130a6f3b",
+  "status": "pass",
+  "generated_tokens": 64,
+  "finished_at": "2026-11-20T11:25:11.698410+00:00",
+  "prefill_profiled_seconds": 0.6288820060435683,
+  "decode_seconds": 6.674806805793196,
+  "wall_seconds": 7.369051276007667,
+  "timing_note": "Instrumented diagnostic; not baseline inference latency",
+  "artifacts": {
+    "observations.npz": "898ff154590831b7ec6882c9d920eef2591640a460e5cd2f6d62aeb36ad149a3",
+    "generation.json": "86819162654764da3b00286cfe02f95671c5e8872042d78d7dea808d3ba78619",
+    "steps.jsonl": "c528f13654c98044c7c0c4c5781b87e1dda9968f925ed8fa23d090ba1c0b1574"
+  }
+}

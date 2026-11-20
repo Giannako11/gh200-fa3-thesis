@@ -1,0 +1,24 @@
+{
+  "id": "p131_t01024",
+  "prompt_index": 131,
+  "source_id": "67192e81bb02136c067d427f",
+  "domain": "Long-dialogue History Understanding",
+  "input_tokens": 1024,
+  "peak_allocated_bytes": 66045731840,
+  "peak_reserved_bytes": 66121105408,
+  "sampled_elements": 56229888,
+  "observations": 7040,
+  "identity": "a4b9fbe5da737b2dbea3592b911c2e4e1b163fe434683797d890bd0c130a6f3b",
+  "status": "pass",
+  "generated_tokens": 44,
+  "finished_at": "2026-11-20T09:27:48.750607+00:00",
+  "prefill_profiled_seconds": 0.4740054690046236,
+  "decode_seconds": 4.7206555819138885,
+  "wall_seconds": 5.248919276054949,
+  "timing_note": "Instrumented diagnostic; not baseline inference latency",
+  "artifacts": {
+    "observations.npz": "441c2ebf341e35953a7acb1fcaebba7650a989074a32082a975b1632d7732b02",
+    "generation.json": "71e753d316b92302670ad47151f49c0a7ae0f9ceddb6cc1bd8521a2a43961c58",
+    "steps.jsonl": "fadf10446978ac43d7b866f75101ecd59a0357761f573fda5347419a3c40dc27"
+  }
+}

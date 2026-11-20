@@ -1,0 +1,16 @@
+{
+  "token_ids": [
+    10061,
+    594,
+    23643,
+    1817
+  ],
+  "text": "Let's analyze each",
+  "stopped_on_eos": false,
+  "input_token_ids_sha256": "806e119900ebc91dc7a3e0c5a0103b748cbf2a2f0778209f3f8adc2b6d829a89",
+  "sampled_decode_steps": [
+    1,
+    2,
+    3
+  ]
+}

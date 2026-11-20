@@ -1,0 +1,13 @@
+{
+  "completed_generations": 2100,
+  "expected_generations": 2100,
+  "sampled_token_layer_tensor_observations": 16107520,
+  "probability_definition": "equal weight per observed prompt at fixed context length, phase and tensor kind; equal sampled row/layer weight within a prompt",
+  "uncertainty": "95% pointwise percentile cluster bootstrap, 400 resamples of source context hashes; questions sharing a context stay together; correlated token rows are not independent trials",
+  "histogram_bins": "[0,5), [5,10), ..., [95,100]; finite-width bins are not exact point probabilities",
+  "selection_scope": "length-eligible, domain round-robin LongBench-v2 subset; not all inference workloads",
+  "threshold_note": "Near-zero counts are descriptive. Nothing is pruned or moved to CPU.",
+  "missing_note": "Only PASS generations contribute. OOM/partial/failed generations are excluded; missing results are not zero-filled.",
+  "dtype": "BF16 activations, FP32 metric calculations",
+  "block_definition": "contiguous nonoverlapping feature-axis blocks in one token row; full blocks only"
+}
